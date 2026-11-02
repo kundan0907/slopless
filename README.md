@@ -14,12 +14,16 @@ Each page is one self-contained file (`docs/index.html`, `docs/explore.html`), b
 
 Choose a route, or let the request choose it:
 
-- **Quick** is the default for existing work: “Use slopless quick. Make this a better V2.” It inspects the source and rendering, fixes the three biggest visual problems, preserves content and working controls, and verifies one repair batch. No default interview, new engine, asset downloads or scoring essay.
+- **Quick** is the default for existing work: “Use slopless quick. Make this a better V2.” It inspects the source and rendering, makes a clear visual upgrade through up to three high-impact changes, preserves content and working controls, and verifies one repair batch. No default interview, new engine, asset downloads or scoring essay.
 - **Standard** is for new work or an explicit redesign. It resolves missing decisions, proves the opening and densest view on real content, builds, then checks the result.
 - **Deep** is explicit exploration, detailed audit or complex storytelling and motion. It loads the extra guidance needed for that job; helpers remain opt-in.
 - **Review** reports findings without editing.
 
-All routes retain the same craft: clear hierarchy, composition that explains the information, readable evidence, accessible interactions, appropriate motion and exact source preservation. Quick reduces scope and repeated work, not the quality floor. Runtime depends on content and the environment; no fixed speed or token saving is promised.
+All routes retain the same craft: clear hierarchy, composition that explains the information, readable evidence, accessible interactions, appropriate motion and exact source preservation. Quick reduces setup and repeated work while retaining the design bar and respecting the requested scope. Runtime depends on content and the environment; no fixed speed or token saving is promised.
+
+Every task has a design owner: understand the intent, choose the visual intervention, and judge the rendering. One agent handles design and implementation by default; separate helpers remain opt-in. A small request receives the same contextual judgment within its scope. Broad UI improvements must visibly improve hierarchy, composition, readability or interaction; cosmetic substitutions alone do not establish success.
+
+Visual changes use three gates: inspect the current view, inspect a representative early result, then compare the final result at the same viewport and state. The agent captures or views the work automatically. Existing current evidence can be reused; nonvisual changes need no screenshot ritual. See [visual evidence and capture](slopless/references/browser.md#when-to-view-or-capture).
 
 The [router](slopless/SKILL.md) explains the workflow. [Quick](slopless/references/quick.md), [storytelling](slopless/references/storytelling.md), [visual quality](slopless/references/visual-quality.md) and [browser setup](slopless/references/browser.md) provide the relevant details.
 ![A generated landing hero next to the decided version](docs/images/before-after.jpg)

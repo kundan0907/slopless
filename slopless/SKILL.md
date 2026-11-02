@@ -7,6 +7,12 @@ description: Improve an existing UI or HTML deck, or design a new website, app s
 
 Make the subject clear, distinctive and useful. Preserve the user's facts, intent and chosen identity. More effects and more process do not mean better design.
 
+## Own the design on every task
+
+Act as the design owner, even for a short prompt. Before editing, privately identify the user's outcome, the current visual weakness, the intended improvement and the constraints. Choose hierarchy, grouping, composition, type, material and motion for a reason. A small request still deserves contextual judgment and finished details; keep its scope small unless a wider change is authorized.
+
+The design owner sets the direction and judges the rendered result; the developer implements that intent and preserves behavior. One agent can perform both roles without orchestration overhead. When helpers are explicitly authorized, give the builder the visual intent, constraints and acceptance views; the owner reviews the result before delivery. Do not silently substitute a palette, material or composition during implementation.
+
 ## Choose the route first
 
 Read relevant existing source and any taste memory (`~/.slopless/taste.md`, project `.slopless/DESIGN.md`) once. Missing memory is normal. Current instructions win; do not treat earlier agent choices as user preferences.
@@ -18,7 +24,7 @@ Read relevant existing source and any taste memory (`~/.slopless/taste.md`, proj
 | **Deep** | Explicit exploration, complex story, cinematic/spatial work, or detailed audit | Standard plus only the relevant specialist references |
 | **Review** | Critique/audit without a request to edit | `references/review.md`; report findings, do not change files |
 
-Quick keeps the same craft floor and a smaller scope. If a Quick request has no existing artifact, make the smallest new result using Standard. Say the selected route in one short line. Ask only about a consequential missing decision; a complete brief needs no interview.
+Quick must make a visible, useful difference within the requested scope. Spend less time on setup, alternatives and repetition while retaining deliberate design and visual verification. If a Quick request has no existing artifact, make the smallest new result using Standard. Say the selected route in one short line. Ask only about a consequential missing decision; a complete brief needs no interview.
 
 ## Design loop (Standard and Deep)
 
@@ -42,6 +48,7 @@ Quick keeps the same craft floor and a smaller scope. If a Quick request has no 
 - One dominant idea per view; composition follows the information. Cards group related objects, not every paragraph. Semantic data colours may need more than one accent.
 - Readable type and contrast, accessible controls, visible focus, responsive layouts, reduced motion and correct settled states are required. Use real assets or none; no fabricated proof.
 - A banned-pattern scan cannot judge design quality. Never give an aesthetic score without looking at the rendered work.
+- Visual edits need baseline, early-result and final-result inspection (`references/browser.md`). Compare the improvement at the same state and viewing size; a successful build or a smaller diff does not establish better UI.
 - Keep complete deliverables self-contained when requested; retain the original and use a unique filename. Follow the user's artifact location rules.
 
 ## Keep runs cheap

@@ -79,7 +79,7 @@ const PAL = () => window.sloplessPalettes || [];
 {
   const M = {
     routes: { label: 'Run modes', items: {
-      quick: { n: 'Quick', does: 'Inspects existing work, fixes the three biggest visual problems, preserves content and working controls, then verifies one repair batch.', when: 'Improve, polish, restyle or make a fast V2 of an existing artifact.', p: 'Use slopless quick. Improve this deck into V2. Keep every word, number and working control.', loads: ['quick.md'] },
+      quick: { n: 'Quick', does: 'Makes a clear visual upgrade to hierarchy, composition, readability or interaction. Preserves content and controls, compares before and after, then verifies one repair batch.', when: 'Improve, polish, restyle or make a fast V2 of an existing artifact.', p: 'Use slopless quick. Improve this deck into V2. Keep every word, number and working control.', loads: ['quick.md'] },
       standard: { n: 'Standard', does: 'Resolves missing decisions, renders the opening and densest view early, then builds and verifies.', when: 'New work or an explicit redesign.', p: 'Use slopless Standard to redesign this page. Keep the content and show the visual direction early.', loads: ['direction.md', 'storytelling.md', 'craft-floor.md'] },
       deep: { n: 'Deep', does: 'Adds focused research, alternatives and detailed storytelling or motion checks when the job calls for them.', when: 'Explicit exploration, detailed audits or complex motion. Helpers remain opt-in.', p: 'Use slopless Deep. Explore two storytelling directions for this presentation.', loads: ['storytelling.md', 'visual-quality.md', 'motion.md'] },
     } },

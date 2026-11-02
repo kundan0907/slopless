@@ -5,7 +5,7 @@ export const REPO = 'https://github.com/kundan0907/slopless/blob/main/';
 export const KB = [
   ['Router', [
     ['slopless/SKILL.md', 'Routes to Quick, Standard, Deep or Review before loading specialist guidance.', 'Always'],
-    ['slopless/references/quick.md', 'Focused V2: preserve source and behavior, fix three material problems, verify once.', 'Existing refinements'],
+    ['slopless/references/quick.md', 'Focused V2: intentional visual improvement, preserved content/behavior, before-and-after evidence.', 'Existing refinements'],
     ['slopless/references/storytelling.md', 'Claims, evidence and composition matched to the information.', 'New or redesigned story'],
     ['slopless/references/visual-quality.md', 'Five rendered passes: hierarchy, composition, reading, interaction and fit.', 'Visual verification'],
     ['slopless/references/browser.md', 'Host browser first, cached automatic CLI setup, honest offline limits.', 'Browser checks'],
