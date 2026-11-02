@@ -11,7 +11,7 @@ Decide what is already true, find the idea, then commit to a world. Do not blend
 
 ## 2. Inventory the subject
 
-Write 8–12 things that belong to this subject and no competitor: its name and what it means, its place, its numbers, the constraint it lives with, its materials and colours, its rituals and hours, the printed or on-screen artefacts of its world (ticket, receipt, PR, dashboard, label, timetable). The idea comes from this list, not from the category.
+Identify only the distinctive facts needed to make the design decision: the subject's real content, constraints, material, rituals or on-screen artefacts. The idea comes from the subject, not a fixed inventory length or a category template.
 
 ## 3. Find the idea
 

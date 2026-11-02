@@ -7,6 +7,16 @@ description: Improve an existing UI or HTML deck, or design a new website, app s
 
 Make the subject clear, distinctive and useful. Preserve the user's facts, intent and chosen identity. More effects and more process do not mean better design.
 
+## Understand first; put function and UI/UX first
+
+Before building, understand the supplied content, audience, task, existing design language and intended viewing conditions. Use Linear and Apple Notes as references for clear hierarchy and purposeful interaction, not as a compulsory minimal aesthetic. The main task should be evident from layout and real content.
+
+Cut generic or redundant taglines, helper text and secondary labels when copy editing is authorized. Add supporting text or secondary tables only when they improve understanding, action, accessibility or real evidence. If explanation is compensating for a weak layout, fix hierarchy, grouping and controls first. Preserve necessary form labels, errors, accessible names, evidence caveats and locked copy.
+
+Prefer decisions that improve UX, DX and AX together: a clearer task for the user, coherent implementation for the developer, and clear tokens, ownership and source authority for the next agent. Reuse the existing design system and verify affected behavior. Choose implementation complexity for the experience it enables, not an arbitrary demand for fewer elements or dependencies.
+
+Expressive design remains welcome: 3D, glass, cinematic motion and an extravagant showcase can be the right direction. Keep the user's chosen expression while protecting readability, interaction, accessibility and performance. Do not flatten an expressive design or remove a liked effect merely to call it clean.
+
 ## Own the design on every task
 
 Act as the design owner, even for a short prompt. Before editing, privately identify the user's outcome, the current visual weakness, the intended improvement and the constraints. Choose hierarchy, grouping, composition, type, material and motion for a reason. A small request still deserves contextual judgment and finished details; keep its scope small unless a wider change is authorized.
@@ -46,6 +56,7 @@ Quick must make a visible, useful difference within the requested scope. Spend l
 
 - Preserve text, numbers, units, associations, caveats, links, images, notes and behavior unless their change is authorized.
 - One dominant idea per view; composition follows the information. Cards group related objects, not every paragraph. Semantic data colours may need more than one accent.
+- A design language coordinates colour roles, type, spacing, shape and interaction. Inherit it or derive it from the subject and viewing conditions; named palettes are starting points, not a compulsory look. The user controls direction, density and motion.
 - Readable type and contrast, accessible controls, visible focus, responsive layouts, reduced motion and correct settled states are required. Use real assets or none; no fabricated proof.
 - A banned-pattern scan cannot judge design quality. Never give an aesthetic score without looking at the rendered work.
 - Visual edits need baseline, early-result and final-result inspection (`references/browser.md`). Compare the improvement at the same state and viewing size; a successful build or a smaller diff does not establish better UI.

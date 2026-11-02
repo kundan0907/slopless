@@ -1,6 +1,8 @@
 # Layout
 
 ## Composition
+- The task should make sense from the layout and actual content. Before adding helper text, fix hierarchy, grouping, alignment and the placement of the next action. Keep necessary labels and accessible names.
+- Clean means understandable and well composed. Preserve an expressive visual world, including chosen 3D or motion, when it supports the brief; do not make every surface visually minimal.
 - Each view is a poster: one dominant thing and the content it carries. Make the big thing big before anything else exists.
 - Vary neighbouring views when their information differs; repeat alignment and layout when it makes comparisons easier. Rotate between: full-bleed object, split asymmetric, statement type, dense evidence, one live thing.
 - The order comes from the argument (claim → proof), not the stock sequence (hero, logos, three features, testimonial, pricing, CTA). A section with no claim is deleted.

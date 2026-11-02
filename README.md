@@ -12,6 +12,10 @@ Each page is one self-contained file (`docs/index.html`, `docs/explore.html`), b
 
 ## What it does
 
+The agent reads the content, audience and task before designing. Clear hierarchy and purposeful interaction come first. Generic taglines, redundant helper text and secondary labels are cut when editing is allowed; supporting text and tables stay when they serve the user. Changes should improve UX, DX and AX together while preserving content and working behavior.
+
+That does not prescribe a minimal look. Rich 3D, glass and cinematic motion remain valid design choices, including in this project's showcase. The user's design language and intent control the expression.
+
 Choose a route, or let the request choose it:
 
 - **Quick** is the default for existing work: “Use slopless quick. Make this a better V2.” It inspects the source and rendering, makes a clear visual upgrade through up to three high-impact changes, preserves content and working controls, and verifies one repair batch. No default interview, new engine, asset downloads or scoring essay.

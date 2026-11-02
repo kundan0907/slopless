@@ -1,6 +1,14 @@
 # Palettes
 
-Ten curated palettes. Each is a set of proportions as much as a set of colours: one ground, one ink, one accent, a panel for surfaces. Contrast was checked (ink on ground ≥ 4.5:1 everywhere; most ≥ 13:1). Show the user 2–3 that fit the mood with one recommended; they can rename or tune any of them, and the choice goes into memory.
+Ten starting palettes, not ten required styles. Each assigns ground, ink, accent and panel roles. Existing brand tokens and the user's exact choices come first. Do not replace a working design system to demonstrate this library, or add a palette interview to an otherwise complete Quick brief.
+
+## Choose like a designer
+
+1. Read the existing brand, content, explicit preferences and intended viewing conditions. Preserve pinned colours; distinguish an agent's assumption from a user choice.
+2. Decide what colour must communicate: the primary action, a meaningful state, categories or the subject's material. Give each colour a role before choosing its hex value. Typography, spacing and shape must support the same direction.
+3. Derive a small set of neutrals and semantic accents from that context, or adapt one of the presets below. The user can choose a preset, supply exact brand colours, change the material or request a quieter direction. Offer alternatives only when the direction is unresolved or choices were requested.
+4. Check actual foreground/background pairs in controls, evidence panels, selected/disabled states and themes. The supplied presets have checked ink/ground pairs; that does not certify every component or translucent layer. Body text needs 4.5:1; large text and meaningful icons need 3:1.
+5. Inspect a real-content rendering. If meaning depends on a colour, also use text, shape or position. Record the user's approved direction and meaningful token roles, not an inferred personal taste.
 
 Token roles (use these names everywhere; components reference tokens only):
 
@@ -71,11 +79,11 @@ Every palette needs a light or dark twin only if the user wants both. Derive it 
 
 ## Custom brand
 
-1. Ask for exact hex values (and logo files). Never guess a brand colour.
+1. Use supplied or existing brand values and logo files. Ask for missing values only when exact brand matching matters; never present an invented brand colour as authoritative.
 2. The brand colour becomes `--accent` (Restrained) or `--ground` (Committed/Drenched). Not both.
-3. Derive neutrals by tinting toward the brand hue (2–6% chroma), never pure grey.
+3. Derive neutrals for the brand and reading context. A slight hue tint can help; a neutral grey is valid when it fits the product. Do not add colour to create apparent sophistication.
 4. Check: `node <skill>/scripts/contrast.mjs '#ink' '#ground'` — body ≥ 4.5, large text and icons ≥ 3.
-5. Name it with the user and save it to memory.
+5. Preserve exact choices in project tokens. Save personal taste only when the user explicitly expresses it; no naming ceremony is required.
 
 ## Rules that keep any palette premium
 
