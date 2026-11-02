@@ -2,9 +2,9 @@
 
 An agent skill that makes Claude Code, Codex and other coding agents design like someone who decided every pixel: decks, landing pages, portfolios, app screens and graphics that don't look AI-made.
 
-![slopless showcase, Obsidian Brass palette](docs/images/hero-obsidian-brass.jpg)
+[![slopless showcase, Obsidian Brass palette](docs/images/hero-obsidian-brass.jpg)](https://kundan0907.github.io/slopless/)
 
-**Live showcase:** open [`docs/index.html`](docs/index.html). It's one self-contained file, built with the skill and checked by its own scanner.
+**[Open the live showcase →](https://kundan0907.github.io/slopless/)** The screenshots below are pictures; the palette picker, scanner, interview simulator and compare sliders work on the live page. It's one self-contained file (`docs/index.html`), built with the skill and checked by its own scanner.
 
 ## What it does
 
