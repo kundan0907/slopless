@@ -1,7 +1,8 @@
 // Builds ../docs/index.html (story) and ../docs/explore.html (toolbox): each one self-contained (fonts, GSAP, scripts inlined).
 import { readFileSync, writeFileSync } from 'node:fs';
 import { build } from 'esbuild';
-import { KB, GALLERIES, EFFECTS, READING, PROMPTS, REPO } from './src/data.mjs';
+import { KB, GALLERIES, EFFECTS, READING, PROMPTS, REPO, SOURCES, JOBS } from './src/data.mjs';
+import { getIcon, styleSvg } from '../slopless/scripts/assets.mjs';
 
 const read = (p) => readFileSync(new URL(p, import.meta.url));
 const text = (p) => read(p).toString();
@@ -10,16 +11,12 @@ const fonts = `
 @font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:300 800;font-stretch:75% 100%;font-display:swap;src:url(data:font/woff2;base64,${b64('./vendor/bricolage.woff2')}) format("woff2")}
 @font-face{font-family:"Hanken Grotesk";font-style:normal;font-weight:400 600;font-display:swap;src:url(data:font/woff2;base64,${b64('./vendor/hanken.woff2')}) format("woff2")}`;
 const bundle = async (file, extra = {}) => (await build({ entryPoints: [new URL(file, import.meta.url).pathname], bundle: true, minify: true, format: 'iife', write: false, target: 'es2020', logLevel: 'error', ...extra })).outputFiles[0].text;
-// tools.js imports the real slop-scan.mjs; its Node-only imports are stubbed because scan() never touches them.
-const stubNode = { name: 'stub-node', setup(b) {
-  b.onResolve({ filter: /^node:/ }, (a) => ({ path: a.path, namespace: 'stub' }));
-  b.onLoad({ filter: /.*/, namespace: 'stub' }, () => ({ contents: 'export const readFileSync=0,readdirSync=0,statSync=0,join=0,extname=0;', loader: 'js' }));
-} };
 const inline = (js) => `<script>${js.replace(/<\/script/gi, '<\\/script')}</script>`;
 const js = {
   SCENE: inline(await bundle('./src/scene.js')),
   UI: inline(await bundle('./src/ui.js')),
-  TOOLS: inline(await bundle('./src/tools.js', { plugins: [stubNode], define: { 'process.argv': '[]' }, logLevel: 'silent' })),
+  TOOLS: inline(text('./src/tools.js')),
+  MOTION: inline(text('./src/motion.js')),
   COMMON: inline(text('./src/common.js')),
   HOME: inline(text('./src/home.js')),
   AGENTS: inline(text('./src/agents.js')),
@@ -35,7 +32,50 @@ const prompts = PROMPTS.map(([g, ps]) => `<div class="pg-group"><h3>${e(g)}</h3>
 // Home shows one prompt each for deck, web, app and graphic.
 const homePrompts = ['Deck', 'Web', 'App', 'Graphic'].map((g) => row(PROMPTS.find(([n]) => n === g)[1][0])).join('');
 
-const gallery = text('./src/gallery.html');
+// Icons are fetched once with the skill's own assets.mjs and inlined, so the pages work offline.
+const SETS = [
+  ['Lucide', 'lucide', 'ISC', ['calendar', 'search', 'bell', 'mail', 'map-pin', 'ticket', 'clock', 'shield-check', 'download']],
+  ['Phosphor', 'ph', 'MIT', ['calendar', 'magnifying-glass', 'bell', 'envelope', 'map-pin', 'ticket', 'clock', 'shield-check', 'download-simple']],
+  ['Tabler', 'tabler', 'MIT', ['calendar', 'search', 'bell', 'mail', 'map-pin', 'ticket', 'clock', 'shield-check', 'download']],
+  ['Heroicons', 'heroicons', 'MIT', ['calendar', 'magnifying-glass', 'bell', 'envelope', 'map-pin', 'ticket', 'clock', 'shield-check', 'arrow-down-tray']],
+];
+const rawGallery = text('./src/gallery.html');
+const galleryIcons = [...new Set([...rawGallery.matchAll(/\{\{icon:([\w-]+:[\w-]+)\}\}/g)].map((m) => m[1]))];
+const stripIcons = ['lucide:ticket', 'lucide:train-front', 'lucide:map-pin', 'lucide:calendar', 'lucide:search', 'lucide:bell', 'lucide:mail', 'lucide:download', 'lucide:shield-check', 'lucide:clock'];
+const want = [...new Set([...SETS.flatMap(([, p, , n]) => n.map((x) => `${p}:${x}`)), ...galleryIcons, ...stripIcons])];
+const svgs = {};
+try {
+  await Promise.all(want.map(async (id) => { const [p, n] = id.split(':'); svgs[id] = styleSvg(await getIcon(p, n), { size: 24, stroke: 1.5 }).replace('<svg ', '<svg aria-hidden="true" focusable="false" '); }));
+} catch (err) {
+  console.error(`\nBuild stopped: icons could not be fetched, so the pages would ship with holes.\n${err.message}\nThe build needs network access to api.iconify.design or cdn.jsdelivr.net.`);
+  process.exit(1);
+}
+const gallery = rawGallery.replace(/\{\{icon:([\w-]+:[\w-]+)\}\}/g, (_, id) => svgs[id]);
+const iconGrid = SETS.map(([n, p, lic, names]) => `<div class="asset-card"><header><b>${n}</b><span>${lic}</span></header><div class="icons">${names.map((x) => svgs[`${p}:${x}`]).join('')}</div><p class="cap">Prefix <code>${p}:</code> via assets.mjs</p></div>`).join('');
+const devices = `<div class="dev-card"><div class="dev-row"><div class="dev-in"><div class="d-phone"><div>${svgs['lucide:ticket']}</div></div><div class="d-lap"><div>${svgs['lucide:train-front']}</div></div></div></div><div><b>Device frames from real sizes</b><p>iPhone 16 Pro (149.6 by 71.5 mm) and MacBook Air 13 in (304.1 by 215 mm), drawn in CSS at the same scale from the manufacturer dimensions. The screens are the project's own UI, never a flattened mockup image. The size table lives in assets.md.</p></div></div>`;
+const sources = SOURCES.map(([g, rows]) => `<div class="src-group"><h3>${e(g)}</h3><div>${rows.map(([n, u, l, d]) => `<div class="src-row"><a href="${e(u)}" target="_blank" rel="noopener">${e(n)}</a><span>${e(l)}</span><span>${e(d)}</span></div>`).join('')}</div></div>`).join('');
+const iconStrip = `<div class="icon-strip" aria-hidden="true">${stripIcons.map((id) => svgs[id]).join('')}</div><p class="cap icon-cap">One family (Lucide, ISC licence), one stroke weight, fetched with assets.mjs and inlined.</p>`;
+
+// "What your agent reads": excerpts come from the real files, so they cannot drift.
+const ROOT = new URL('../', import.meta.url);
+const excerpt = (path, start, max) => {
+  const all = readFileSync(new URL(path, ROOT), 'utf8').replace(/^---[\s\S]*?---\n/, '').split('\n');
+  const isScript = path.endsWith('.mjs');
+  let from = 0;
+  if (start) from = all.findIndex((l) => new RegExp(start).test(l));
+  else if (isScript) from = all.findIndex((l) => l.startsWith('//'));
+  else from = all.findIndex((l, i) => i > 0 && l.trim() && !l.startsWith('# '));
+  if (from < 0) throw new Error(`No excerpt start in ${path}`);
+  let lines = all.slice(from, from + max);
+  if (isScript) { const end = lines.findIndex((l) => !l.startsWith('//')); if (end >= 0) lines = lines.slice(0, end); }
+  const full = lines.map((l) => (l.length > 230 ? l.slice(0, 227) + '...' : l));
+  return { text: full.join('\n'), range: `lines ${from + 1} to ${from + lines.length}` };
+};
+const STEPS = [['Router', 'Router', 'Starts every run: classifies the job and names the files to load.'], ['Loaded for this job', 'Surface|Reference', 'Only the small files this job needs, read right before the step that uses them.'], ['Scripts it runs', 'Script', 'Run, not read: checks, screenshots and asset fetches.']];
+const card = ([p, , start, max]) => { const x = excerpt(p, start, max); return `<div class="reads-card"><header><a href="${REPO + p}" target="_blank" rel="noopener">${e(p.replace(/^slopless\//, ''))}</a><span>${x.range}</span></header><pre>${e(x.text)}</pre></div>`; };
+const readsTabs = JOBS.map(([id, n], i) => `<button role="tab" type="button" data-job="${id}" id="job-${id}" aria-selected="${i === 0}" aria-controls="reads-${id}">${e(n)}</button>`).join('');
+const reads = JOBS.map(([id, n, files]) => `<div class="reads-panel" role="tabpanel" id="reads-${id}" aria-labelledby="job-${id}" data-job="${id}" hidden>${STEPS.map(([h, roles, d], k) => `<div class="reads-step"><div><span class="n">Step ${k + 1}</span><h3>${h}</h3><p class="cap">${d}</p></div><div class="reads-grid">${files.filter((f) => roles.split('|').includes(f[1])).map(card).join('')}</div></div>`).join('')}</div>`).join('');
+
 const pair = (id) => gallery.match(new RegExp(`<figure[^>]*data-pair="${id}"[\\s\\S]*?</figure>`))[0];
 const footer = (links) => `<footer>
   <div class="credits">
@@ -59,12 +99,12 @@ const pages = {
   'index.html': fill(text('./src/home.html'), {
     HEAD: head, GSAP: gsapFull, SCENE: js.SCENE, COMMON: js.COMMON, HOME: js.HOME, UI: js.UI,
     'PAIR:land': pair('land').replace('class="pair w8"', 'class="pair full"').replace(/<figcaption>[\s\S]*?<\/figcaption>/, '').replace('value="50"', 'value="92"'),
-    PROMPTS: homePrompts,
+    PROMPTS: homePrompts, MOTION: js.MOTION, ICONSTRIP: iconStrip,
     FOOTER: footer('<a href="explore.html">Explore the toolbox</a>'),
   }),
   'explore.html': fill(text('./src/explore.html'), {
-    HEAD: head, GSAP: js.GSAP, COMMON: js.COMMON, AGENTS: js.AGENTS, UI: js.UI, TOOLS: js.TOOLS,
-    GALLERY: gallery, COMPARE: text('./src/compare.html'), KB: kb, PROMPTS: prompts,
+    HEAD: head, GSAP: js.GSAP, MOTION: js.MOTION, COMMON: js.COMMON, AGENTS: js.AGENTS, UI: js.UI, TOOLS: js.TOOLS,
+    GALLERY: gallery, READSTABS: readsTabs, READS: reads, ICONGRID: iconGrid, DEVICES: devices, SOURCES: sources, COMPARE: text('./src/compare.html'), KB: kb, PROMPTS: prompts,
     GALLERIES: GALLERIES.map((x) => ext(...x)).join(''), EFFECTS: EFFECTS.map((x) => ext(...x)).join(''), READING: READING.map((x) => ext(...x)).join(''),
     FOOTER: footer('<a href="./">Back to the home page</a>'),
   }),

@@ -16,6 +16,7 @@ export const KB = [
     ['slopless/references/brief.md', 'The one-screen brief template that doubles as a handoff.', 'Writing the brief'],
     ['slopless/references/craft-floor.md', 'Contrast, states, browser surfaces, icons, depth, semantics: the checks before editing UI.', 'Step 4'],
     ['slopless/references/copy.md', 'Write the argument first, plain voice, banned patterns and words.', 'Step 4'],
+    ['slopless/references/assets.md', 'Licence-checked icon sets, fonts, photos, device dimensions, 3D and animation sources, and the rules for using them.', 'Step 4'],
   ]],
   ['Surfaces', [
     ['slopless/references/surfaces/deck.md', 'Talks and decks: beats, presenter-owned controls, one master timeline, offline single file.', 'Deck jobs'],
@@ -31,10 +32,12 @@ export const KB = [
     ['slopless/references/inspiration.md', 'Galleries, effect libraries and reading, plus how to research a technique.', 'You want references'],
   ]],
   ['Scripts', [
-    ['slopless/scripts/slop-scan.mjs', 'Static scan for tells. The scanner on this page is this file, bundled.', 'Step 5'],
+    ['slopless/scripts/slop-scan.mjs', 'Static scan for tells in HTML, CSS, JS and copy. Prints FAIL and WARN lines.', 'Step 5'],
     ['slopless/scripts/shoot.mjs', 'Playwright screenshots at 1440, 768 and 390, or deck sizes with step-through.', 'Step 5'],
     ['slopless/scripts/contrast.mjs', 'WCAG contrast ratio for two hex colours.', 'Palette checks'],
+    ['slopless/scripts/assets.mjs', 'Fetch icons from Iconify, fonts from Google Fonts and photos from Openverse.', 'Step 4'],
     ['slopless/scripts/test/slop-scan.test.mjs', 'Tests for the scanner rules and the contrast maths.', 'Changing the scanner'],
+    ['slopless/scripts/test/assets.test.mjs', 'Tests for argument parsing, SVG rewriting and font CSS parsing. No network.', 'Changing assets.mjs'],
   ]],
 ];
 
@@ -89,4 +92,56 @@ export const PROMPTS = [
     ['Use slopless in agents mode with three helpers. Rebuild the deck in the Sapphire Glass direction.', 'Builder, motion and reviewer run in parallel on a shared core.'],
     ['Remember for slopless: I reject decorative colour bars and I want two live studies before a full build.', 'Becomes dated lines in your taste file.'],
   ]],
+];
+
+// [category, name, url, licence, note]
+export const SOURCES = [
+  ['Icons', [
+    ['Lucide', 'https://lucide.dev', 'ISC', 'Default UI set, clean 24px outline.'],
+    ['Phosphor', 'https://phosphoricons.com', 'MIT', 'Six weights per icon, plus duotone.'],
+    ['Tabler Icons', 'https://tabler.io/icons', 'MIT', 'Very large outline set.'],
+    ['Heroicons', 'https://heroicons.com', 'MIT', 'Outline and solid pairs.'],
+    ['Material Symbols', 'https://fonts.google.com/icons', 'Apache-2.0', 'Android and Material apps.'],
+    ['Iconoir', 'https://iconoir.com', 'MIT', 'A more characterful outline set.'],
+    ['Remix Icon', 'https://remixicon.com', 'Apache-2.0', 'Line and fill pairs, broad coverage.'],
+    ['Iconify API', 'https://iconify.design', 'per set', 'One API for all of the above, used by assets.mjs.'],
+  ]],
+  ['Fonts', [
+    ['Google Fonts', 'https://fonts.google.com', 'OFL and similar', 'Free for commercial use, self-hostable.'],
+    ['Fontshare', 'https://www.fontshare.com', 'ITF Free Font License', 'Free for personal and commercial use.'],
+  ]],
+  ['Photos', [
+    ['Unsplash', 'https://unsplash.com/license', 'Unsplash License', 'Free for commercial use, credit appreciated. No reselling unaltered.'],
+    ['Openverse', 'https://openverse.org', 'Per item (CC0, CC BY, CC BY-SA)', 'Search across open collections, keep the credit.'],
+    ['Wikimedia Commons', 'https://commons.wikimedia.org', 'Per file, often CC BY-SA', 'Copy the attribution text from each file page.'],
+  ]],
+  ['Devices', [
+    ['Apple Design Resources', 'https://developer.apple.com/design/resources/', 'Apple terms', 'Official iPhone, iPad and Mac artwork for marketing Apple-platform apps.'],
+    ['Real dimensions in CSS', 'https://github.com/kundan0907/slopless/blob/main/slopless/references/assets.md', 'n/a', 'iPhone, Pixel and MacBook sizes, drawn in CSS.'],
+  ]],
+  ['3D and motion', [
+    ['Poly Haven', 'https://polyhaven.com', 'CC0', 'HDRIs, textures and models, no credit needed.'],
+    ['LottieFiles', 'https://lottiefiles.com/page/license', 'Lottie Simple License', 'Commercial use allowed; check each file.'],
+    ['unDraw', 'https://undraw.co/license', 'unDraw License', 'Free, no credit; no packs or AI training.'],
+    ['Open Peeps', 'https://www.openpeeps.com', 'CC0', 'Hand-drawn people, free for any use.'],
+  ]],
+];
+
+// What each job loads: [path, role, start pattern (null = after the title), max lines]
+export const JOBS = [
+  ['deck', 'Talk or deck', [
+    ['slopless/SKILL.md', 'Router', '^2\\. Classify', 12], ['slopless/references/surfaces/deck.md', 'Surface', null, 9], ['slopless/references/motion.md', 'Reference', null, 9], ['slopless/references/craft-floor.md', 'Reference', null, 8],
+    ['slopless/scripts/slop-scan.mjs', 'Script', null, 8], ['slopless/scripts/shoot.mjs', 'Script', null, 8]]],
+  ['web', 'Landing page', [
+    ['slopless/SKILL.md', 'Router', '^2\\. Classify', 12], ['slopless/references/surfaces/web.md', 'Surface', null, 9], ['slopless/references/layout.md', 'Reference', null, 9], ['slopless/references/craft-floor.md', 'Reference', null, 8], ['slopless/references/assets.md', 'Reference', null, 9],
+    ['slopless/scripts/assets.mjs', 'Script', null, 9], ['slopless/scripts/slop-scan.mjs', 'Script', null, 8], ['slopless/scripts/shoot.mjs', 'Script', null, 8]]],
+  ['app', 'App screen', [
+    ['slopless/SKILL.md', 'Router', '^2\\. Classify', 12], ['slopless/references/surfaces/app.md', 'Surface', null, 9], ['slopless/references/craft-floor.md', 'Reference', null, 8], ['slopless/references/assets.md', 'Reference', null, 9],
+    ['slopless/scripts/assets.mjs', 'Script', null, 9], ['slopless/scripts/shoot.mjs', 'Script', null, 8]]],
+  ['graphic', 'Graphic', [
+    ['slopless/SKILL.md', 'Router', '^2\\. Classify', 12], ['slopless/references/surfaces/graphic.md', 'Surface', null, 9], ['slopless/references/palettes.md', 'Reference', null, 9], ['slopless/references/assets.md', 'Reference', null, 9],
+    ['slopless/scripts/assets.mjs', 'Script', null, 9], ['slopless/scripts/shoot.mjs', 'Script', null, 8]]],
+  ['review', 'Review', [
+    ['slopless/SKILL.md', 'Router', '^2\\. Classify', 12], ['slopless/references/review.md', 'Reference', null, 9], ['slopless/references/tells.md', 'Reference', null, 9],
+    ['slopless/scripts/slop-scan.mjs', 'Script', null, 8], ['slopless/scripts/shoot.mjs', 'Script', null, 8]]],
 ];

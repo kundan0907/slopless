@@ -6,7 +6,7 @@ An agent skill that makes Claude Code, Codex and other coding agents design like
 
 **[Open the live showcase →](https://kundan0907.github.io/slopless/)** A short page: what slopless does, a before and after you can drag, the palettes, and how to install it.
 
-**[Open the toolbox →](https://kundan0907.github.io/slopless/explore.html)** The scanner, interview simulator, modes explorer, more examples, the knowledge base and a prompt cookbook, all running in your browser.
+**[Open the toolbox →](https://kundan0907.github.io/slopless/explore.html)** The interview simulator, what your agent reads, modes explorer, assets, more examples, the knowledge base and a prompt cookbook, all running in your browser.
 
 Each page is one self-contained file (`docs/index.html`, `docs/explore.html`), built with the skill and checked by its own scanner.
 
@@ -27,15 +27,19 @@ slopless works in six steps:
 
 The [explore page](https://kundan0907.github.io/slopless/explore.html) is interactive. Everything runs in the browser from the single HTML file; nothing is uploaded.
 
-**Scanner.** Paste HTML, CSS or copy and press Scan. It runs the real `slop-scan.mjs` (bundled by the build, not re-implemented) and prints FAIL and WARN lines like the terminal does.
-
-![Live slop scanner](docs/images/scanner.jpg)
-
-**Interview simulator.** Click through the round-one and round-two questions from `interview.md`. You get the playback summary and a prompt to copy, and the palette you pick is applied to the page.
+**Interview simulator.** A handful of plain questions (one optional sentence, everything else a tap) ending in "Here is the prompt to paste into your agent". The palette and motion level you pick apply to the page.
 
 ![Interview simulator](docs/images/interview-simulator.jpg)
 
-**Modes explorer.** Surfaces (deck, web, app, graphic), review modes (review, bolder, quieter, distill, harden), motion levels (still, subtle, cinematic, spatial, each demonstrated live on one object), agents mode and taste memory. Each shows what it does, what triggers it, an example prompt and the reference files it loads.
+**What your agent reads.** Pick a job (deck, landing page, app screen, graphic, review) and see the exact files it loads, in order: the SKILL.md router, the surface and references, the scripts it runs. The excerpts are cut from the real files at build time and link to GitHub.
+
+![What your agent reads](docs/images/what-your-agent-reads.jpg)
+
+**Assets.** Icon sets from four families (fetched at build time with `assets.mjs` and inlined), a CSS device frame from real dimensions, and every source with its licence.
+
+![Assets](docs/images/assets.jpg)
+
+**Modes explorer.** Surfaces (deck, web, app, graphic), review modes (review, bolder, quieter, distill, harden), motion levels (still, subtle, cinematic, spatial: picking one re-runs a shared scene with a card, a device and a ticket in that level, in the interview, here and in the design-language section, and the choice is saved), agents mode and taste memory. Each shows what it does, what triggers it, an example prompt and the reference files it loads.
 
 ![Modes explorer](docs/images/modes.jpg)
 
@@ -101,14 +105,19 @@ Optional, for the screenshot step: `npm i -D playwright && npx playwright instal
 node slopless/scripts/slop-scan.mjs <files|dir>     # FAIL/WARN on violet gradients, gradient text, emoji icons, stock copy, eyebrows, glows…
 node slopless/scripts/shoot.mjs page.html --deck --steps 12   # screenshots for review
 node slopless/scripts/contrast.mjs '#ECE8E1' '#0B0C0F'        # WCAG ratio
-node --test slopless/scripts/test/slop-scan.test.mjs
+node slopless/scripts/assets.mjs icon lucide:arrow-right --size 24 --stroke 1.5   # real SVG from Iconify
+node slopless/scripts/assets.mjs icons lucide arrow-right,check --out ./icons
+node slopless/scripts/assets.mjs search arrow --prefix lucide
+node slopless/scripts/assets.mjs font "Hanken Grotesk" --weights 400..700 --out ./fonts [--inline]
+node slopless/scripts/assets.mjs photo "night train"          # Openverse, commercial-use licences
+node --test slopless/scripts/test/*.mjs
 ```
 
 Wrap deliberate bad examples in `<!-- slopless-ignore-start -->` … `<!-- slopless-ignore-end -->`.
 
 ## How it stays light
 
-`SKILL.md` is a short router. Each step loads only its own reference file (interview, direction, palettes, type, layout, motion, craft floor, copy, tells, review, memory, agents, plus one file per surface), so a small fix never pulls in the whole library.
+`SKILL.md` is a short router. Each step loads only its own reference file (interview, direction, palettes, type, layout, motion, craft floor, copy, assets, tells, review, memory, agents, plus one file per surface), so a small fix never pulls in the whole library.
 
 ## Repository
 
@@ -116,7 +125,7 @@ Wrap deliberate bad examples in `<!-- slopless-ignore-start -->` … `<!-- slopl
 slopless/            the skill (copy this folder)
   SKILL.md
   references/        loaded on demand
-  scripts/           slop-scan, shoot, contrast (+ tests)
+  scripts/           slop-scan, shoot, contrast, assets (+ tests)
 showcase/            source of docs/index.html and docs/explore.html (npm i && npm run build)
 docs/                the two built pages and README images
 ```

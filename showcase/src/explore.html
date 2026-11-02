@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>slopless toolbox: scanner, interview, modes</title>
-<meta name="description" content="Try slopless in your browser: scan a page for AI giveaways, run the interview, explore the modes, drag the before and after examples.">
+<title>slopless toolbox: interview, what your agent reads, modes</title>
+<meta name="description" content="Try slopless in your browser: run the interview, see the files your agent reads, explore the modes and assets, drag the before and after examples.">
 <!--HEAD-->
 </head>
 <body class="explore">
@@ -15,16 +15,17 @@
     <div class="nav-right">
       <ul>
         <li><a href="./">Home</a></li>
-        <li><a href="#scan">Scanner</a></li>
         <li><a href="#interview">Interview</a></li>
+        <li><a href="#reads">Agent reads</a></li>
         <li><a href="#modes">Modes</a></li>
+        <li><a href="#assets">Assets</a></li>
         <li><a href="#examples">Examples</a></li>
         <li><a href="#library">Knowledge</a></li>
       </ul>
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
     </div>
     <div class="menu" id="menu" hidden>
-      <a href="./">Home</a><a href="#scan">Scanner</a><a href="#interview">Interview</a><a href="#modes">Modes</a><a href="#examples">Examples</a><a href="#different">Compare</a><a href="#library">Knowledge</a><a href="#inspiration">Inspiration</a><a href="#prompts">Prompts</a>
+      <a href="./">Home</a><a href="#interview">Interview</a><a href="#reads">Agent reads</a><a href="#assets">Assets</a><a href="#modes">Modes</a><a href="#examples">Examples</a><a href="#different">Compare</a><a href="#library">Knowledge</a><a href="#inspiration">Inspiration</a><a href="#prompts">Prompts</a>
     </div>
   </nav>
   <h1>The toolbox.</h1>
@@ -33,36 +34,26 @@
 </header>
 
 <main>
-<section class="wrap" id="scan">
-  <div class="sect-head">
-    <h2>Scan your page.</h2>
-    <p class="lead">Paste your page's HTML, CSS or copy and see which AI giveaways it has. This is the same scanner the skill runs on its own work.</p>
-  </div>
-  <div class="scan-bar">
-    <button class="btn btn-primary" id="scan-run" type="button">Scan</button>
-    <select id="scan-ext" aria-label="Type of the pasted text"><option value=".html">HTML</option><option value=".css">CSS</option><option value=".md">Copy (Markdown)</option><option value=".js">JS / JSX</option></select>
-    <button class="btn btn-ghost" id="scan-sample" type="button">Load sloppy sample</button>
-    <button class="btn btn-ghost" id="scan-clear" type="button">Clear</button>
-    <span class="cap" id="scan-status" role="status"></span>
-  </div>
-  <div class="scan">
-    <textarea id="scan-in" aria-label="Text to scan" spellcheck="false"></textarea>
-    <div class="term"><pre id="scan-out" aria-live="polite">The scanner needs JavaScript.</pre></div>
-  </div>
-  <p class="cap" style="margin-top:14px">It looks for violet gradients, gradient text, emoji, stock words, tiny uppercase labels, glows, bounce easing, default fonts and weak buttons. FAIL means fix it, WARN means look at it.</p>
-</section>
-
 <section class="wrap" id="interview">
   <div class="iv-split">
     <div class="sect-head">
       <h2>Try the interview.</h2>
-      <p class="lead">Answer eight short questions and get a prompt to paste into your agent. Round one is about your story, round two about taste. The palette you pick is applied to this page.</p>
+      <p class="lead">Answer a few short questions and get a prompt to paste into your agent. Part one is about what you are making, part two about the look. The palette and motion level you pick apply to this page.</p>
     </div>
     <div class="ivbox-wrap">
-      <p class="cap" id="iv-prog" aria-live="polite">Round 1 of 2</p>
+      <p class="cap" id="iv-prog" aria-live="polite">Part 1 of 2</p>
       <div id="iv"><noscript><p class="noscript-note">This simulator needs JavaScript. The questions live in references/interview.md.</p></noscript></div>
     </div>
   </div>
+</section>
+
+<section class="wrap" id="reads">
+  <div class="sect-head">
+    <h2>What your agent reads.</h2>
+    <p class="lead">The skill is a short router plus small files, loaded one step at a time. Pick a job to see exactly which files the agent opens, in order, with the opening lines of each, taken from the real files at build time.</p>
+  </div>
+  <div class="tabs reads-tabs" role="tablist" aria-label="Job" id="reads-tabs"><!--READSTABS--></div>
+  <!--READS-->
 </section>
 
 <section class="wrap" id="modes">
@@ -87,6 +78,15 @@
       </svg>
     </div>
   </div>
+</section>
+
+<section class="wrap" id="assets">
+  <div class="sect-head">
+    <h2>Assets it uses.</h2>
+    <p class="lead">Real icons, fonts, photos and device frames, fetched by <code>assets.mjs</code> instead of drawn by hand or hotlinked. The icons below were fetched when this page was built and are inlined, so the page works offline.</p>
+  </div>
+  <div class="assets-grid"><!--ICONGRID--><!--DEVICES--></div>
+  <div style="margin-top:clamp(40px,5vw,72px)"><!--SOURCES--></div>
 </section>
 
 <section class="wrap" id="examples">
@@ -144,6 +144,7 @@
 <!--FOOTER-->
 
 <!--GSAP-->
+<!--MOTION-->
 <!--COMMON-->
 <!--AGENTS-->
 <!--UI-->

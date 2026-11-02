@@ -4,7 +4,7 @@
 - The first screen answers the visitor's first question in large type: what it is and what it does (product), who and what they do (person). One primary action as a real button.
 - Sections follow the argument (claim → proof). Neighbours never share a layout. The idea reaches the footer; the footer is a designed close, often the name at full width.
 - Navigation: wordmark, 3–5 plain links, one action. No floating blurred pill unless glass is the chosen material.
-- Imagery: the project's own > generated > real pictures of the subject's world (open collections, credited) > drawn from the subject in code > type and colour alone. Never a fake product shot, never grey-bar dashboards. One dominant image beats six small ones.
+- Imagery: the project's own > generated > real pictures of the subject's world (open collections, credited; `scripts/assets.mjs photo`, `references/assets.md`) > drawn from the subject in code > type and colour alone. Never a fake product shot, never grey-bar dashboards. One dominant image beats six small ones.
 
 ## Portfolios
 - Lead with the work's outcomes, not adjectives. Each project: what it is, your role, the result, the stack, in that order.

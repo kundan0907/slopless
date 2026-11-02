@@ -1,108 +1,77 @@
-// Explore-page tools: scanner, interview simulator, modes explorer, knowledge-base filter.
-import { scan } from '../../slopless/scripts/slop-scan.mjs';
+// Explore-page tools: interview simulator, agent-reads switcher, modes explorer, knowledge-base filter.
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
-const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PAL = () => window.sloplessPalettes || [];
-
-/* ---------- Live scanner ---------- */
-// slopless-ignore-start: deliberately sloppy sample the scanner is meant to catch
-const LT = String.fromCharCode(60); // keeps a literal style tag out of this page's own scan
-const SAMPLE = `${LT}style>
-.hero{background:linear-gradient(135deg,#7c3aed,#2563eb);text-align:center;font-family:Inter,sans-serif}
-.kicker{text-transform:uppercase;letter-spacing:.2em;font-size:12px}
-h1{background:linear-gradient(90deg,#a78bfa,#38bdf8);-webkit-background-clip:text;color:transparent}
-.btn{box-shadow:0 0 40px #a78bfa;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
-${LT}/style>
-<section class="hero">
-  <p class="kicker">New · Introducing</p>
-  <h1>\u{1F680} Unlock seamless workflows ✨</h1>
-  <p>The all-in-one platform that empowers your team to do more.</p>
-  <a class="btn">Get started</a>
-</section>`;
-// slopless-ignore-end
-{
-  const ta = $('#scan-in'), out = $('#scan-out'), ext = $('#scan-ext');
-  const run = () => {
-    const found = scan(ta.value, ext.value);
-    const f = found.filter((x) => x.level === 'FAIL').length, w = found.length - f;
-    const lines = found.map((x) => `<span class="${x.level === 'FAIL' ? 'f' : 'w'}">${x.level.padEnd(4)}</span> snippet${ext.value}  [${esc(x.rule)}] ${esc(x.msg)}`);
-    lines.push('', `<span class="${f ? 'f' : 'ok'}">1 file(s): ${f} FAIL, ${w} WARN${f ? '' : ' - clean of banned tells'}</span>`);
-    out.innerHTML = lines.join('\n');
-    $('#scan-status').textContent = `${f} fail, ${w} warn`;
-  };
-  ta.value = SAMPLE;
-  $('#scan-run').addEventListener('click', run);
-  $('#scan-sample').addEventListener('click', () => { ta.value = SAMPLE; ext.value = '.html'; run(); });
-  $('#scan-clear').addEventListener('click', () => { ta.value = ''; ta.focus(); out.textContent = 'Paste HTML, CSS or copy, then press Scan.'; $('#scan-status').textContent = ''; });
-  ext.addEventListener('change', run);
-  ta.addEventListener('keydown', (e) => { if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') run(); });
-  run();
-}
 
 /* ---------- Interview simulator ---------- */
 {
+  // [label, phrase used in the prompt, note]
   const Q = [
-    { id: 'what', round: 1, q: 'What is it?', opts: [
-      ['Talk with a presenter', 'deck, 15 minutes, presenter-paced', 'a talk'], ['Scrolling page', 'web, one page, scrolling', 'a landing page'],
-      ['Portfolio', 'web, portfolio, scrolling', 'a portfolio'], ['App screen or flow', 'app, one flow, 390x844', 'an app flow'], ['Graphic', 'graphic, a set of posts, exact pixel size', 'a graphic set']], rec: 1 },
-    { id: 'aud', round: 1, q: 'Who sees it?', opts: [['My team'], ['Customers'], ['Hiring managers'], ['A conference room']], rec: 0 },
-    { id: 'line', round: 1, q: 'The one sentence.', text: true },
-    { id: 'hero', round: 1, q: 'The hero object: the one thing that travels through the story.', opts: [['A ticket'], ['A message'], ['A device'], ["A person's day"], ['A product'], ['A number']], rec: 0 },
-    { id: 'mood', round: 2, q: 'Mood', opts: [['Bold and loud'], ['Calm and editorial'], ['Dark and cinematic'], ['Light and airy'], ['Technical']], rec: 2 },
-    { id: 'motion', round: 2, q: 'Motion', opts: [['Still', 'hover and press feedback only'], ['Subtle', 'entrances, gentle parallax'], ['Cinematic', 'connected scenes, scrubbed timelines'], ['Spatial 3D', 'real 3D, shaders']], rec: 2 },
-    { id: 'mat', round: 2, q: 'Material', opts: [['Flat ink'], ['Paper / matte'], ['Frosted glass'], ['Atmosphere'], ['Blueprint lines'], ['Photography-led']], rec: 1 },
-    { id: 'pal', round: 2, q: 'Palette (applies to this page)', palette: true },
+    { id: 'what', part: 1, q: 'What are you making?', opts: [
+      ['A talk or demo deck', 'a talk deck, about 15 minutes, paced by the presenter', 'a talk deck'], ['A landing page', 'a scrolling landing page', 'a landing page'],
+      ['A portfolio', 'a scrolling portfolio site', 'a portfolio site'], ['An app screen or flow', 'a mobile app flow at 390 by 844', 'an app flow'], ['Social posts or a poster', 'a set of graphics at exact pixel size', 'a set of graphics']], rec: 1 },
+    { id: 'aud', part: 1, q: 'Who will look at it?', opts: [['My team', 'my team'], ['Customers', 'customers'], ['Hiring managers', 'hiring managers'], ['A room full of people', 'a room full of people']], rec: 1 },
+    { id: 'line', part: 1, q: 'What should they remember afterwards?', text: true },
+    { id: 'hero', part: 1, q: 'Should one thing run through the whole story?', opts: [['A ticket', 'one ticket'], ['A message', 'one message'], ['A device', 'one device'], ["A person's day", "one person's day"], ['A product', 'one product'], ['Nothing in particular', '']], rec: 0 },
+    { id: 'mood', part: 2, q: 'What mood?', opts: [['Bold and loud', 'bold and loud'], ['Calm and editorial', 'calm and editorial'], ['Dark and moody', 'dark and moody'], ['Light and airy', 'light and airy'], ['Technical', 'technical']], rec: 2 },
+    { id: 'motion', part: 2, q: 'How much should it move?', motion: true },
+    { id: 'mat', part: 2, q: 'What should it feel like?', opts: [['Flat ink', 'flat ink'], ['Paper and matte', 'paper and matte'], ['Frosted glass', 'frosted glass'], ['Atmospheric', 'atmospheric'], ['Blueprint lines', 'blueprint lines'], ['Photography-led', 'photography-led']], rec: 1 },
+    { id: 'pal', part: 2, q: 'Pick a palette', palette: true },
   ];
-  const A = { aud: 'My team', claim: 'the checkout bug could be fixed the same day', proof: 'we followed one ticket from report to release', pal: 'obsidian' };
+  const A = { what: 1, aud: 1, line: '', hero: 0, mood: 2, mat: 1, pal: document.documentElement.dataset.palette || 'obsidian' };
   let i = 0;
   const box = $('#iv'), prog = $('#iv-prog');
-  const lum = (hex) => { const [r, g, b] = [1, 3, 5].map((k) => parseInt(hex.slice(k, k + 2), 16) / 255); return 0.2126 * r + 0.7152 * g + 0.0722 * b; };
-  const val = (id) => A[id] ?? '';
+  const back = () => (i ? '<button class="btn btn-ghost" type="button" data-back>Back</button>' : '');
 
   function render() {
     if (i >= Q.length) return done();
     const q = Q[i];
-    prog.textContent = `Round ${q.round} of 2, question ${i + 1} of ${Q.length}`;
+    prog.textContent = `Part ${q.part} of 2: question ${i + 1} of ${Q.length}`;
     let body = '';
     if (q.text) {
-      body = `<label class="fld">After this, <input id="iv-aud" value="${esc(A.aud)}" aria-label="Audience"> believes<br><textarea id="iv-claim" rows="2" aria-label="Claim">${esc(A.claim)}</textarea>because<br><textarea id="iv-proof" rows="2" aria-label="Proof">${esc(A.proof)}</textarea></label><div class="iv-nav"><button class="btn btn-primary" type="button" data-next>Next</button></div>`;
+      body = `<label class="fld"><span class="cap">One short sentence. Leave it blank and your agent will ask you.</span><input id="iv-line" value="${esc(A.line)}" placeholder="For example: a checkout bug can be fixed in a day" maxlength="140" autocomplete="off"></label><div class="iv-nav"><button class="btn btn-primary" type="button" data-next>${A.line ? 'Next' : 'Skip for now'}</button>${back()}</div>`;
+    } else if (q.motion) {
+      body = `<div class="levels" role="group" aria-label="Motion level" data-levels></div><div data-mpv></div><div class="iv-nav"><button class="btn btn-primary" type="button" data-next>Next</button>${back()}</div>`;
     } else if (q.palette) {
-      body = `<div class="iv-pal" role="group" aria-label="Palette">${PAL().map((p) => `<button type="button" class="ivp" data-pal="${p.id}" aria-pressed="${A.pal === p.id}" style="--p-ground:${p.ground};--p-accent:${p.accent};--p-ink:${p.ink}"><i></i><span>${esc(p.name)}</span></button>`).join('')}</div>`;
+      body = `<div class="iv-pal" role="group" aria-label="Palette">${PAL().map((p) => `<button type="button" class="ivp" data-pal="${p.id}" aria-pressed="${A.pal === p.id}" style="--p-ground:${p.ground};--p-accent:${p.accent};--p-ink:${p.ink}"><i></i><span>${esc(p.name)}</span></button>`).join('')}</div><div class="iv-nav">${back()}</div>`;
     } else {
-      body = `<div class="opts iv-opts">${q.opts.map((o, k) => `<button type="button" class="opt${A[q.id] === o[0] ? ' pick' : ''}" data-k="${k}"><span>${esc(o[0])}</span><small>${esc(o[1] && q.id === 'motion' ? o[1] : k === q.rec ? 'recommended' : '')}</small></button>`).join('')}</div>`;
+      body = `<div class="opts iv-opts">${q.opts.map((o, k) => `<button type="button" class="opt" data-k="${k}" aria-pressed="${A[q.id] === k}"><span>${esc(o[0])}</span><small>${k === q.rec ? 'suggested' : ''}</small></button>`).join('')}</div><div class="iv-nav">${back()}</div>`;
     }
-    box.innerHTML = `<h3 class="q">${esc(q.q)}</h3>${body}<div class="iv-nav">${i ? '<button class="btn btn-ghost" type="button" data-back>Back</button>' : ''}</div>`;
-    box.querySelector('button, input')?.focus({ preventScroll: true });
+    box.innerHTML = `<h3 class="q">${esc(q.q)}</h3>${body}`;
+    if (q.motion) { const m = window.sloplessMotion; m.fill($('[data-levels]', box)); m.mount($('[data-mpv]', box)); }
+    else box.querySelector('button, input')?.focus({ preventScroll: true });
   }
   function done() {
-    const w = Q[0].opts.find((o) => o[0] === A.what) || Q[0].opts[1];
+    const pick = (id) => Q.find((x) => x.id === id).opts[A[id]];
+    const w = pick('what'), aud = pick('aud'), hero = pick('hero'), mood = pick('mood'), mat = pick('mat');
     const p = PAL().find((x) => x.id === A.pal) || PAL()[0];
-    const tone = lum(p.ground) > 0.5 ? 'light' : 'dark';
-    const story = `After this, ${val('aud').toLowerCase()} believes ${val('claim')} because ${val('proof')}.`;
-    const lines = [
-      ['Story', story], ['Format', w[1]], ['Hero', `${A.hero.toLowerCase()} that travels through every part`],
-      ['Taste', `${p.name}, ${A.mat.toLowerCase()}, ${A.motion.toLowerCase()} motion, ${tone}, mood: ${A.mood.toLowerCase()}`],
-      ['Authority', 'your own material. Must not change: facts and numbers you give me'],
-    ];
-    const prompt = `Use slopless. I'm making ${w[2]}. ${story.replace(/^After this, /, 'After this, ')} Hero object: ${A.hero.toLowerCase()}. Taste: ${p.name}, ${A.mat.toLowerCase()}, ${A.motion.toLowerCase()} motion, ${A.mood.toLowerCase()}. Keep my facts and numbers exactly as given.`;
-    prog.textContent = 'Playback';
-    box.innerHTML = `<h3 class="q">Playback. Say yes and the build starts.</h3><dl class="play">${lines.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
+    const motion = window.sloplessMotion.LEVELS.find((l) => l[0] === window.sloplessMotion.level)[1].toLowerCase();
+    const prompt = [
+      `Use slopless. I'm making ${w[2]} for ${aud[1]}.`,
+      A.line ? `The one thing they should remember: "${A.line}".` : '',
+      hero[1] ? `Follow ${hero[1]} through every part.` : '',
+      `Look and feel: the ${p.name} palette, ${mood[1]}, ${mat[1]}, ${motion} motion.`,
+      'Keep my facts and numbers exactly as I give them.',
+    ].filter(Boolean).join(' ');
+    const rows = [['Making', w[1]], ['For', aud[0]], ['Remember', A.line || 'not set, your agent will ask'], ['Follows', hero[0]], ['Look', `${p.name}, ${mood[0].toLowerCase()}, ${mat[0].toLowerCase()}`], ['Motion', motion]];
+    prog.textContent = 'Done';
+    box.innerHTML = `<h3 class="q">Here is the prompt to paste into your agent.</h3>
       <div class="cmdbox"><pre><code class="cp-src" id="iv-prompt">${esc(prompt)}</code></pre><button class="cp" type="button">Copy prompt</button></div>
+      <p class="cap">What it captured</p>
+      <dl class="play">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
       <div class="iv-nav"><button class="btn btn-ghost" type="button" data-back>Back</button><button class="btn btn-ghost" type="button" data-restart>Start over</button></div>`;
   }
   box.addEventListener('click', (e) => {
     const q = Q[i];
-    const o = e.target.closest('.opt'), pal = e.target.closest('[data-pal]');
     if (e.target.closest('[data-back]')) { i = Math.max(0, i - 1); render(); return; }
     if (e.target.closest('[data-restart]')) { i = 0; render(); return; }
-    if (e.target.closest('[data-next]')) { A.aud = $('#iv-aud').value.trim() || A.aud; A.claim = $('#iv-claim').value.trim() || A.claim; A.proof = $('#iv-proof').value.trim() || A.proof; i++; render(); return; }
-    if (o && q) { A[q.id] = q.opts[+o.dataset.k][0]; i++; render(); return; }
+    if (e.target.closest('[data-next]')) { if (q.text) A.line = $('#iv-line').value.trim(); i++; render(); return; }
+    const o = e.target.closest('.opt[data-k]'), pal = e.target.closest('[data-pal]');
+    if (o && q) { A[q.id] = +o.dataset.k; i++; render(); return; }
     if (pal) { A.pal = pal.dataset.pal; window.sloplessApply?.(A.pal); i++; render(); }
   });
-  A.what = Q[0].opts[1][0]; A.hero = 'A ticket'; A.mood = 'Dark and cinematic'; A.motion = 'Cinematic'; A.mat = 'Paper / matte';
   render();
 }
 
@@ -123,10 +92,10 @@ ${LT}/style>
       harden: { n: 'Harden', does: 'For production: empty, error and loading states, long text, i18n, slow network, keyboard.', when: 'You are about to ship.', p: 'Use slopless to harden this checkout screen.', loads: ['review.md', 'craft-floor.md'] },
     } },
     motion: { label: 'Motion levels', items: {
-      still: { n: 'Still', does: 'Hover, press and focus feedback only. A thing that needs animation to look finished is not finished.', when: 'You pick it in round 2 of the interview.', p: 'Use slopless on this dashboard. Still motion, feedback only.', loads: ['motion.md'], demo: 'still' },
-      subtle: { n: 'Subtle', does: 'Entrances once per section, 60 to 90 ms stagger, 16 to 32 px rise with opacity, gentle parallax.', when: 'You pick it in round 2 of the interview.', p: 'Use slopless on this portfolio. Subtle motion.', loads: ['motion.md'], demo: 'subtle' },
-      cinematic: { n: 'Cinematic', does: 'Scenes connect. The same object travels from one beat to the next on scrubbed, pinned timelines.', when: 'You pick it in round 2 of the interview.', p: 'Use slopless for the demo deck. Cinematic: the ticket travels between slides.', loads: ['motion.md', 'surfaces/deck.md'], demo: 'cinematic' },
-      spatial: { n: 'Spatial', does: 'Real 3D objects and shader backgrounds, with depth and lighting that respond to angle. Starts after load, pauses offscreen.', when: 'You pick it in round 2 of the interview.', p: 'Use slopless for the launch page. Spatial 3D, a glass slab hero.', loads: ['motion.md'], demo: 'spatial' },
+      still: { n: 'Still', does: 'Hover, press and focus feedback only. A thing that needs animation to look finished is not finished.', when: 'You pick it in part 2 of the interview.', p: 'Use slopless on this dashboard. Still motion, feedback only.', loads: ['motion.md'] },
+      subtle: { n: 'Subtle', does: 'Entrances once per section, 60 to 90 ms stagger, 16 to 32 px rise with opacity, gentle parallax.', when: 'You pick it in part 2 of the interview.', p: 'Use slopless on this portfolio. Subtle motion.', loads: ['motion.md'] },
+      cinematic: { n: 'Cinematic', does: 'Scenes connect. The same object travels from one beat to the next on scrubbed, pinned timelines.', when: 'You pick it in part 2 of the interview.', p: 'Use slopless for the demo deck. Cinematic: the ticket travels between slides.', loads: ['motion.md', 'surfaces/deck.md'] },
+      spatial: { n: 'Spatial', does: 'Real 3D objects and shader backgrounds, with depth and lighting that respond to angle. Starts after load, pauses offscreen.', when: 'You pick it in part 2 of the interview.', p: 'Use slopless for the launch page. Spatial 3D, a glass slab hero.', loads: ['motion.md'] },
     } },
     agents: { label: 'Agents mode', items: {
       agents: { n: 'Agents', does: 'Off by default. On a big job it is offered once; you choose one to four helpers. Mechanical work runs on cheaper models.', when: 'The job is about 12+ slides, 6+ sections or several surfaces, and you say yes.', p: 'Use slopless in agents mode with three helpers. Rebuild the deck in the Sapphire Glass direction.', loads: ['agents.md', 'brief.md'] },
@@ -137,57 +106,32 @@ ${LT}/style>
   };
   const tabs = $('#mode-tabs'), sub = $('#mode-sub'), panel = $('#mode-panel');
   let g = 'surfaces', k = 'deck';
+  // The motion group follows the shared level, so a pick here also updates the interview and this page.
+  const motionKey = () => window.sloplessMotion.level;
+  document.addEventListener('sloplessmotion', () => { if (g === 'motion') { k = motionKey(); renderTabs(); renderPanel(); } });
   const renderTabs = () => {
     tabs.innerHTML = Object.entries(M).map(([id, v]) => `<button role="tab" type="button" id="mt-${id}" aria-selected="${id === g}" aria-controls="mode-panel" tabindex="${id === g ? 0 : -1}" data-g="${id}">${v.label}</button>`).join('');
     const items = Object.entries(M[g].items);
     sub.hidden = items.length < 2;
-    sub.innerHTML = items.map(([id, v]) => `<button type="button" data-k="${id}" aria-pressed="${id === k}">${v.n}</button>`).join('');
+    sub.innerHTML = items.map(([id, v]) => g === 'motion' ? `<button type="button" data-level-btn="${id}" aria-pressed="${id === k}">${v.n}</button>` : `<button type="button" data-k="${id}" aria-pressed="${id === k}">${v.n}</button>`).join('');
   };
   const BASE = 'https://github.com/kundan0907/slopless/blob/main/slopless/references/';
   const renderPanel = () => {
     const m = M[g].items[k];
     panel.setAttribute('aria-labelledby', `mt-${g}`);
     panel.innerHTML = `<div class="mode-copy"><h3>${esc(m.n)}</h3><p>${esc(m.does)}</p><dl class="facts"><div><dt>Triggers</dt><dd>${esc(m.when)}</dd></div><div><dt>Loads</dt><dd class="files">${['SKILL.md'].concat(m.loads).map((f) => `<a href="${f === 'SKILL.md' ? BASE.replace('references/', '') + f : BASE + f}" target="_blank" rel="noopener">${f}</a>`).join('')}</dd></div></dl>
-      <div class="cmdbox"><pre><code class="cp-src">${esc(m.p)}</code></pre><button class="cp" type="button">Copy prompt</button></div></div>${m.demo ? '<div class="mdemo-wrap"><div class="mdemo" id="mdemo" data-level="" aria-label="Live demo"><span class="zone z1">Queue</span><span class="zone z2">Machine</span><span class="zone z3">Phone</span><div class="mo" id="mo" tabindex="0"><b>Checkout fails on saved cards</b><small>Ticket 4821</small><i></i></div></div><div class="mdemo-bar"><span id="mdemo-hint"></span><button class="btn btn-ghost" id="mdemo-replay" type="button">Replay</button></div></div>' : ''}`;
-    if (m.demo) demo(m.demo);
+      <div class="cmdbox"><pre><code class="cp-src">${esc(m.p)}</code></pre><button class="cp" type="button">Copy prompt</button></div></div>${g === 'motion' ? '<div data-mpv></div>' : ''}`;
+    if (g === 'motion') window.sloplessMotion.mount($('[data-mpv]', panel));
   };
-  function demo(level) {
-    const stage = $('#mdemo'), mo = $('#mo'), hint = $('#mdemo-hint'), btn = $('#mdemo-replay');
-    stage.dataset.level = level;
-    const HINT = { still: 'Hover and press the card. Nothing else moves.', subtle: 'Entrance once: rise and fade, staggered.', cinematic: 'One object travels through three scenes.', spatial: 'Move over the slab: depth responds to the pointer.' };
-    hint.textContent = HINT[level];
-    const g = window.gsap;
-    const play = () => {
-      if (!g || reduced) return;
-      g.killTweensOf([mo, ...mo.children]); g.set(mo, { clearProps: 'all' }); g.set(mo.children, { clearProps: 'all' });
-      if (level === 'subtle') g.from([mo, ...mo.children], { y: 24, opacity: 0, duration: 0.6, ease: 'power3.out', stagger: 0.08 });
-      if (level === 'cinematic') {
-        const zs = $$('.zone', stage).map((z) => z.offsetLeft + z.offsetWidth / 2 - mo.offsetWidth / 2 - mo.offsetLeft);
-        g.timeline().fromTo(mo, { x: zs[0] }, { x: zs[0], duration: 0.01 }).to(mo, { x: zs[1], duration: 1.1, ease: 'power3.inOut' }, '+=0.3').to(mo, { x: zs[2], scale: 0.7, rotate: -4, duration: 1.2, ease: 'power3.inOut' }, '+=0.5');
-      }
-    };
-    btn.hidden = level === 'still' || level === 'spatial';
-    if (level === 'cinematic') {
-      const place = () => { const z = $('.z1', stage); mo.style.left = z.offsetLeft + z.offsetWidth / 2 - mo.offsetWidth / 2 + 'px'; };
-      place();
-      if (reduced) { const z = $('.z3', stage); mo.style.left = z.offsetLeft + z.offsetWidth / 2 - mo.offsetWidth / 2 + 'px'; }
-    }
-    if (level === 'spatial') {
-      const tilt = (e) => { const r = stage.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5; mo.style.transform = `rotateY(${x * 40}deg) rotateX(${-y * 30}deg)`; };
-      if (!reduced) { stage.addEventListener('pointermove', tilt); stage.addEventListener('pointerleave', () => (mo.style.transform = '')); }
-      mo.style.transform = 'rotateY(-18deg) rotateX(8deg)';
-    }
-    btn.onclick = play; play();
-  }
   const show = () => { renderTabs(); renderPanel(); };
-  tabs.addEventListener('click', (e) => { const b = e.target.closest('[data-g]'); if (!b) return; g = b.dataset.g; k = Object.keys(M[g].items)[0]; show(); b.ownerDocument.getElementById('mt-' + g).focus(); });
+  tabs.addEventListener('click', (e) => { const b = e.target.closest('[data-g]'); if (!b) return; g = b.dataset.g; k = g === 'motion' ? motionKey() : Object.keys(M[g].items)[0]; show(); b.ownerDocument.getElementById('mt-' + g).focus(); });
   tabs.addEventListener('keydown', (e) => {
     const ids = Object.keys(M), n = ids.indexOf(g);
     const d = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
     if (!d) return;
-    g = ids[(n + d + ids.length) % ids.length]; k = Object.keys(M[g].items)[0]; show(); $('#mt-' + g).focus(); e.preventDefault();
+    g = ids[(n + d + ids.length) % ids.length]; k = g === 'motion' ? motionKey() : Object.keys(M[g].items)[0]; show(); $('#mt-' + g).focus(); e.preventDefault();
   });
-  sub.addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (!b) return; k = b.dataset.k; renderTabs(); renderPanel(); $(`[data-k="${k}"]`, sub).focus(); });
+  sub.addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (!b) return; k = b.dataset.k; renderTabs(); renderPanel(); $(`[data-k="${k}"]`, sub)?.focus(); });
   show();
 }
 
@@ -200,4 +144,20 @@ ${LT}/style>
     groups.forEach((gr) => (gr.hidden = !$$('[data-kb]:not([hidden])', gr).length));
     status.textContent = t ? `${n} of ${rows.length} files` : '';
   });
+}
+
+/* ---------- What your agent reads ---------- */
+{
+  const tabs = $('#reads-tabs'), panels = $$('.reads-panel');
+  const pick = (id) => {
+    $$('[data-job]', tabs).forEach((b) => { const on = b.dataset.job === id; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
+    panels.forEach((p) => (p.hidden = p.dataset.job !== id));
+  };
+  tabs.addEventListener('click', (e) => { const b = e.target.closest('[data-job]'); if (b) pick(b.dataset.job); });
+  tabs.addEventListener('keydown', (e) => {
+    const bs = $$('[data-job]', tabs), n = bs.findIndex((b) => b.getAttribute('aria-selected') === 'true'), d = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (!d) return;
+    const nb = bs[(n + d + bs.length) % bs.length]; pick(nb.dataset.job); nb.focus(); e.preventDefault();
+  });
+  pick(tabs.querySelector('[data-job]').dataset.job);
 }

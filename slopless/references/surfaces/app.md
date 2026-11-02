@@ -12,7 +12,7 @@ Operating surfaces: the user has a task. Clarity and platform fit beat art direc
 - One primary action per screen. Bottom navigation ≤ 5 items. Predictable back. Deep links.
 - Every list has empty, loading (skeleton matching layout), error with recovery, and long-content states.
 - Forms: visible labels, inline errors next to the field, helper text, correct keyboard types.
-- Icons from one family, one weight; filled vs outline means state, consistently.
+- Icons from one family, fetched with `scripts/assets.mjs`, one weight; filled vs outline means state, consistently.
 - Dark mode is designed, not inverted: raise surfaces by lightening, desaturate accents, keep contrast.
 - Motion is functional: 150–300ms, springs for gestures, continuity between list item and detail (shared element), nothing blocks input.
 

@@ -5,7 +5,7 @@ Read right before editing UI. Build without announcing the checklist; verify it 
 - **Contrast:** body ≥ 4.5:1, large text and meaningful icons ≥ 3:1. On coloured fields tint secondary text from the field's hue; never plain grey.
 - **States:** hover, press, focus-visible, disabled, loading, empty, error, for every control. Press feedback within 80–150ms and without layout shift.
 - **Browser surfaces:** theme `::selection`, `caret-color`, `accent-color`, focus rings, scrollbars, link underline offset, tabular numerals. The cheapest proof something was built, not assembled.
-- **Icons:** one library or authored SVG, one stroke weight, one style per level. Never emoji or unicode glyphs as icons. Icon-only controls have accessible names.
+- **Icons:** one library fetched with `scripts/assets.mjs` (see `assets.md`) and inlined as SVG, one stroke weight, one style per level. Never emoji or unicode glyphs as icons. Icon-only controls have accessible names.
 - **Depth:** shadows have offset and soft blur; a zero-offset coloured halo is decoration.
 - **Spacing:** read computed values; tight groups, generous separation.
 - **Type:** measure 45–75ch, headlines ≤ 2 lines at every width, real copy at every breakpoint.

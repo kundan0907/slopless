@@ -29,7 +29,7 @@ Load only what the current step needs. Each reference below is small and single-
 1. **Interview** — `references/interview.md`. Story first, then taste. At most four questions per round, with options and a recommended default. Skip what memory or the brief already answers. Play back a five-line summary and get a yes.
 2. **Direction** — `references/direction.md`. Inventory the subject, find the idea, pick a colour strategy and a palette (`references/palettes.md`), type (`references/type.md`), composition (`references/layout.md`), motion level (`references/motion.md`). Write the brief (`references/brief.md`) and save durable decisions to `.slopless/DESIGN.md`.
 3. **Prove** — for large or new-world work, build two small live studies that differ in material and choreography, on real content. Screenshot them. The user picks. Never run a full build on an unapproved direction.
-4. **Build** — tokens first, then the hero/opening, then each part. Read `references/craft-floor.md` right before editing UI. Write copy with `references/copy.md`. Still first, motion second.
+4. **Build** — tokens first, then the hero/opening, then each part. Read `references/craft-floor.md` right before editing UI. Write copy with `references/copy.md`. Fetch real icons, fonts and images with `scripts/assets.mjs` (`references/assets.md`); never draw icons by hand or use emoji. Still first, motion second.
 5. **Verify** — `node <skill>/scripts/slop-scan.mjs <files>` then `node <skill>/scripts/shoot.mjs <file-or-url>`; open the screenshots and critique them with `references/review.md`. Fix everything in one batch, re-check once, stop. Report what was checked in a real browser and what is unproven.
 6. **Learn** — when the user corrects taste ("fonts feel cheap", "too busy", "I love this glass"), add one dated line to `~/.slopless/taste.md` right away. Project-specific decisions go in `.slopless/DESIGN.md`.
 
@@ -54,8 +54,10 @@ Load only what the current step needs. Each reference below is small and single-
 | `references/brief.md` | Writing the brief or a handoff |
 | `references/craft-floor.md` · `copy.md` | Step 4 |
 | `references/review.md` · `tells.md` | Step 5, or any review |
+| `references/assets.md` | Step 4: icons, fonts, photos, device frames, 3D, licences |
 | `references/memory.md` | Writing taste memory |
 | `references/agents.md` | User opts into agents mode |
 | `references/inspiration.md` | User wants references, or you need to research a technique |
 | `scripts/slop-scan.mjs` | Static scan of HTML/CSS/JS/JSX/TSX/MD for tells (Node 18+) |
 | `scripts/shoot.mjs` | Screenshots at 1440, 768, 390 (and 1920 for decks) with Playwright |
+| `scripts/assets.mjs` | Fetch icons (Iconify), fonts (Google Fonts) and photos (Openverse) (Node 18+) |
