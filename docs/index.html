@@ -456,7 +456,7 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 <section class="wrap" id="before-after">
   <div class="sect-head">
     <h2>Same page. Decided.</h2>
-    <p class="lead">Drag the handle. Left is what an agent makes by default. Right is the same job after slopless.</p>
+    <p class="lead">What an agent makes by default, then the same job after slopless. Drag the handle to compare.</p>
   </div>
   <figure class="pair full" data-pair="land">
       <div class="cmp land" role="group" aria-label="Landing hero, generated versus decided">
@@ -466,7 +466,7 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
           <span style="width:17cqw;padding:1.6cqw;border-radius:12px;background:rgba(255,255,255,.12);font-size:1.5cqw">&#x1F680;<br>Fast</span><span style="width:17cqw;padding:1.6cqw;border-radius:12px;background:rgba(255,255,255,.12);font-size:1.5cqw">&#x1F512;<br>Secure</span><span style="width:17cqw;padding:1.6cqw;border-radius:12px;background:rgba(255,255,255,.12);font-size:1.5cqw">&#x26A1;<br>Simple</span></div></div></div>
         <!-- slopless-ignore-end -->
         <span class="tag l">Generated</span><span class="tag r">Decided</span>
-        <span class="handle"></span><input type="range" min="0" max="100" value="35" aria-label="Compare the generated and decided landing hero">
+        <span class="handle"></span><input type="range" min="0" max="100" value="92" aria-label="Compare the generated and decided landing hero">
       </div>
       
     </figure>
@@ -4894,8 +4894,16 @@ three/build/three.module.js:
   gsap.registerPlugin(ScrollTrigger);
   gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
     gsap.from('.hero h1 .line > span', { yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: 0.09, delay: 0.15 });
-    gsap.from('.hero .lead, .hero-actions, .swatches', { y: 24, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08, delay: 0.45 });
+    gsap.from('.hero .lead, .hero-actions, .swatches', { y: 24, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.06, delay: 0.3 });
     ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true, onUpdate: (s) => scene?.setProgress(s.progress) });
+    // Wipe from the generated version to the decided one once, then hand the handle to the visitor.
+    const range = document.querySelector('#before-after .cmp input');
+    if (range) {
+      const v = { x: Number(range.value) };
+      const wipe = gsap.to(v, { x: 8, duration: 1.8, ease: 'power2.inOut', paused: true, onUpdate: () => { range.value = Math.round(v.x); range.dispatchEvent(new Event('input')); } });
+      ScrollTrigger.create({ trigger: '#before-after .cmp', start: 'top 60%', once: true, onEnter: () => wipe.play() });
+      range.addEventListener('pointerdown', () => wipe.kill(), { once: true });
+    }
     gsap.from('.steps li', { y: 40, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1, scrollTrigger: { trigger: '.steps', start: 'top 82%', once: true } });
     gsap.from('.poster', { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.05, scrollTrigger: { trigger: '#posters', start: 'top 85%', once: true } });
     gsap.from('.bigname', { yPercent: 40, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: 'footer', start: 'top 70%', once: true } });
