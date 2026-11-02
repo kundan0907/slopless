@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" data-palette="obsidian">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>slopless: make AI-built interfaces look designed</title>
+<meta name="description" content="A skill for Claude Code and Codex. It gives your agent a design language, then checks what it built, so pages, decks and app screens stop looking AI-made.">
+<!--HEAD-->
+</head>
+<body>
+
+<header class="hero" id="top">
+  <canvas id="glass" aria-hidden="true"></canvas>
+  <nav class="nav" aria-label="Main">
+    <a class="wordmark" href="#top">slopless</a>
+    <div class="nav-right">
+      <ul>
+        <li><a href="#how">How it works</a></li>
+        <li><a href="#language">Design language</a></li>
+        <li><a href="#install">Use it</a></li>
+        <li><a href="explore.html">Explore</a></li>
+      </ul>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    </div>
+    <div class="menu" id="menu" hidden>
+      <a href="#how">How it works</a><a href="#fixes">What it fixes</a><a href="#language">Design language</a><a href="#install">Use it</a><a href="explore.html">Explore</a>
+    </div>
+  </nav>
+  <div class="hero-copy">
+    <h1><span class="line"><span>Make AI-built UI</span></span><span class="line"><span>look designed.</span></span></h1>
+    <p class="lead">slopless gives your coding agent a design language, with a palette, type and motion chosen for your subject. Then it checks what it built, so your pages, decks and app screens stop looking generated.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#install">Install</a>
+      <a class="btn btn-ghost" href="#how">See how it works</a>
+    </div>
+    <div class="swatches" role="group" aria-label="Palette"><span>Try a palette</span></div>
+  </div>
+</header>
+
+<main>
+<section class="wrap" id="before-after">
+  <div class="sect-head">
+    <h2>Same page. Decided.</h2>
+    <p class="lead">Drag the handle. Left is what an agent makes by default. Right is the same job after slopless.</p>
+  </div>
+  <!--PAIR:land-->
+  <p class="hint">Left: gradient wallpaper, emoji icons, stock words. Right: the product's own timetable and one clear action.</p>
+</section>
+
+<section class="wrap" id="how">
+  <div class="sect-head">
+    <h2>How it works.</h2>
+  </div>
+  <ol class="steps">
+    <li><span class="n">1</span><b>Ask</b><p>It asks about your story and your taste first, and suggests an answer to every question.</p></li>
+    <li><span class="n">2</span><b>Design</b><p>It picks a direction, palette, type and motion that fit your subject, then builds.</p></li>
+    <li><span class="n">3</span><b>Check</b><p>It scans and screenshots its own work, fixes what looks generated, and remembers what you like.</p></li>
+  </ol>
+  <p class="after-steps">On a big job it can also split the work across helpers (agents mode).</p>
+</section>
+
+<section class="wrap" id="fixes">
+  <div class="sect-head">
+    <h2>What it fixes.</h2>
+    <p class="lead">The usual giveaways of an AI-made interface, and what takes their place.</p>
+  </div>
+  <!-- slopless-ignore-start: the tells being named -->
+  <ul class="fixes">
+    <li><s>Violet gradient wallpaper</s><span>One palette chosen for your subject</span></li>
+    <li><s>Emoji standing in for icons</s><span>Drawn icons from one set</span></li>
+    <li><s>Tiny uppercase label above the headline</s><span>A headline that says it</span></li>
+    <li><s>Stock words like unlock and seamless</s><span>Plain, specific copy</span></li>
+    <li><s>A glow on everything</s><span>Depth only where it helps</span></li>
+    <li><s>The same default font everywhere</s><span>Type picked on purpose</span></li>
+  </ul>
+  <!-- slopless-ignore-end -->
+</section>
+
+<section class="wrap" id="language">
+  <div class="sect-head">
+    <h2>A design language, per project.</h2>
+    <p class="lead">Pick a palette and this page changes to match, including the glass at the top. Bring your own brand colours and slopless derives the rest.</p>
+  </div>
+  <div class="palettes" id="posters"></div>
+  <div class="lang">
+    <div>
+      <h3>Type</h3>
+      <p class="aa">Aa<small>Aa</small></p>
+      <p>Here: Bricolage Grotesque for headlines, Hanken Grotesk for text. Every project gets its own pairing, never the default.</p>
+    </div>
+    <div>
+      <h3>Motion</h3>
+      <dl class="levels">
+        <div><dt>Still</dt><dd>Hover and press feedback only</dd></div>
+        <div><dt>Subtle</dt><dd>Gentle entrances</dd></div>
+        <div><dt>Cinematic</dt><dd>One object carries the story</dd></div>
+        <div><dt>Spatial</dt><dd>Real 3D, where it explains something</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="install">
+  <div class="sect-head">
+    <h2>Use it.</h2>
+  </div>
+  <div class="use">
+    <div>
+      <h3>Install</h3>
+      <div class="cmd"><small>Any agent that reads skills</small><pre><code>npx skills add kundan0907/slopless</code></pre><button class="copy" type="button">Copy</button></div>
+      <div class="cmd"><small>Claude Code, by hand</small><pre><code>git clone https://github.com/kundan0907/slopless
+cp -r slopless/slopless ~/.claude/skills/</code></pre><button class="copy" type="button">Copy</button></div>
+      <div class="cmd"><small>Codex and others</small><pre><code>cp -r slopless/slopless ~/.agents/skills/</code></pre><button class="copy" type="button">Copy</button></div>
+    </div>
+    <div>
+      <h3>Then ask</h3>
+      <!--PROMPTS-->
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="deeper">
+  <div class="sect-head">
+    <h2>Go deeper.</h2>
+    <p class="lead">Everything else lives on the explore page, and it all runs in your browser.</p>
+  </div>
+  <div class="deeper">
+    <a href="explore.html#scan"><b>Scan your page</b><span>Paste HTML, see which AI giveaways it has.</span></a>
+    <a href="explore.html#interview"><b>Try the interview</b><span>Answer a few questions, get a prompt for your agent.</span></a>
+    <a href="explore.html#modes"><b>All the modes</b><span>Decks, sites, apps, reviews, motion levels and agents.</span></a>
+    <a href="explore.html#examples"><b>More examples</b><span>Four before and after pairs to drag.</span></a>
+    <a href="explore.html#different"><b>How it compares</b><span>What slopless borrowed, and what it adds.</span></a>
+    <a href="explore.html#library"><b>Knowledge base</b><span>Every file in the skill, in one line each.</span></a>
+    <a href="explore.html#inspiration"><b>Inspirations</b><span>Galleries and effect libraries it points to.</span></a>
+    <a class="go-all" href="explore.html"><b>Open the toolbox</b><span>All of it, on one page.</span></a>
+  </div>
+</section>
+</main>
+
+<!--FOOTER-->
+
+<!--GSAP-->
+<!--SCENE-->
+<!--COMMON-->
+<!--HOME-->
+<!--UI-->
+</body>
+</html>

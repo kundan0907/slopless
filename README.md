@@ -4,7 +4,11 @@ An agent skill that makes Claude Code, Codex and other coding agents design like
 
 [![slopless showcase, Obsidian Brass palette](docs/images/hero-obsidian-brass.jpg)](https://kundan0907.github.io/slopless/)
 
-**[Open the live showcase →](https://kundan0907.github.io/slopless/)** The screenshots below are pictures; the palette picker, scanner, interview simulator and compare sliders work on the live page. It's one self-contained file (`docs/index.html`), built with the skill and checked by its own scanner.
+**[Open the live showcase →](https://kundan0907.github.io/slopless/)** A short page: what slopless does, a before and after you can drag, the palettes, and how to install it.
+
+**[Open the toolbox →](https://kundan0907.github.io/slopless/explore.html)** The scanner, interview simulator, modes explorer, more examples, the knowledge base and a prompt cookbook, all running in your browser.
+
+Each page is one self-contained file (`docs/index.html`, `docs/explore.html`), built with the skill and checked by its own scanner.
 
 ## What it does
 
@@ -17,14 +21,11 @@ slopless works in six steps:
 5. **Verify** — a scanner checks for generated-design tells, it takes screenshots at every size in a real browser, scores them against a ten-pass critique, and fixes everything in one batch.
 6. **Learn** — saves every correction you make to `~/.slopless/taste.md`, so the next project starts from your taste.
 
-| | |
-| --- | --- |
-| ![Generated example being wiped away](docs/images/before-after.jpg) | ![The decided version](docs/images/after.jpg) |
-| ![Interview step](docs/images/loop-interview.jpg) | ![Verify step](docs/images/loop-verify.jpg) |
+![A generated landing hero next to the decided version](docs/images/before-after.jpg)
 
-## Try it on the page
+## Try it in the toolbox
 
-The showcase is interactive. Everything runs in the browser from the single HTML file; nothing is uploaded.
+The [explore page](https://kundan0907.github.io/slopless/explore.html) is interactive. Everything runs in the browser from the single HTML file; nothing is uploaded.
 
 **Scanner.** Paste HTML, CSS or copy and press Scan. It runs the real `slop-scan.mjs` (bundled by the build, not re-implemented) and prints FAIL and WARN lines like the terminal does.
 
@@ -61,8 +62,6 @@ Each palette has a job and passes contrast checks. Pick one, rename it, or bring
 ## Any surface
 
 Talks and demo decks with presenter-paced beats, landing pages and portfolios, iOS / Android / React Native screens, and social posts or posters exported at exact sizes.
-
-![Surfaces](docs/images/surfaces.jpg)
 
 ## Agents mode (opt-in)
 
@@ -118,8 +117,8 @@ slopless/            the skill (copy this folder)
   SKILL.md
   references/        loaded on demand
   scripts/           slop-scan, shoot, contrast (+ tests)
-showcase/            source of docs/index.html (npm i && npm run build)
-docs/                the built showcase and README images
+showcase/            source of docs/index.html and docs/explore.html (npm i && npm run build)
+docs/                the two built pages and README images
 ```
 
 ## Credits

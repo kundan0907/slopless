@@ -1,4 +1,4 @@
-// Interactive sections: scanner, interview simulator, modes explorer, compare sliders, knowledge-base filter, menu, copy buttons.
+// Explore-page tools: scanner, interview simulator, modes explorer, knowledge-base filter.
 import { scan } from '../../slopless/scripts/slop-scan.mjs';
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -6,30 +6,6 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PAL = () => window.sloplessPalettes || [];
-
-/* ---------- Copy buttons ---------- */
-function copyText(btn, text) {
-  const done = () => { const t = btn.dataset.label || btn.textContent; btn.dataset.label = t; btn.textContent = 'Copied'; setTimeout(() => (btn.textContent = t), 1400); };
-  (navigator.clipboard?.writeText(text) || Promise.reject()).then(done, () => {
-    const ta = document.createElement('textarea'); ta.value = text; document.body.append(ta); ta.select();
-    try { document.execCommand('copy'); done(); } catch {} ta.remove();
-  });
-}
-document.addEventListener('click', (e) => {
-  const b = e.target.closest('.cp');
-  if (!b) return;
-  const src = b.dataset.target ? document.getElementById(b.dataset.target) : b.parentElement.querySelector('.cp-src');
-  if (src) copyText(b, src.value ?? src.textContent);
-});
-
-/* ---------- Phone menu ---------- */
-{
-  const btn = $('#menu-btn'), menu = $('#menu');
-  const set = (open) => { btn.setAttribute('aria-expanded', String(open)); menu.hidden = !open; };
-  btn.addEventListener('click', () => set(menu.hidden));
-  menu.addEventListener('click', (e) => { if (e.target.closest('a')) set(false); });
-  addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { set(false); btn.focus(); } });
-}
 
 /* ---------- Live scanner ---------- */
 // slopless-ignore-start: deliberately sloppy sample the scanner is meant to catch
@@ -214,13 +190,6 @@ ${LT}/style>
   sub.addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (!b) return; k = b.dataset.k; renderTabs(); renderPanel(); $(`[data-k="${k}"]`, sub).focus(); });
   show();
 }
-
-/* ---------- Before / after compare sliders ---------- */
-$$('.cmp').forEach((c) => {
-  const r = $('input', c);
-  const set = () => { c.style.setProperty('--pos', r.value + '%'); r.setAttribute('aria-valuetext', r.value < 15 ? 'Showing the decided version' : r.value > 85 ? 'Showing the generated version' : `${r.value} percent generated`); };
-  r.addEventListener('input', set); set();
-});
 
 /* ---------- Knowledge base filter ---------- */
 {

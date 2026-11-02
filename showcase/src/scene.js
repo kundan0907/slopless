@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 
-const WORDS = ['interview', 'direction', 'prove', 'build', 'verify', 'learn'];
+const WORDS = ['ask', 'design', 'check', 'type', 'colour', 'motion'];
 
 function start(canvas) {
   let renderer;

@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en" data-palette="obsidian">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>slopless toolbox: scanner, interview, modes</title>
+<meta name="description" content="Try slopless in your browser: scan a page for AI giveaways, run the interview, explore the modes, drag the before and after examples.">
+<!--HEAD-->
+</head>
+<body class="explore">
+
+<header class="page-head" id="top">
+  <nav class="nav" aria-label="Main">
+    <a class="wordmark" href="./">slopless</a>
+    <div class="nav-right">
+      <ul>
+        <li><a href="./">Home</a></li>
+        <li><a href="#scan">Scanner</a></li>
+        <li><a href="#interview">Interview</a></li>
+        <li><a href="#modes">Modes</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#library">Knowledge</a></li>
+      </ul>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    </div>
+    <div class="menu" id="menu" hidden>
+      <a href="./">Home</a><a href="#scan">Scanner</a><a href="#interview">Interview</a><a href="#modes">Modes</a><a href="#examples">Examples</a><a href="#different">Compare</a><a href="#library">Knowledge</a><a href="#inspiration">Inspiration</a><a href="#prompts">Prompts</a>
+    </div>
+  </nav>
+  <h1>The toolbox.</h1>
+  <p class="lead">Try slopless without installing anything. Everything here runs in your browser and nothing is uploaded.</p>
+  <div class="swatches" role="group" aria-label="Palette"><span>Palette</span></div>
+</header>
+
+<main>
+<section class="wrap" id="scan">
+  <div class="sect-head">
+    <h2>Scan your page.</h2>
+    <p class="lead">Paste your page's HTML, CSS or copy and see which AI giveaways it has. This is the same scanner the skill runs on its own work.</p>
+  </div>
+  <div class="scan-bar">
+    <button class="btn btn-primary" id="scan-run" type="button">Scan</button>
+    <select id="scan-ext" aria-label="Type of the pasted text"><option value=".html">HTML</option><option value=".css">CSS</option><option value=".md">Copy (Markdown)</option><option value=".js">JS / JSX</option></select>
+    <button class="btn btn-ghost" id="scan-sample" type="button">Load sloppy sample</button>
+    <button class="btn btn-ghost" id="scan-clear" type="button">Clear</button>
+    <span class="cap" id="scan-status" role="status"></span>
+  </div>
+  <div class="scan">
+    <textarea id="scan-in" aria-label="Text to scan" spellcheck="false"></textarea>
+    <div class="term"><pre id="scan-out" aria-live="polite">The scanner needs JavaScript.</pre></div>
+  </div>
+  <p class="cap" style="margin-top:14px">It looks for violet gradients, gradient text, emoji, stock words, tiny uppercase labels, glows, bounce easing, default fonts and weak buttons. FAIL means fix it, WARN means look at it.</p>
+</section>
+
+<section class="wrap" id="interview">
+  <div class="iv-split">
+    <div class="sect-head">
+      <h2>Try the interview.</h2>
+      <p class="lead">Answer eight short questions and get a prompt to paste into your agent. Round one is about your story, round two about taste. The palette you pick is applied to this page.</p>
+    </div>
+    <div class="ivbox-wrap">
+      <p class="cap" id="iv-prog" aria-live="polite">Round 1 of 2</p>
+      <div id="iv"><noscript><p class="noscript-note">This simulator needs JavaScript. The questions live in references/interview.md.</p></noscript></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="modes">
+  <div class="sect-head">
+    <h2>Pick a mode.</h2>
+    <p class="lead">Choose what you want to do, such as build a deck, review a page or make it bolder. You see what it does, how to ask for it and which files it uses.</p>
+  </div>
+  <div class="tabs" role="tablist" aria-label="Mode groups" id="mode-tabs"></div>
+  <div class="seg" id="mode-sub" role="group" aria-label="Modes in this group"></div>
+  <div id="mode-panel" role="tabpanel" tabindex="-1"><noscript><p>Modes are listed in SKILL.md and references/review.md.</p></noscript></div>
+
+  <div class="agents" id="agents">
+    <div class="agents-copy">
+      <h3>Agents mode</h3>
+      <p class="lead">Off by default. On a big job, such as a thirty-slide deck or a full site, slopless offers it once and you choose how many helpers. Checks run on cheaper models; only the signature move gets the expensive one.</p>
+      <div class="count" role="group" aria-label="Number of helpers" id="count"></div>
+      <ul class="roster" id="roster"></ul>
+    </div>
+    <div class="graph">
+      <svg viewBox="0 0 600 492" role="img" aria-label="Lead agent and the helpers it starts" id="graph">
+        <g id="edges"></g><g id="nodes"></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="examples">
+  <div class="sect-head">
+    <h2>Drag to compare.</h2>
+    <p class="lead">Four jobs, each built twice: the generated look on the left of the handle, the decided version on the right, in the palette you picked. Sample content, to be replaced with yours.</p>
+  </div>
+  <div class="gallery"><!--GALLERY--></div>
+</section>
+
+<section class="wrap" id="different">
+  <div class="diff">
+    <div class="sect-head">
+      <h2>How it compares.</h2>
+      <p class="lead">slopless stands on other people's work. This is what it took from each project and what it adds. It is not a benchmark: nothing was run head to head, and each project has moved since.</p>
+    </div>
+    <div><!--COMPARE--></div>
+  </div>
+</section>
+
+<section class="wrap" id="library">
+  <div class="sect-head">
+    <h2>Knowledge base.</h2>
+    <p class="lead">Every file in the skill, one line each, linked to the source. A run loads only the files its current step needs.</p>
+  </div>
+  <div class="kb-bar">
+    <input id="kbq" type="search" placeholder="Filter files, for example motion or deck" aria-label="Filter the knowledge base">
+    <span class="cap" id="kb-status" role="status"></span>
+  </div>
+  <div id="kb"><!--KB--></div>
+</section>
+
+<section class="wrap" id="inspiration">
+  <div class="sect-head">
+    <h2>Inspirations.</h2>
+    <p class="lead">Where slopless looks when you want references or a technique needs researching. The rule: learn the technique, never clone the site.</p>
+  </div>
+  <div class="insp">
+    <div><h3>Galleries</h3><ul class="ul-links"><!--GALLERIES--></ul></div>
+    <div><h3>Effects and components</h3><ul class="ul-links"><!--EFFECTS--></ul></div>
+    <div><h3>Reading</h3><ul class="ul-links"><!--READING--></ul></div>
+  </div>
+  <p class="research">To research a technique: open it in a real browser and note what moves, what triggers it and what happens on a phone. Inspect how it is built. Write it down as a decision before coding, then say what was adopted and what was built.</p>
+</section>
+
+<section class="wrap" id="prompts">
+  <div class="sect-head">
+    <h2>Prompts to copy.</h2>
+    <p class="lead">Name the skill, say what you are making, and say what must not change. Anything you leave out, slopless asks.</p>
+  </div>
+  <div><!--PROMPTS--></div>
+</section>
+</main>
+
+<!--FOOTER-->
+
+<!--GSAP-->
+<!--COMMON-->
+<!--AGENTS-->
+<!--UI-->
+<!--TOOLS-->
+</body>
+</html>
