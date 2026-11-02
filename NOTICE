@@ -1,0 +1,13 @@
+slopless adapts ideas from the following projects. No source files are copied; concepts are restated in slopless's own words.
+
+- Impeccable — https://github.com/pbakaus/impeccable — Apache License 2.0
+  Craft floor checks, refinement vs redesign, colour strategies, training-data font defaults, bounded verification passes, bolder/quieter/distill/harden modes.
+- taste-skill — https://github.com/leonxlnx/taste-skill — MIT License
+  Subject inventory and idea sentence, competitor test, one live thing, dated tells registry, "removal is not enough", look-and-fix screenshot loop.
+- UI/UX Pro Max — https://github.com/nextlevelbuilder/ui-ux-pro-max-skill — MIT License
+  Priority-ordered UX rules, platform touch targets and native-app polish rules, persisted design-system (master + overrides) pattern, density and motion dials.
+
+Showcase (docs/index.html) bundles:
+- three.js — MIT License — https://github.com/mrdoob/three.js
+- GSAP and ScrollTrigger — GreenSock standard "no charge" licence — https://gsap.com/standard-license
+- Bricolage Grotesque, Hanken Grotesk — SIL Open Font License 1.1 — via Google Fonts

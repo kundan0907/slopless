@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en" data-palette="obsidian">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>slopless — design that looks decided</title>
+<meta name="description" content="An agent skill for Claude Code and Codex that interviews you, picks a direction, builds with real motion, and checks its own work for generated-design tells.">
+<script>
+  // Restore the visitor's palette before first paint.
+  try { const p = localStorage.getItem('slopless:palette'); if (p) document.documentElement.dataset.palette = p; } catch {}
+</script>
+<style>
+/*FONTS*/
+:root {
+  --ground:#0B0C0F; --ink:#ECE8E1; --muted:#9C978E; --accent:#D6AE6B; --accent-ink:#0B0C0F;
+  --panel:#15171B; --panel-ink:#ECE8E1; --line:#24262B;
+  --display:"Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --text:"Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --mono:ui-monospace, "SF Mono", Menlo, monospace;
+  --out:cubic-bezier(0.22,1,0.36,1);
+  --margin:clamp(20px, 4vw, 64px);
+  color-scheme: dark;
+}
+:root[data-palette="vermilion"]{--ground:#E4401E;--ink:#140B08;--muted:#1F0A05;--accent:#140B08;--accent-ink:#E4401E;--panel:#16100D;--panel-ink:#F6EDE4;--line:rgb(20 11 8/.22);color-scheme:light}
+:root[data-palette="glacier"]{--ground:#EDF1F4;--ink:#16202A;--muted:#55626F;--accent:#2C5A88;--accent-ink:#FFFFFF;--panel:#FFFFFF;--panel-ink:#16202A;--line:#D3DAE1;color-scheme:light}
+:root[data-palette="sapphire"]{--ground:#070B18;--ink:#E8EEFA;--muted:#98A6C4;--accent:#9DB7FF;--accent-ink:#070B18;--panel:#0F1730;--panel-ink:#E8EEFA;--line:#1D2847}
+:root[data-palette="graphite"]{--ground:#111214;--ink:#E7E6E2;--muted:#9A9993;--accent:#FF7A1A;--accent-ink:#111214;--panel:#1A1B1E;--panel-ink:#E7E6E2;--line:#2A2B2F}
+:root[data-palette="moss"]{--ground:#E9E8E1;--ink:#1A1E19;--muted:#565C53;--accent:#2E5638;--accent-ink:#F5F4EF;--panel:#F5F4EF;--panel-ink:#1A1E19;--line:#CFCEC5;color-scheme:light}
+:root[data-palette="cobalt"]{--ground:#F6F6F3;--ink:#0D1430;--muted:#4A5170;--accent:#2340D6;--accent-ink:#FFFFFF;--panel:#FFFFFF;--panel-ink:#0D1430;--line:#DADBE3;color-scheme:light}
+:root[data-palette="oxblood"]{--ground:#2B0E13;--ink:#F4E7E0;--muted:#C9A79F;--accent:#F0B79F;--accent-ink:#2B0E13;--panel:#3A151B;--panel-ink:#F4E7E0;--line:#4A1F26}
+:root[data-palette="blueprint"]{--ground:#0B1220;--ink:#E6EDF7;--muted:#8C9AB0;--accent:#3DDC97;--accent-ink:#0B1220;--panel:#121B2D;--panel-ink:#E6EDF7;--line:#1F2A40}
+:root[data-palette="klein"]{--ground:#1D2BD6;--ink:#F5F4EE;--muted:#C9CCF2;--accent:#F5F4EE;--accent-ink:#1D2BD6;--panel:#121A8C;--panel-ink:#F5F4EE;--line:rgb(245 244 238/.24)}
+
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--ground);color:var(--ink);font:400 18px/1.55 var(--text);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;transition:background-color .5s var(--out),color .5s var(--out)}
+body{margin:0}
+::selection{background:var(--accent);color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
+a{color:inherit;text-underline-offset:.2em;text-decoration-thickness:1px}
+h1,h2,h3{font-family:var(--display);font-weight:340;letter-spacing:-0.035em;line-height:.98;margin:0;text-wrap:balance;font-stretch:88%}
+h1{font-size:clamp(52px,8.6vw,148px)}
+h2{font-size:clamp(40px,5.6vw,96px);max-width:14ch}
+h3{font-size:clamp(24px,2.2vw,34px);letter-spacing:-0.02em;line-height:1.08}
+p{margin:0;text-wrap:pretty}
+.lead{font-size:clamp(19px,1.5vw,23px);max-width:38ch;color:var(--ink)}
+.quiet{color:var(--muted)}
+.wrap{padding-inline:var(--margin)}
+section{padding:clamp(110px,14vw,220px) 0 0}
+code,pre{font-family:var(--mono);font-size:15px}
+pre{margin:0;white-space:pre-wrap;line-height:1.6}
+
+.btn{display:inline-flex;align-items:center;gap:.6em;height:52px;padding:0 26px;border-radius:999px;font:500 17px/1 var(--text);text-decoration:none;border:0;cursor:pointer;transition:transform .16s var(--out),background-color .3s var(--out),color .3s}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-ghost{background:color-mix(in srgb,var(--ink) 8%,transparent);color:var(--ink)}
+.btn-ghost:hover{background:color-mix(in srgb,var(--ink) 14%,transparent)}
+
+/* Hero */
+.hero{position:relative;min-height:100svh;display:grid;align-items:end;padding:0 var(--margin) clamp(40px,6vw,80px);overflow:clip}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,var(--ground) 0%,color-mix(in srgb,var(--ground) 70%,transparent) 38%,transparent 62%)}
+.hero .nav,.hero-copy{z-index:1}
+.hero-copy{position:relative;display:grid;gap:28px;max-width:1100px}
+.hero h1 .line{display:block;overflow:clip;padding-bottom:.06em}
+.hero h1 .line>span{display:inline-block}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.nav{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:22px var(--margin)}
+.wordmark{font:500 22px/1 var(--display);letter-spacing:-0.03em;text-decoration:none}
+.nav ul{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-size:16px}
+.nav ul a{text-decoration:none;color:var(--muted);transition:color .2s}
+.nav ul a:hover{color:var(--ink)}
+.swatches{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.swatches span{font-size:15px;color:var(--muted);margin-right:6px}
+.swatch{width:30px;height:30px;border-radius:50%;border:0;padding:0;cursor:pointer;background:var(--sw-ground);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--ink) 22%,transparent);position:relative;transition:transform .18s var(--out)}
+.swatch::after{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--sw-accent)}
+.swatch:hover{transform:scale(1.12)}
+.swatch[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ground),0 0 0 4px var(--ink)}
+
+/* Before / after */
+.contrast{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:start}
+.contrast-copy{display:grid;gap:28px;position:sticky;top:12vh}
+.tells{list-style:none;padding:0;margin:0;display:grid;gap:10px;font-size:18px}
+.tells li{display:flex;gap:14px;align-items:baseline}
+.tells s{text-decoration-thickness:2px;text-decoration-color:var(--accent)}
+.stage{position:relative;aspect-ratio:4/3.3;border-radius:24px;background:var(--panel);overflow:clip}
+.specimen{position:absolute;inset:0;display:grid;align-content:center;justify-items:center;gap:18px;padding:8%;text-align:center}
+.specimen.decided{inset:-2px;justify-items:start;text-align:left;align-content:end;background:var(--panel);color:var(--panel-ink)}
+.specimen.decided h3{font-size:clamp(34px,4vw,64px);font-weight:330;letter-spacing:-0.035em;line-height:.98}
+.specimen.decided p{max-width:34ch;color:color-mix(in srgb,var(--panel-ink) 72%,var(--panel))}
+.ticket{position:absolute;right:7%;top:9%;width:min(46%,280px);background:var(--ground);color:var(--ink);border-radius:18px;padding:18px 20px;display:grid;gap:6px;box-shadow:0 30px 60px -30px rgb(0 0 0/.6)}
+.ticket b{font:500 15px/1.2 var(--text)}
+.ticket small{color:var(--muted);font-size:14px}
+.ticket .bar{height:6px;border-radius:3px;background:color-mix(in srgb,var(--ink) 12%,transparent);overflow:clip}
+.ticket .bar i{display:block;height:100%;width:72%;background:var(--accent);border-radius:3px}
+.stage-label{position:absolute;left:20px;bottom:16px;font-size:14px;color:var(--muted);z-index:3}
+
+/* Loop */
+.loop{display:grid;gap:clamp(90px,10vw,160px);list-style:none;padding:0;margin:clamp(60px,8vw,120px) 0 0}
+.step{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr);gap:clamp(28px,6vw,96px);align-items:center}
+.step:nth-child(even) .artefact{order:-1}
+.step-copy{display:grid;gap:16px;max-width:44ch}
+.step-copy h3{font-size:clamp(34px,3.6vw,58px);letter-spacing:-0.035em}
+.artefact{background:var(--panel);color:var(--panel-ink);border-radius:24px;padding:clamp(22px,3vw,40px);min-height:300px;display:grid;align-content:center;gap:16px}
+.artefact .q{font:400 clamp(22px,2vw,30px)/1.15 var(--display);letter-spacing:-0.02em}
+.opts{display:grid;gap:8px}
+.opt{display:flex;justify-content:space-between;gap:12px;padding:14px 18px;border-radius:14px;background:color-mix(in srgb,var(--panel-ink) 6%,transparent);font-size:17px}
+.opt.pick{background:var(--accent);color:var(--accent-ink)}
+.opt small{opacity:.75;font-size:14px}
+.idea{font:330 clamp(26px,2.6vw,40px)/1.1 var(--display);letter-spacing:-0.03em}
+.idea em{font-style:normal;color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;font-size:15px}
+.chips span{padding:8px 14px;border-radius:999px;background:color-mix(in srgb,var(--panel-ink) 8%,transparent)}
+.studies{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.study{aspect-ratio:16/10;border-radius:14px;position:relative;overflow:clip;display:grid;align-content:end;padding:14px;font-size:14px}
+.study.a{background:radial-gradient(120% 90% at 70% 20%,#1b2a52,#070B18);color:#E8EEFA}
+.study.a::before{content:"";position:absolute;right:14%;top:16%;width:34%;height:52%;border-radius:12px;background:rgb(255 255 255/.08);box-shadow:inset 0 1px 0 rgb(255 255 255/.25),0 18px 40px -16px rgb(0 0 0/.6);border:1px solid rgb(255 255 255/.16)}
+.study.b{background:#E9E8E1;color:#1A1E19}
+.study.b::before{content:"";position:absolute;left:12%;top:14%;width:58%;height:12%;background:#1A1E19;border-radius:2px;box-shadow:0 28px 0 -6px #2E5638,0 52px 0 -9px rgb(26 30 25/.25)}
+.study b{font-weight:500}
+.term{background:#08090B;color:#D9D6CF;border-radius:16px;padding:22px 24px;font-size:14px}
+.term .f{color:#FF8A7A}.term .w{color:#E8C46A}.term .ok{color:#7ED6A5}
+.memo{display:grid;gap:10px;font-size:16px}
+.memo div{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:12px 0;border-bottom:1px solid color-mix(in srgb,var(--panel-ink) 10%,transparent)}
+.memo div:last-child{border:0}
+.memo time{color:color-mix(in srgb,var(--panel-ink) 55%,var(--panel));font-variant-numeric:tabular-nums}
+
+/* Palettes */
+.palettes{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:clamp(50px,6vw,90px)}
+.poster{all:unset;cursor:pointer;aspect-ratio:3/4;border-radius:18px;background:var(--p-ground);color:var(--p-ink);padding:18px;display:grid;align-content:space-between;position:relative;overflow:clip;transition:transform .25s var(--out)}
+.poster:hover{transform:translateY(-4px)}
+.poster:focus-visible{outline:2px solid var(--ink);outline-offset:4px}
+.poster[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ground),0 0 0 4px var(--ink)}
+.poster b{font:380 clamp(20px,1.7vw,28px)/1 var(--display);letter-spacing:-0.03em}
+.poster small{font-size:13px;opacity:.8}
+.poster i{position:absolute;right:18px;top:18px;width:30%;aspect-ratio:1;border-radius:50%;background:var(--p-accent)}
+.poster u{text-decoration:none;display:block;height:22%;border-radius:10px;background:var(--p-panel)}
+
+/* Surfaces */
+.surfaces{display:grid;grid-template-columns:2.2fr 2fr .8fr 1fr;gap:clamp(14px,2vw,28px);align-items:end;margin-top:clamp(50px,6vw,90px)}
+.surface{display:grid;gap:14px}
+.surface figcaption{display:grid;gap:4px}
+.surface figcaption b{font:400 22px/1.1 var(--display);letter-spacing:-0.02em}
+.surface figcaption span{color:var(--muted);font-size:16px}
+figure{margin:0}
+.frame{border-radius:18px;background:var(--panel);overflow:clip;position:relative;color:var(--panel-ink)}
+.frame.deck{aspect-ratio:16/9;display:grid;grid-template-columns:1.6fr 1fr;align-items:center;padding:7%;gap:6%}
+.frame.deck strong{font:340 clamp(20px,2.2vw,36px)/1 var(--display);letter-spacing:-0.03em}
+.frame.deck .dev{justify-self:center;width:42%;aspect-ratio:71.5/149.6;border-radius:18%/8.5%;background:#0a0a0a;box-shadow:inset 0 0 0 2px #3a3a3c,0 20px 40px -18px rgb(0 0 0/.7);position:relative}
+.frame.deck .dev::after{content:"";position:absolute;inset:4.5% 7%;border-radius:14%/6.5%;background:linear-gradient(180deg,var(--accent),color-mix(in srgb,var(--accent) 40%,var(--panel)))}
+.frame.web{aspect-ratio:16/11}
+.frame.web .chrome{height:28px;display:flex;gap:6px;align-items:center;padding:0 12px;background:color-mix(in srgb,var(--panel-ink) 6%,var(--panel))}
+.frame.web .chrome i{width:9px;height:9px;border-radius:50%;background:color-mix(in srgb,var(--panel-ink) 25%,transparent)}
+.frame.web .pg{padding:8%;display:grid;gap:10px}
+.frame.web .pg strong{font:340 clamp(24px,2.6vw,44px)/.95 var(--display);letter-spacing:-0.035em}
+.frame.web .pg .img{height:70px;border-radius:10px;background:var(--accent);opacity:.9}
+.frame.phone{aspect-ratio:71.5/149.6;border-radius:22%/10.5%;background:#0a0a0a;box-shadow:inset 0 0 0 2px #3a3a3c;padding:6%}
+.frame.phone .scr{height:100%;border-radius:17%/8%;background:var(--panel);display:grid;align-content:start;gap:8px;padding:28% 9% 0}
+.frame.phone .scr i{display:block;height:34px;border-radius:9px;background:color-mix(in srgb,var(--panel-ink) 8%,transparent)}
+.frame.phone .scr i:first-child{height:60px;background:var(--accent)}
+.frame.poster-f{aspect-ratio:4/5;background:var(--accent);color:var(--accent-ink);padding:12%;display:grid;align-content:end}
+.frame.poster-f strong{font:500 clamp(22px,2.2vw,36px)/.92 var(--display);letter-spacing:-0.04em}
+
+/* Agents */
+.agents{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:center;margin-top:clamp(50px,6vw,90px)}
+.agents-copy{display:grid;gap:24px}
+.count{display:flex;gap:8px;flex-wrap:wrap}
+.count button{all:unset;cursor:pointer;min-width:52px;height:52px;border-radius:999px;display:grid;place-items:center;padding:0 18px;background:color-mix(in srgb,var(--ink) 8%,transparent);font-size:17px;transition:background-color .2s}
+.count button:hover{background:color-mix(in srgb,var(--ink) 14%,transparent)}
+.count button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.count button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.roster{list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:16px}
+.roster li{display:flex;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--line)}
+.roster li span{color:var(--muted)}
+.graph{background:var(--panel);border-radius:24px;aspect-ratio:1/0.82;position:relative}
+.graph svg{width:100%;height:100%;display:block}
+.graph .node rect{fill:color-mix(in srgb,var(--panel-ink) 7%,var(--panel));transition:fill .4s,opacity .4s}
+.graph .node text{fill:var(--panel-ink);font:500 17px var(--text)}
+.graph .node .tier{fill:color-mix(in srgb,var(--panel-ink) 55%,var(--panel));font:400 14px var(--text)}
+.graph .node.lead rect{fill:var(--accent)}
+.graph .node.lead text{fill:var(--accent-ink)}
+.graph .node.off{opacity:.18}
+.graph path{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;transition:opacity .4s}
+.graph path.off{opacity:0}
+
+/* Prompts + install */
+.prompts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:clamp(50px,6vw,90px)}
+.prompt{background:var(--panel);color:var(--panel-ink);border-radius:20px;padding:26px 28px;display:grid;gap:14px;align-content:start}
+.prompt p{font:400 clamp(19px,1.5vw,22px)/1.35 var(--text)}
+.prompt span{font-size:15px;color:color-mix(in srgb,var(--panel-ink) 60%,var(--panel))}
+.install{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:start}
+.cmd{background:var(--panel);color:var(--panel-ink);border-radius:20px;padding:22px 24px;display:grid;gap:10px;position:relative}
+.cmd + .cmd{margin-top:12px}
+.cmd small{font-size:14px;color:color-mix(in srgb,var(--panel-ink) 60%,var(--panel))}
+.cmd .copy{position:absolute;right:14px;top:14px;border:0;color:inherit;font:inherit;cursor:pointer;font-size:14px;padding:6px 12px;border-radius:999px;background:color-mix(in srgb,var(--panel-ink) 10%,transparent)}
+.cmd .copy:hover{background:color-mix(in srgb,var(--panel-ink) 18%,transparent)}
+
+footer{padding:clamp(110px,14vw,220px) var(--margin) 28px;display:grid;gap:40px}
+.credits{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;font-size:16px;color:var(--muted);max-width:1100px}
+.credits b{display:block;color:var(--ink);font-weight:500;margin-bottom:6px}
+.bigname{font:300 clamp(80px,30vw,560px)/.8 var(--display);letter-spacing:-0.06em;margin:0 0 0 -0.04em;font-stretch:80%}
+
+@media (max-width: 900px){
+  .hero::after{background:linear-gradient(0deg,var(--ground) 0%,color-mix(in srgb,var(--ground) 82%,transparent) 55%,transparent 80%)}
+  .nav ul{display:none}
+  .contrast,.step,.agents,.install{grid-template-columns:1fr}
+  .contrast-copy{position:static}
+  .step:nth-child(even) .artefact{order:0}
+  .palettes{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .surfaces{grid-template-columns:1fr 1fr}
+  .prompts,.credits{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion: reduce){*{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<header class="hero" id="top">
+  <canvas id="glass" aria-hidden="true"></canvas>
+  <nav class="nav" aria-label="Main">
+    <a class="wordmark" href="#top">slopless</a>
+    <ul>
+      <li><a href="#loop">How it works</a></li>
+      <li><a href="#palettes">Palettes</a></li>
+      <li><a href="#agents">Agents</a></li>
+      <li><a href="#install">Install</a></li>
+    </ul>
+  </nav>
+  <div class="hero-copy">
+    <h1><span class="line"><span>Design that</span></span><span class="line"><span>looks decided.</span></span></h1>
+    <p class="lead">slopless is a skill for Claude Code and Codex. It asks what you are trying to say, picks a direction with you, builds with real motion, and checks its own work before you see it.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#install">Install slopless</a>
+      <a class="btn btn-ghost" href="#loop">See the six steps</a>
+    </div>
+    <div class="swatches" role="group" aria-label="Palette"><span>Try a palette</span></div>
+  </div>
+</header>
+
+<main>
+<section class="wrap" id="why">
+  <div class="contrast">
+    <div class="contrast-copy">
+      <h2>Ask for a page. Get the average.</h2>
+      <p class="lead">A model left to its defaults produces the mean of every page it has read. slopless names those defaults, refuses them, and fills the gap with something from your subject.</p>
+      <!-- slopless-ignore-start: the tells being named -->
+      <ul class="tells" aria-label="Tells removed">
+        <li><s>Violet gradient as wallpaper</s></li>
+        <li><s>Emoji standing in for icons</s></li>
+        <li><s>A tiny uppercase label above the headline</s></li>
+        <li><s>Stock words: unlock, seamless, elevate</s></li>
+        <li><s>A glow on everything</s></li>
+      </ul>
+      <!-- slopless-ignore-end -->
+    </div>
+    <div class="stage" id="stage">
+      <!-- slopless-ignore-start: deliberate generated example -->
+      <div class="specimen slop" id="slop" aria-hidden="true">
+        <span data-s="pill">NEW · INTRODUCING</span>
+        <h3 data-s="h">Unlock seamless workflows</h3>
+        <p data-s="p">The all-in-one platform that empowers your team to do more, faster.</p>
+        <span data-s="btn">Get started</span>
+      </div>
+      <!-- slopless-ignore-end -->
+      <div class="specimen decided" id="decided">
+        <div class="ticket" aria-hidden="true"><b>Checkout fails on saved cards</b><small>Claimed by build machine 2 · 14 min</small><div class="bar"><i></i></div></div>
+        <h3>Every ticket, from report to release.</h3>
+        <p>The demo follows one real bug through triage, the fix, review and the store, on the screens your team already uses.</p>
+      </div>
+      <span class="stage-label" id="stage-label">Scroll to remove the tells</span>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="loop">
+  <h2>Six steps, in this order.</h2>
+  <ol class="loop">
+    <li class="step">
+      <div class="step-copy">
+        <h3>Interview</h3>
+        <p class="quiet">Story first: who is in the room, the one sentence they should leave with, and the object that travels through it. Then taste. Four questions at a time, each with a recommended answer.</p>
+      </div>
+      <div class="artefact">
+        <p class="q">How much should it move?</p>
+        <div class="opts">
+          <div class="opt"><span>Still</span><small>print quality</small></div>
+          <div class="opt"><span>Subtle</span><small>entrances, feedback</small></div>
+          <div class="opt pick"><span>Cinematic</span><small>recommended for a demo</small></div>
+          <div class="opt"><span>Spatial</span><small>real 3D, WebGL</small></div>
+        </div>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-copy">
+        <h3>Direction</h3>
+        <p class="quiet">An inventory of things only your subject has, one idea sentence that fails if a competitor's name is swapped in, a colour strategy before colours, and type chosen on purpose.</p>
+      </div>
+      <div class="artefact">
+        <p class="idea">On this deck, <em>the support ticket</em> becomes the thread that carries every slide.</p>
+        <div class="chips"><span>Sapphire Glass</span><span>Restrained</span><span>Bricolage / Hanken</span><span>Cinematic</span></div>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-copy">
+        <h3>Prove</h3>
+        <p class="quiet">Two small live studies on real content that differ in material and choreography. You pick one before anyone builds thirty slides on a guess.</p>
+      </div>
+      <div class="artefact">
+        <div class="studies">
+          <div class="study a"><b>Study A</b>Glass stage, device carries the story</div>
+          <div class="study b"><b>Study B</b>Matte paper, type-led evidence</div>
+        </div>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-copy">
+        <h3>Build</h3>
+        <p class="quiet">Tokens first, then the opening, then every part on the same system. Still first, motion second: one timeline, every state seekable, reduced motion lands each beat.</p>
+      </div>
+      <div class="artefact">
+<pre><code>:root {
+  --ground: #070B18;  --ink: #E8EEFA;
+  --accent: #9DB7FF;  --panel: #0F1730;
+}
+tl.addLabel("ticket-claimed")
+  .to(ticket, { x: () =&gt; dock.x, ease: "power3.inOut" })</code></pre>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-copy">
+        <h3>Verify</h3>
+        <p class="quiet">A scanner for the tells, screenshots at every size in a real browser, a critique against ten passes, one batch of fixes. It says what it checked and what it did not.</p>
+      </div>
+      <div class="artefact term">
+<pre><span class="f">FAIL</span> deck.html  [violet-gradient] 2 violet/indigo gradient(s)
+<span class="f">FAIL</span> deck.html  [copy] stock words: seamless, unlock
+<span class="w">WARN</span> deck.html  [eyebrow] 3 tiny tracked-uppercase label style(s)
+
+<span class="ok">1 file(s): 0 FAIL, 0 WARN — clean of banned tells</span></pre>
+      </div>
+    </li>
+    <li class="step">
+      <div class="step-copy">
+        <h3>Learn</h3>
+        <p class="quiet">Every correction you make becomes one dated line in your taste file. The next project starts from what you already said you like.</p>
+      </div>
+      <div class="artefact memo">
+        <div><time>2026-11-02</time><span>Loves frosted glass on story cards, opaque panels for evidence.</span></div>
+        <div><time>2026-11-02</time><span>Rejects decorative colour bars. “Looks generated.”</span></div>
+        <div><time>2026-11-03</time><span>Wants two live studies before a full build.</span></div>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<section class="wrap" id="palettes">
+  <h2>Ten palettes, each with a job.</h2>
+  <p class="lead quiet" style="margin-top:24px">Pick one and this page changes to match, including the glass at the top. Bring your own brand colours and slopless derives the rest and checks the contrast.</p>
+  <div class="palettes" id="posters"></div>
+</section>
+
+<section class="wrap" id="surfaces">
+  <h2>Decks, sites, apps and graphics.</h2>
+  <div class="surfaces">
+    <figure class="surface"><div class="frame deck"><strong>Report to release in one afternoon</strong><span class="dev"></span></div><figcaption><b>Talks and demos</b><span>Presenter-paced beats, connected scenes</span></figcaption></figure>
+    <figure class="surface"><div class="frame web"><div class="chrome"><i></i><i></i><i></i></div><div class="pg"><strong>Night trains, booked in one tap</strong><span class="img"></span></div></div><figcaption><b>Sites and portfolios</b><span>One idea, carried to the footer</span></figcaption></figure>
+    <figure class="surface"><div class="frame phone"><div class="scr"><i></i><i></i><i></i><i></i></div></div><figcaption><b>App screens</b><span>iOS, Android, React Native</span></figcaption></figure>
+    <figure class="surface"><div class="frame poster-f"><strong>Open studio Friday</strong></div><figcaption><b>Graphics</b><span>Posts, posters, covers</span></figcaption></figure>
+  </div>
+</section>
+
+<section class="wrap" id="agents">
+  <h2>Agents, when the job is big.</h2>
+  <div class="agents">
+    <div class="agents-copy">
+      <p class="lead">Off by default. For a thirty-slide deck or a full site, slopless offers it once and you choose how many helpers. Screenshots and scans run on the cheaper models; only the signature move gets the expensive one.</p>
+      <div class="count" role="group" aria-label="Number of helpers" id="count"></div>
+      <ul class="roster" id="roster"></ul>
+    </div>
+    <div class="graph">
+      <svg viewBox="0 0 600 492" role="img" aria-label="Lead agent and the helpers it starts" id="graph">
+        <g id="edges"></g><g id="nodes"></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="prompts">
+  <h2>How to ask for it.</h2>
+  <div class="prompts">
+    <div class="prompt"><p>Use slopless. I'm giving a 15-minute talk to our platform team on how we cut release time. Here's my outline.</p><span>Starts the interview, then a deck with presenter controls</span></div>
+    <div class="prompt"><p>Use slopless to redesign this landing page. Keep every word. It looks like every other AI site.</p><span>Review first: scan, screenshots, a scored critique</span></div>
+    <div class="prompt"><p>slopless, three Instagram posts announcing our beta, Porcelain Cobalt, 1080×1350.</p><span>Graphics built in HTML and exported at exact size</span></div>
+    <div class="prompt"><p>Use slopless in agents mode with three helpers. Rebuild the deck in the Sapphire Glass direction.</p><span>Builder, motion and reviewer in parallel</span></div>
+  </div>
+</section>
+
+<section class="wrap" id="install">
+  <div class="install">
+    <h2>Install it in a minute.</h2>
+    <div>
+      <div class="cmd"><small>Any agent that reads skills</small><pre><code>npx skills add kundan0907/slopless</code></pre><button class="copy" type="button">Copy</button></div>
+      <div class="cmd"><small>Claude Code, by hand</small><pre><code>git clone https://github.com/kundan0907/slopless
+cp -r slopless/slopless ~/.claude/skills/</code></pre><button class="copy" type="button">Copy</button></div>
+      <div class="cmd"><small>Codex and others</small><pre><code>cp -r slopless/slopless ~/.agents/skills/</code></pre><button class="copy" type="button">Copy</button></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="credits">
+    <div><b>Standing on</b>Ideas adapted from Impeccable, taste-skill and UI/UX Pro Max, credited in the repository.</div>
+    <div><b>Made with</b>Three.js, GSAP and ScrollTrigger, Bricolage Grotesque and Hanken Grotesk.</div>
+    <div><b>This page</b>Built with slopless and checked by its own scanner. One HTML file, no network requests.</div>
+  </div>
+  <p class="bigname" aria-hidden="true">slopless</p>
+</footer>
+
+<!--GSAP-->
+<!--SCENE-->
+<script>
+(() => {
+  const PALETTES = [
+    ['obsidian', 'Obsidian Brass', 'Restrained dark', '#0B0C0F', '#ECE8E1', '#D6AE6B', '#15171B', '#9C978E'],
+    ['vermilion', 'Vermilion', 'Drenched', '#E4401E', '#140B08', '#140B08', '#16100D', '#1F0A05'],
+    ['glacier', 'Glacier', 'Restrained light', '#EDF1F4', '#16202A', '#2C5A88', '#FFFFFF', '#55626F'],
+    ['sapphire', 'Sapphire Glass', 'Dark with glass', '#070B18', '#E8EEFA', '#9DB7FF', '#0F1730', '#98A6C4'],
+    ['graphite', 'Graphite Signal', 'Restrained dark', '#111214', '#E7E6E2', '#FF7A1A', '#1A1B1E', '#9A9993'],
+    ['moss', 'Moss Paper', 'Editorial light', '#E9E8E1', '#1A1E19', '#2E5638', '#F5F4EF', '#565C53'],
+    ['cobalt', 'Porcelain Cobalt', 'Committed light', '#F6F6F3', '#0D1430', '#2340D6', '#FFFFFF', '#4A5170'],
+    ['oxblood', 'Oxblood', 'Drenched dark', '#2B0E13', '#F4E7E0', '#F0B79F', '#3A151B', '#C9A79F'],
+    ['blueprint', 'Blueprint Slate', 'Full palette', '#0B1220', '#E6EDF7', '#3DDC97', '#121B2D', '#8C9AB0'],
+    ['klein', 'Klein', 'Drenched', '#1D2BD6', '#F5F4EE', '#F5F4EE', '#121A8C', '#C9CCF2'],
+  ].map(([id, name, strategy, ground, ink, accent, panel, muted]) => ({ id, name, strategy, ground, ink, accent, panel, muted }));
+
+  const root = document.documentElement;
+  const swatchBox = document.querySelector('.swatches');
+  const posterBox = document.getElementById('posters');
+  let scene = null;
+
+  for (const p of PALETTES) {
+    const s = document.createElement('button');
+    s.className = 'swatch'; s.type = 'button'; s.dataset.id = p.id;
+    s.setAttribute('aria-label', p.name);
+    s.style.setProperty('--sw-ground', p.ground); s.style.setProperty('--sw-accent', p.accent);
+    swatchBox.append(s);
+    const b = document.createElement('button');
+    b.className = 'poster'; b.type = 'button'; b.dataset.id = p.id;
+    for (const k of ['ground', 'ink', 'accent', 'panel']) b.style.setProperty(`--p-${k}`, p[k]);
+    b.innerHTML = `<i></i><u></u><span><b>${p.name}</b><br><small>${p.strategy} · ${p.ground} ${p.accent}</small></span>`;
+    posterBox.append(b);
+  }
+
+  function apply(id) {
+    const p = PALETTES.find((x) => x.id === id) || PALETTES[0];
+    root.dataset.palette = p.id;
+    try { localStorage.setItem('slopless:palette', p.id); } catch {}
+    document.querySelectorAll('.swatch,.poster').forEach((el) => el.setAttribute('aria-pressed', String(el.dataset.id === p.id)));
+    scene?.setPalette(p);
+  }
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest('.swatch,.poster');
+    if (t) apply(t.dataset.id);
+    const c = e.target.closest('.copy');
+    if (c) navigator.clipboard?.writeText(c.parentElement.querySelector('code').textContent).then(() => { c.textContent = 'Copied'; setTimeout(() => (c.textContent = 'Copy'), 1400); });
+  });
+
+  // Agents graph
+  const ROLES = [
+    { id: 'builder', name: 'Builder', tier: 'mid tier', x: 40, y: 70 },
+    { id: 'builder2', name: 'Builder', tier: 'mid tier', x: 40, y: 382 },
+    { id: 'motion', name: 'Motion / 3D', tier: 'mid, top for one move', x: 370, y: 70 },
+    { id: 'review', name: 'Reviewer + QA', tier: 'mid tier, read-only', x: 370, y: 382 },
+  ];
+  const SETS = { 0: [], 1: ['review'], 2: ['builder', 'review'], 3: ['builder', 'motion', 'review'], 4: ['builder', 'builder2', 'motion', 'review'] };
+  const LABEL = { 0: 'Just me', 1: '1', 2: '2', 3: '3', 4: '4' };
+  const ns = 'http://www.w3.org/2000/svg';
+  const edges = document.getElementById('edges'), nodes = document.getElementById('nodes');
+  const node = (cls, x, y, name, tier, w = 190) => {
+    const g = document.createElementNS(ns, 'g'); g.setAttribute('class', `node ${cls}`);
+    g.innerHTML = `<rect x="${x}" y="${y}" width="${w}" height="64" rx="18"/><text x="${x + 20}" y="${y + 28}">${name}</text><text class="tier" x="${x + 20}" y="${y + 49}">${tier}</text>`;
+    nodes.append(g); return g;
+  };
+  node('lead', 185, 214, 'Lead (you)', 'interview, direction, merge', 230);
+  const roleEls = ROLES.map((r) => {
+    const path = document.createElementNS(ns, 'path');
+    const sx = 300, sy = r.y < 214 ? 214 : 278, ex = r.x + 95, ey = r.y < 214 ? r.y + 64 : r.y;
+    path.setAttribute('d', `M${sx} ${sy} C ${sx} ${(sy + ey) / 2}, ${ex} ${(sy + ey) / 2}, ${ex} ${ey}`);
+    edges.append(path);
+    return { r, el: node('', r.x, r.y, r.name, r.tier), path };
+  });
+  const roster = document.getElementById('roster');
+  const countBox = document.getElementById('count');
+  function setCount(n) {
+    const on = SETS[n];
+    for (const { r, el, path } of roleEls) {
+      const active = on.includes(r.id);
+      el.classList.toggle('off', !active); path.classList.toggle('off', !active);
+      if (active && window.gsap && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const len = path.getTotalLength();
+        gsap.fromTo(path, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.8, ease: 'power2.out' });
+      }
+    }
+    roster.innerHTML = n ? on.map((id) => { const r = ROLES.find((x) => x.id === id); return `<li>${r.name}<span>${r.tier}</span></li>`; }).join('') : '<li>One agent does everything<span>the default</span></li>';
+    countBox.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.n === String(n))));
+  }
+  for (const n of [0, 1, 2, 3, 4]) {
+    const b = document.createElement('button'); b.type = 'button'; b.dataset.n = n; b.textContent = LABEL[n];
+    b.setAttribute('aria-label', n ? `${n} helper${n > 1 ? 's' : ''}` : 'No helpers');
+    b.addEventListener('click', () => setCount(n));
+    countBox.append(b);
+  }
+  setCount(3);
+
+  // The generated specimen, styled from script so the page's own CSS stays clean for the scanner.
+  const slop = document.getElementById('slop');
+  Object.assign(slop.style, { background: 'linear-gradient(135deg,#7c3aed,#2563eb)', color: '#fff', fontFamily: 'Inter, system-ui, sans-serif' });
+  const S = (k) => slop.querySelector(`[data-s="${k}"]`).style;
+  Object.assign(S('pill'), { fontSize: '12px', letterSpacing: '.2em', padding: '6px 14px', borderRadius: '999px', background: 'rgba(255,255,255,.18)' });
+  Object.assign(S('h'), { fontFamily: 'Inter, system-ui, sans-serif', fontWeight: '800', fontSize: 'clamp(28px,3.4vw,52px)', letterSpacing: '-0.02em', lineHeight: '1.05' });
+  S('h').textContent = '\u{1F680} ' + slop.querySelector('[data-s="h"]').textContent + ' ✨';
+  Object.assign(S('p'), { opacity: '.85', maxWidth: '30ch' });
+  Object.assign(S('btn'), { padding: '14px 28px', borderRadius: '12px', background: '#fff', color: '#4c1d95', fontWeight: '700', boxShadow: '0 0 40px rgba(167,139,250,.9)' });
+
+  // Scene
+  const canvas = document.getElementById('glass');
+  const boot = () => {
+    scene = window.sloplessScene?.start(canvas) || null;
+    if (scene) { scene.start(); apply(root.dataset.palette); }
+  };
+  apply(root.dataset.palette);
+  document.fonts.ready.then(() => ('requestIdleCallback' in window ? requestIdleCallback(boot, { timeout: 600 }) : setTimeout(boot, 200)));
+
+  // Motion
+  if (!window.gsap) return;
+  gsap.registerPlugin(ScrollTrigger);
+  const mm = gsap.matchMedia();
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    gsap.from('.hero h1 .line > span', { yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: 0.09, delay: 0.15 });
+    gsap.from('.hero .lead, .hero-actions, .swatches', { y: 24, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08, delay: 0.45 });
+    ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true, onUpdate: (s) => scene?.setProgress(s.progress) });
+
+    const decided = document.getElementById('decided');
+    gsap.set(decided, { clipPath: 'inset(0 0 0 100%)' });
+    const tl = gsap.timeline({ scrollTrigger: { trigger: '#stage', start: 'top 75%', end: 'center 45%', scrub: 0.6 } });
+    tl.to(decided, { clipPath: 'inset(0 0 0 0%)', ease: 'none', duration: 1 })
+      .from('.tells s', { textDecorationColor: 'transparent', stagger: 0.18, duration: 0.2 }, 0)
+      .from('.ticket', { y: 30, opacity: 0, duration: 0.3 }, 0.6)
+      .to('#stage-label', { opacity: 0, duration: 0.2 }, 0.8);
+
+    gsap.utils.toArray('.step').forEach((step) => {
+      gsap.from(step.children, { y: 40, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1, scrollTrigger: { trigger: step, start: 'top 78%', once: true } });
+    });
+    gsap.from('.poster', { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.05, scrollTrigger: { trigger: '#posters', start: 'top 80%', once: true } });
+    gsap.from('.surface', { y: 60, opacity: 0, duration: 1, ease: 'power3.out', stagger: 0.1, scrollTrigger: { trigger: '.surfaces', start: 'top 80%', once: true } });
+    gsap.from('.bigname', { yPercent: 40, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: 'footer', start: 'top 70%', once: true } });
+  });
+})();
+</script>
+</body>
+</html>
