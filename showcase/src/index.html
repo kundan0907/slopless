@@ -43,7 +43,7 @@ h2{font-size:clamp(40px,5.6vw,96px);max-width:14ch}
 h3{font-size:clamp(24px,2.2vw,34px);letter-spacing:-0.02em;line-height:1.08}
 p{margin:0;text-wrap:pretty}
 .lead{font-size:clamp(19px,1.5vw,23px);max-width:38ch;color:var(--ink)}
-.quiet{color:var(--muted)}
+.quiet{color:var(--ink)}
 .wrap{padding-inline:var(--margin)}
 section{padding:clamp(110px,14vw,220px) 0 0}
 code,pre{font-family:var(--mono);font-size:15px}
@@ -60,7 +60,8 @@ pre{margin:0;white-space:pre-wrap;line-height:1.6}
 .hero{position:relative;min-height:100svh;display:grid;align-items:end;padding:0 var(--margin) clamp(40px,6vw,80px);overflow:clip}
 .hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,var(--ground) 0%,color-mix(in srgb,var(--ground) 70%,transparent) 38%,transparent 62%)}
-.hero .nav,.hero-copy{z-index:1}
+.hero-copy{z-index:1}
+.hero .nav{z-index:3}
 .hero-copy{position:relative;display:grid;gap:28px;max-width:1100px}
 .hero h1 .line{display:block;overflow:clip;padding-bottom:.06em}
 .hero h1 .line>span{display:inline-block}
@@ -184,10 +185,6 @@ figure{margin:0}
 .graph path.off{opacity:0}
 
 /* Prompts + install */
-.prompts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:clamp(50px,6vw,90px)}
-.prompt{background:var(--panel);color:var(--panel-ink);border-radius:20px;padding:26px 28px;display:grid;gap:14px;align-content:start}
-.prompt p{font:400 clamp(19px,1.5vw,22px)/1.35 var(--text)}
-.prompt span{font-size:15px;color:color-mix(in srgb,var(--panel-ink) 60%,var(--panel))}
 .install{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:start}
 .cmd{background:var(--panel);color:var(--panel-ink);border-radius:20px;padding:22px 24px;display:grid;gap:10px;position:relative}
 .cmd + .cmd{margin-top:12px}
@@ -200,15 +197,240 @@ footer{padding:clamp(110px,14vw,220px) var(--margin) 28px;display:grid;gap:40px}
 .credits b{display:block;color:var(--ink);font-weight:500;margin-bottom:6px}
 .bigname{font:300 clamp(80px,30vw,560px)/.8 var(--display);letter-spacing:-0.06em;margin:0 0 0 -0.04em;font-stretch:80%}
 
+
+/* Nav menu (phones) */
+.nav-right{display:flex;align-items:center;gap:28px}
+.menu-btn{display:none;height:44px;padding:0 18px;border:0;border-radius:999px;background:color-mix(in srgb,var(--ink) 10%,transparent);color:var(--ink);font:500 16px/1 var(--text);cursor:pointer;transition:transform .16s var(--out),background-color .2s}
+.menu-btn:active{transform:scale(.97)}
+.menu-btn:hover{background:color-mix(in srgb,var(--ink) 16%,transparent)}
+.menu{position:absolute;top:76px;left:var(--margin);right:var(--margin);z-index:5;background:var(--panel);color:var(--panel-ink);border-radius:20px;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.menu[hidden]{display:none}
+.menu a{display:flex;align-items:center;min-height:44px;padding:0 14px;border-radius:12px;text-decoration:none;font-size:17px}
+.menu a:hover{background:color-mix(in srgb,var(--panel-ink) 8%,transparent)}
+.menu a:active{background:color-mix(in srgb,var(--panel-ink) 14%,transparent)}
+.nav ul a{display:inline-flex;align-items:center;min-height:44px}
+.nav ul{gap:22px}
+
+/* Shared controls */
+.pillbtn,.seg button,.cp{border:0;color:var(--ink);font:500 16px/1 var(--text);cursor:pointer;border-radius:999px;background:color-mix(in srgb,var(--ink) 9%,transparent);transition:transform .14s var(--out),background-color .2s,color .2s}
+.pillbtn:hover,.seg button:hover,.cp:hover{background:color-mix(in srgb,var(--ink) 16%,transparent)}
+.pillbtn:active,.seg button:active,.cp:active,.btn:active,.opt:active,.ivp:active{transform:scale(.97)}
+.cp{height:44px;padding:0 18px;flex:none}
+.panelbg .cp,.cmdbox .cp{background:color-mix(in srgb,var(--panel-ink) 10%,transparent);color:var(--panel-ink)}
+.cmdbox .cp:hover{background:color-mix(in srgb,var(--panel-ink) 18%,transparent)}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{min-height:44px;padding:0 20px}
+.seg button[aria-pressed="true"],.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+.cmdbox{display:flex;gap:14px;align-items:center;justify-content:space-between;background:color-mix(in srgb,var(--panel-ink) 7%,var(--panel));border-radius:16px;padding:14px 14px 14px 20px}
+.cmdbox pre{font:400 16px/1.5 var(--text);min-width:0}
+.sect-head{display:grid;gap:22px;margin-bottom:clamp(40px,5vw,72px)}
+.cap{font-size:15px;color:var(--muted)}
+
+/* Interview simulator */
+.iv-split{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(28px,6vw,96px);align-items:start}
+.iv-split .sect-head{position:sticky;top:12vh;margin:0}
+.ivbox-wrap{background:var(--panel);color:var(--panel-ink);border-radius:24px;padding:clamp(22px,3vw,40px);display:grid;gap:20px}
+.ivbox-wrap .cap{color:color-mix(in srgb,var(--panel-ink) 70%,var(--panel))}
+#iv{display:grid;gap:18px;min-height:380px;align-content:start}
+#iv .q{font:340 clamp(26px,2.6vw,40px)/1.05 var(--display);letter-spacing:-0.03em;text-wrap:balance}
+.iv-opts{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.opt{border:0;color:inherit;font:inherit;font-size:17px;cursor:pointer;text-align:left;align-items:center;transition:transform .14s var(--out),background-color .2s}
+.opt:hover{background:color-mix(in srgb,var(--panel-ink) 12%,transparent)}
+.opt.pick,.opt.pick:hover{background:var(--accent);color:var(--accent-ink)}
+.iv-pal{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.ivp{border:0;cursor:pointer;border-radius:16px;min-height:96px;padding:14px;background:var(--p-ground);color:var(--p-ink);display:grid;align-content:space-between;justify-items:start;font:500 16px/1.1 var(--text);text-align:left;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--panel-ink) 25%,transparent);transition:transform .14s var(--out)}
+.ivp i{width:22px;height:22px;border-radius:50%;background:var(--p-accent)}
+.ivp[aria-pressed="true"]{box-shadow:0 0 0 3px var(--panel),0 0 0 5px var(--panel-ink)}
+.ivp:hover{transform:translateY(-2px)}
+.fld{display:block;font-size:19px;line-height:1.9}
+.fld input,.fld textarea{font:inherit;color:inherit;background:color-mix(in srgb,var(--panel-ink) 8%,transparent);border:0;border-radius:12px;padding:8px 14px;width:100%;resize:vertical;caret-color:var(--accent);line-height:1.4;margin:4px 0}
+.fld input{width:min(100%,260px)}
+.iv-nav{display:flex;gap:10px;flex-wrap:wrap}
+.play{margin:0;display:grid;gap:0}
+.play div{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:12px 0;border-bottom:1px solid color-mix(in srgb,var(--panel-ink) 12%,transparent)}
+.play dt{color:color-mix(in srgb,var(--panel-ink) 70%,var(--panel));font-size:16px}
+.play dd{margin:0;font-size:17px}
+.iv-btns button.btn{height:48px}
+
+/* Scanner */
+.scan{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.scan textarea{width:100%;min-height:420px;resize:vertical;background:var(--panel);color:var(--panel-ink);border:0;border-radius:24px;padding:24px;font:400 14px/1.6 var(--mono);caret-color:var(--accent);tab-size:2}
+.scan .term{border-radius:24px;padding:24px;min-height:420px;font-size:14px;overflow:auto}
+.scan .term pre{font-size:14px;white-space:pre-wrap;word-break:break-word}
+.scan-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.scan-bar select{height:52px;border-radius:999px;border:0;padding:0 20px;background:color-mix(in srgb,var(--ink) 9%,transparent);color:var(--ink);font:500 16px var(--text);cursor:pointer}
+.scan-bar select option{color:#111}
+#scan-status{margin-left:auto}
+
+/* Modes */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{min-height:48px;padding:0 22px;border:0;border-radius:999px;font:500 17px/1 var(--text);cursor:pointer;color:var(--ink);background:color-mix(in srgb,var(--ink) 9%,transparent);transition:transform .14s var(--out),background-color .2s}
+.tabs button:hover{background:color-mix(in srgb,var(--ink) 16%,transparent)}
+.tabs button:active{transform:scale(.97)}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+#mode-sub{margin:0 0 28px}
+#mode-sub[hidden]{display:none}
+#mode-panel{background:var(--panel);color:var(--panel-ink);border-radius:24px;padding:clamp(22px,3.4vw,48px);display:grid;grid-template-columns:minmax(0,1fr);gap:28px;min-height:360px;align-items:start}
+#mode-panel:has(.mdemo-wrap){grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.mode-copy{display:grid;gap:20px;align-content:start}
+.mode-copy h3{font-size:clamp(34px,3.6vw,58px)}
+.mode-copy>p{font-size:19px;max-width:52ch}
+.facts{margin:0;display:grid;gap:0}
+.facts div{display:grid;grid-template-columns:90px 1fr;gap:14px;padding:12px 0;border-top:1px solid color-mix(in srgb,var(--panel-ink) 12%,transparent)}
+.facts dt{color:color-mix(in srgb,var(--panel-ink) 70%,var(--panel))}
+.facts dd{margin:0}
+.files{display:flex;flex-wrap:wrap;gap:6px 14px}
+.files a{font:400 15px var(--mono)}
+.mdemo-wrap{display:grid;gap:12px}
+.mdemo{position:relative;aspect-ratio:4/3;border-radius:18px;background:var(--ground);color:var(--ink);overflow:clip;perspective:900px}
+.mdemo .zone{position:absolute;top:0;bottom:0;width:33.33%;display:none;align-items:flex-end;padding:14px;font-size:15px;color:var(--muted)}
+.mdemo .z1{left:0}.mdemo .z2{left:33.33%;background:color-mix(in srgb,var(--ink) 5%,transparent)}.mdemo .z3{left:66.66%}
+.mdemo[data-level="cinematic"] .zone{display:flex}
+.mo{position:absolute;left:50%;top:50%;width:min(52%,230px);margin:-52px 0 0 calc(min(52%,230px) / -2);background:var(--panel);color:var(--panel-ink);border-radius:16px;padding:16px 18px;display:grid;gap:6px;box-shadow:0 24px 40px -22px rgb(0 0 0/.6);transform-style:preserve-3d;transition:background-color .2s,transform .16s var(--out)}
+.mdemo[data-level="cinematic"] .mo{left:0;margin-left:0}
+.mdemo[data-level="still"] .mo:hover{background:color-mix(in srgb,var(--panel-ink) 10%,var(--panel))}
+.mdemo[data-level="still"] .mo:active{transform:scale(.97)}
+.mdemo[data-level="spatial"] .mo{transition:transform .12s linear;box-shadow:0 40px 50px -24px rgb(0 0 0/.7);width:min(46%,200px);margin-left:calc(min(46%,200px) / -2);padding:28px 22px}
+.mo b{font:500 16px/1.2 var(--text)}.mo small{font-size:14px;color:color-mix(in srgb,var(--panel-ink) 70%,var(--panel))}
+.mo i{display:block;height:6px;border-radius:3px;background:var(--accent);width:60%}
+.mdemo-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:15px}
+.mdemo-bar .btn{height:44px;padding:0 20px;font-size:16px}
+.mdemo-bar .btn[hidden]{display:none}
+#mode-panel .btn-ghost{background:color-mix(in srgb,var(--panel-ink) 10%,transparent);color:var(--panel-ink)}
+
+/* Examples */
+.gallery{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(28px,3vw,48px) clamp(14px,2vw,28px);align-items:start}
+.pair{display:grid;gap:12px}
+.pair.w8{grid-column:span 8}.pair.w4{grid-column:span 4}
+.pair figcaption{display:grid;gap:2px}
+.pair figcaption b{font:400 22px/1.1 var(--display);letter-spacing:-0.02em}
+.pair figcaption span{color:var(--muted);font-size:16px}
+.cmp{--pos:50%;position:relative;border-radius:22px;overflow:clip;container-type:inline-size;background:var(--ground);box-shadow:inset 0 0 0 1px var(--line)}
+.cmp.deck{aspect-ratio:16/9}.cmp.land{aspect-ratio:16/10}.cmp.tall{aspect-ratio:4/5}
+.layer{position:absolute;inset:0;overflow:clip}
+.layer.before{clip-path:inset(0 calc(100% - var(--pos)) 0 0)}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;z-index:3;touch-action:pan-y}
+.cmp .handle{position:absolute;top:0;bottom:0;left:var(--pos);width:3px;margin-left:-1.5px;background:var(--accent);z-index:2;pointer-events:none}
+.cmp .handle::after{content:"";position:absolute;top:50%;left:50%;width:44px;height:44px;margin:-22px;border-radius:50%;background:var(--accent);box-shadow:0 10px 20px -8px rgb(0 0 0/.55)}
+.cmp .handle::before{content:"";position:absolute;top:50%;left:50%;z-index:1;width:16px;height:16px;margin:-8px;background:var(--accent-ink);clip-path:polygon(0 50%,35% 20%,35% 40%,65% 40%,65% 20%,100% 50%,65% 80%,65% 60%,35% 60%,35% 80%)}
+.cmp:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:4px}
+.tag{position:absolute;bottom:12px;z-index:2;font:500 14px/1 var(--text);padding:8px 12px;border-radius:999px;background:rgb(0 0 0/.62);color:#fff;pointer-events:none}
+.tag.l{left:12px}.tag.r{right:12px}
+/* decided layers */
+.a{position:absolute;inset:0;background:var(--panel);color:var(--panel-ink);font-family:var(--text)}
+.a h4{margin:0;font:340 7cqw/.95 var(--display);letter-spacing:-0.035em;font-stretch:88%;text-wrap:balance}
+.a-deck{display:grid;grid-template-columns:1.4fr 1fr;align-items:center;gap:5cqw;padding:7cqw}
+.a-deck h4{font-size:6.6cqw}
+.a-deck p{font-size:2.1cqw;margin-top:2cqw;max-width:30ch}
+.a-deck .ticket{position:static;width:auto;font-size:2cqw;padding:2.2cqw;border-radius:2cqw;background:var(--ground);gap:1cqw}
+.a-deck .ticket b{font-size:2.2cqw}.a-deck .ticket small{font-size:1.7cqw}
+.a-deck .step{display:grid;grid-template-columns:1fr;gap:1.4cqw}
+.a-deck .step span{display:block;font-size:1.8cqw;color:var(--muted);padding:1cqw 0 0}
+.a-land{background:var(--ground);color:var(--ink);padding:3cqw 5cqw;display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:auto 1fr;gap:0 5cqw}
+.a-land nav{grid-column:1/-1;display:flex;justify-content:space-between;font-size:1.7cqw;align-items:center;height:5cqw}
+.a-land nav b{font:500 2.2cqw var(--display);letter-spacing:-0.03em}
+.a-land .c{align-self:center;display:grid;gap:2.2cqw;justify-items:start}
+.a-land h4{font-size:7.6cqw}
+.a-land p{font-size:2cqw;max-width:30ch}
+.a-land .go{background:var(--accent);color:var(--accent-ink);font-size:1.9cqw;font-weight:500;padding:1.6cqw 3cqw;border-radius:99px}
+.a-land .tt{align-self:center;background:var(--panel);color:var(--panel-ink);border-radius:2cqw;padding:1.4cqw 2cqw;display:grid}
+.a-land .tt div{display:flex;justify-content:space-between;gap:2cqw;font-size:1.8cqw;padding:1.3cqw 0;border-bottom:1px solid color-mix(in srgb,var(--panel-ink) 12%,transparent);font-variant-numeric:tabular-nums}
+.a-land .tt div:last-child{border:0}
+.a-land .tt div:first-child span:last-child{color:var(--accent)}
+.a-post{background:var(--accent);color:var(--accent-ink);padding:9cqw;display:grid;align-content:end;gap:6cqw}
+.a-post h4{font:500 17cqw/.86 var(--display);letter-spacing:-0.05em;font-stretch:80%}
+.a-post p{font-size:5cqw;max-width:20ch}
+.a-post span{font-size:4.4cqw}
+.phone-stage{display:grid;place-items:center;background:var(--ground)}
+.phone{height:92%;aspect-ratio:71.5/149.6;border-radius:12cqw/6cqw;background:#0a0a0a;padding:2.4cqw;box-shadow:inset 0 0 0 .6cqw #3a3a3c,0 3cqw 6cqw -3cqw rgb(0 0 0/.7);container-type:inline-size;position:relative}
+.phone .scr{width:100%;height:100%;border-radius:10cqw/5cqw;overflow:clip;position:relative}
+.phone::after{content:"";position:absolute;top:3.4cqw;left:50%;width:30%;height:3.6%;margin-left:-15%;border-radius:99px;background:#000}
+.a-app{background:var(--panel);color:var(--panel-ink);font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;display:grid;grid-template-rows:auto auto 1fr auto auto;padding:14cqw 5cqw 0}
+.a-app .sb{position:absolute;top:4cqw;left:9cqw;font:600 5cqw/1 -apple-system,system-ui,sans-serif}
+.a-app h5{margin:0 0 4cqw;font:700 11cqw/1.1 -apple-system,system-ui,sans-serif;letter-spacing:-.02em}
+.a-app .row{display:flex;justify-content:space-between;align-items:center;padding:3.6cqw 0;border-bottom:1px solid color-mix(in srgb,var(--panel-ink) 12%,transparent);font-size:5cqw}
+.a-app .row small{display:block;color:color-mix(in srgb,var(--panel-ink) 65%,var(--panel));font-size:4cqw;margin-top:.6cqw}
+.a-app .row em{font-style:normal;font-size:4.2cqw;font-variant-numeric:tabular-nums}
+.a-app .cta{margin:4cqw 0;background:var(--accent);color:var(--accent-ink);text-align:center;font:600 5cqw/1 -apple-system,system-ui,sans-serif;padding:4cqw;border-radius:99px}
+.a-app .tab{display:grid;grid-template-columns:repeat(4,1fr);padding:2.6cqw 0 5cqw;font-size:3.2cqw;text-align:center;color:color-mix(in srgb,var(--panel-ink) 65%,var(--panel))}
+.a-app .tab span{display:grid;justify-items:center;gap:1cqw}
+.a-app .tab svg{width:6cqw;height:6cqw;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.a-app .tab .on{color:var(--accent)}
+
+/* Difference */
+.diff{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,6vw,96px);align-items:start}
+.diff .sect-head{position:sticky;top:12vh;margin:0}
+.dl-list{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.dl-list li{display:grid;grid-template-columns:minmax(0,200px) 1fr;gap:6px 28px;padding:20px 0;border-top:1px solid var(--line)}
+.dl-list li>b{font:400 24px/1.1 var(--display);letter-spacing:-0.02em}
+.dl-list li>b a{text-decoration-thickness:1px}
+.dl-list p{font-size:18px}
+.dl-list p a{white-space:nowrap}
+.diff h3{margin:48px 0 8px}
+.diff h3:first-of-type{margin-top:0}
+
+/* Library */
+.kb-bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:36px}
+.kb-bar input{height:56px;flex:1 1 320px;max-width:520px;border-radius:999px;border:0;padding:0 24px;background:var(--panel);color:var(--panel-ink);font:400 18px var(--text);caret-color:var(--accent)}
+.kb-bar input::placeholder{color:color-mix(in srgb,var(--panel-ink) 60%,var(--panel))}
+.kb-group{margin-bottom:34px}
+.kb-group[hidden],.kb-row[hidden]{display:none}
+.kb-group h3{font-size:30px;margin-bottom:6px}
+.kb-row{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr) 150px;gap:24px;padding:14px 0;border-top:1px solid var(--line);align-items:baseline}
+.kb-row a{font:400 15px var(--mono);word-break:break-word}
+.kb-row p{font-size:18px}
+.kb-row span{color:var(--muted);font-size:15px}
+
+/* Inspiration */
+.insp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(28px,4vw,64px)}
+.insp h3{margin-bottom:18px;font-size:28px}
+.ul-links{list-style:none;margin:0;padding:0;display:grid}
+.ul-links li{display:grid;gap:2px;padding:12px 0;border-top:1px solid var(--line)}
+.ul-links a{font:500 18px var(--text);display:inline-flex;align-items:center;min-height:30px}
+.ul-links span{font-size:16px;color:var(--ink)}
+.ul-links a::after{content:" \2197";font-size:.85em;margin-left:.3em}
+.research{margin-top:clamp(40px,5vw,72px);max-width:62ch;font-size:18px}
+
+/* Cookbook */
+.pg-group{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);gap:20px 28px;padding:24px 0;border-top:1px solid var(--line)}
+.pg-group h3{font-size:28px}
+.pg-row{display:flex;gap:18px;justify-content:space-between;align-items:center;padding:14px 0}
+.pg-row+.pg-row{border-top:1px solid var(--line)}
+.pg-row:first-child{padding-top:0}
+.pg-row p{font:400 clamp(18px,1.4vw,21px)/1.4 var(--text)}
+.pg-row span{display:block;color:var(--muted);font-size:15px;margin-top:4px}
+
+.noscript-note{font-size:16px}
+
 @media (max-width: 900px){
   .hero::after{background:linear-gradient(0deg,var(--ground) 0%,color-mix(in srgb,var(--ground) 82%,transparent) 55%,transparent 80%)}
   .nav ul{display:none}
-  .contrast,.step,.agents,.install{grid-template-columns:1fr}
+  .menu-btn{display:inline-flex;align-items:center}
+  .iv-split,.diff{grid-template-columns:1fr}
+  .iv-split .sect-head,.diff .sect-head{position:static}
+  .scan{grid-template-columns:1fr}
+  .scan textarea,.scan .term{min-height:320px}
+  #mode-panel:has(.mdemo-wrap){grid-template-columns:1fr}
+  .gallery{grid-template-columns:1fr}
+  .pair.w8,.pair.w4{grid-column:auto}
+  .pair.w4 .cmp{max-width:420px}
+  .dl-list li{grid-template-columns:1fr}
+  .kb-row{grid-template-columns:1fr;gap:4px}
+  .insp{grid-template-columns:1fr}
+  .pg-group{grid-template-columns:1fr}
+  .play div,.facts div{grid-template-columns:1fr;gap:2px}
+  .cmdbox{flex-direction:column;align-items:stretch}
+  .cmdbox .cp{align-self:flex-start}
+  .menu{grid-template-columns:1fr 1fr}
+  .a-deck h4{font-size:7.4cqw}
+  .contrast,.step,.agents,.install{grid-template-columns:minmax(0,1fr)}
+  .cmd pre{overflow-wrap:anywhere}
+  .cmd .copy{position:static;justify-self:start}
   .contrast-copy{position:static}
   .step:nth-child(even) .artefact{order:0}
   .palettes{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .surfaces{grid-template-columns:1fr 1fr}
-  .prompts,.credits{grid-template-columns:1fr}
+  .surfaces{grid-template-columns:minmax(0,1fr)}
+  .credits{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion: reduce){*{transition-duration:.01ms!important}}
 </style>
@@ -219,12 +441,19 @@ footer{padding:clamp(110px,14vw,220px) var(--margin) 28px;display:grid;gap:40px}
   <canvas id="glass" aria-hidden="true"></canvas>
   <nav class="nav" aria-label="Main">
     <a class="wordmark" href="#top">slopless</a>
-    <ul>
-      <li><a href="#loop">How it works</a></li>
-      <li><a href="#palettes">Palettes</a></li>
-      <li><a href="#agents">Agents</a></li>
-      <li><a href="#install">Install</a></li>
-    </ul>
+    <div class="nav-right">
+      <ul>
+        <li><a href="#loop">How it works</a></li>
+        <li><a href="#scan">Scanner</a></li>
+        <li><a href="#modes">Modes</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#library">Knowledge</a></li>
+      </ul>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    </div>
+    <div class="menu" id="menu" hidden>
+      <a href="#loop">How it works</a><a href="#interview">Interview</a><a href="#scan">Scanner</a><a href="#modes">Modes</a><a href="#examples">Examples</a><a href="#different">How it differs</a><a href="#palettes">Palettes</a><a href="#agents">Agents</a><a href="#library">Knowledge</a><a href="#inspiration">Inspiration</a><a href="#prompts">Prompts</a><a href="#install">Install</a>
+    </div>
   </nav>
   <div class="hero-copy">
     <h1><span class="line"><span>Design that</span></span><span class="line"><span>looks decided.</span></span></h1>
@@ -353,6 +582,131 @@ tl.addLabel("ticket-claimed")
   </ol>
 </section>
 
+<section class="wrap" id="interview">
+  <div class="iv-split">
+    <div class="sect-head">
+      <h2>Try the interview.</h2>
+      <p class="lead">These are the real questions from <code>interview.md</code>: story first in round one, taste in round two. Answer them and you get the playback summary and a prompt to paste. The palette you pick here is applied to this page.</p>
+    </div>
+    <div class="ivbox-wrap">
+      <p class="cap" id="iv-prog" aria-live="polite">Round 1 of 2</p>
+      <div id="iv"><noscript><p class="noscript-note">This simulator needs JavaScript. The questions live in references/interview.md.</p></noscript></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="scan">
+  <div class="sect-head">
+    <h2>Scan your own page.</h2>
+    <p class="lead">This runs <code>slop-scan.mjs</code>, the same file the skill ships, in your browser. Nothing is uploaded. Paste HTML, CSS or copy, pick the type, press Scan.</p>
+  </div>
+  <div class="scan-bar">
+    <button class="btn btn-primary" id="scan-run" type="button">Scan</button>
+    <select id="scan-ext" aria-label="Type of the pasted text"><option value=".html">HTML</option><option value=".css">CSS</option><option value=".md">Copy (Markdown)</option><option value=".js">JS / JSX</option></select>
+    <button class="btn btn-ghost" id="scan-sample" type="button">Load sloppy sample</button>
+    <button class="btn btn-ghost" id="scan-clear" type="button">Clear</button>
+    <span class="cap" id="scan-status" role="status"></span>
+  </div>
+  <div class="scan">
+    <textarea id="scan-in" aria-label="Text to scan" spellcheck="false"></textarea>
+    <div class="term"><pre id="scan-out" aria-live="polite">The scanner needs JavaScript.</pre></div>
+  </div>
+  <p class="cap" style="margin-top:14px">It checks violet gradients, gradient text, emoji, stock words, eyebrow labels, glows, bounce easing, default fonts and weak buttons. Wrap deliberate examples in ignore markers, as this page does for its own samples.</p>
+</section>
+
+<section class="wrap" id="modes">
+  <div class="sect-head">
+    <h2>Pick a mode.</h2>
+    <p class="lead">One router decides what to load. Choose a group, then a mode, to see what it does, what triggers it, a prompt for it and the files it reads.</p>
+  </div>
+  <div class="tabs" role="tablist" aria-label="Mode groups" id="mode-tabs"></div>
+  <div class="seg" id="mode-sub" role="group" aria-label="Modes in this group"></div>
+  <div id="mode-panel" role="tabpanel" tabindex="-1"><noscript><p>Modes are listed in SKILL.md and references/review.md.</p></noscript></div>
+</section>
+
+<section class="wrap" id="examples">
+  <div class="sect-head">
+    <h2>Drag to compare.</h2>
+    <p class="lead">Four jobs, each built twice in HTML and CSS: the generated look on the left of the handle, the decided version on the right, in whichever palette you picked. Sample content, to be replaced with yours.</p>
+  </div>
+  <div class="gallery">
+    <figure class="pair w8">
+      <div class="cmp deck" role="group" aria-label="Deck slide, generated versus decided">
+        <div class="layer"><div class="a a-deck"><div><h4>Report to release, one ticket.</h4><p>The demo follows a single bug through triage, the fix, review and the store.</p></div><div class="ticket"><b>Checkout fails on saved cards</b><small>Claimed by build machine 2, 14 min</small><div class="bar"><i></i></div></div></div></div>
+        <!-- slopless-ignore-start: generated look -->
+        <div class="layer before"><div style="position:absolute;inset:0;background:linear-gradient(135deg,#6d28d9,#2563eb);color:#fff;font-family:Inter,system-ui,sans-serif;display:grid;place-content:center;justify-items:center;gap:2cqw;text-align:center;padding:5cqw"><span style="font-size:1.5cqw;letter-spacing:.2em;padding:.8cqw 2cqw;border-radius:99px;background:rgba(255,255,255,.18)">NEW · INTRODUCING</span><b style="font-size:6cqw;line-height:1.05;font-weight:800">&#x1F680; Unlock seamless growth &#x2728;</b><div style="font-size:2.2cqw;line-height:1.7;text-align:left">&#x2705; All-in-one platform<br>&#x2705; Empower your team<br>&#x2705; Supercharge results</div></div></div>
+        <!-- slopless-ignore-end -->
+        <span class="tag l">Generated</span><span class="tag r">Decided</span>
+        <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare the generated and decided deck slide">
+      </div>
+      <figcaption><b>Deck slide</b><span>One idea, the hero object on stage, no emoji bullets</span></figcaption>
+    </figure>
+    <figure class="pair w4">
+      <div class="cmp tall" role="group" aria-label="Social post, generated versus decided">
+        <div class="layer"><div class="a a-post"><span>Studio nights</span><h4>Open studio Friday</h4><p>Doors at six. Fourth floor. Bring a laptop.</p></div></div>
+        <!-- slopless-ignore-start: generated look -->
+        <div class="layer before"><div style="position:absolute;inset:0;background:linear-gradient(160deg,#7c3aed,#db2777);color:#fff;font-family:Inter,system-ui,sans-serif;display:grid;place-content:center;justify-items:center;gap:4cqw;text-align:center;padding:8cqw"><b style="font-size:9cqw;line-height:1.05;font-weight:800">&#x1F525; BIG NEWS &#x1F525;</b><span style="font-size:5.4cqw">Join the revolution today!</span><span style="font-size:5cqw;padding:3cqw 7cqw;border-radius:99px;background:#fff;color:#7c3aed;font-weight:700;box-shadow:0 0 40px rgba(255,255,255,.8)">Learn more</span></div></div>
+        <!-- slopless-ignore-end -->
+        <span class="tag l">Generated</span><span class="tag r">Decided</span>
+        <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare the generated and decided social post">
+      </div>
+      <figcaption><b>Social post</b><span>One message, readable at thumbnail size</span></figcaption>
+    </figure>
+    <figure class="pair w8">
+      <div class="cmp land" role="group" aria-label="Landing hero, generated versus decided">
+        <div class="layer"><div class="a a-land"><nav><b>Nachtzug</b><span>Routes &nbsp; Tickets &nbsp; Help</span></nav><div class="c"><h4>Night trains, booked in one tap.</h4><p>Berlin to Vienna, Paris to Milan. Pick a berth and see the real timetable.</p><span class="go">Book a night train</span></div><div class="tt"><div><span>Berlin - Vienna</span><span>21:34</span></div><div><span>Paris - Milan</span><span>19:12</span></div><div><span>Zurich - Prague</span><span>22:05</span></div><div><span>Brussels - Vienna</span><span>19:42</span></div></div></div></div>
+        <!-- slopless-ignore-start: generated look -->
+        <div class="layer before"><div style="position:absolute;inset:0;background:linear-gradient(135deg,#4c1d95,#1d4ed8);color:#fff;font-family:Inter,system-ui,sans-serif;display:grid;place-content:center;justify-items:center;gap:1.8cqw;text-align:center;padding:4cqw"><span style="font-size:1.4cqw;letter-spacing:.2em;padding:.7cqw 2cqw;border-radius:99px;background:rgba(255,255,255,.18)">&#x2728; INTRODUCING V2</span><b style="font-size:5.4cqw;line-height:1.05;font-weight:800;background:linear-gradient(90deg,#c4b5fd,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent">Travel smarter with AI-powered journeys</b><div style="display:flex;gap:1.4cqw"><span style="font-size:1.8cqw;padding:1.2cqw 2.8cqw;border-radius:10px;background:#fff;color:#4c1d95;font-weight:700;box-shadow:0 0 30px rgba(196,181,253,.9)">Get started</span><span style="font-size:1.8cqw;padding:1.2cqw 2.8cqw;border-radius:10px;border:1px solid #fff">Learn more</span></div><div style="display:flex;gap:1.4cqw;margin-top:1cqw">
+          <span style="width:17cqw;padding:1.6cqw;border-radius:12px;background:rgba(255,255,255,.12);font-size:1.5cqw">&#x1F680;<br>Fast</span><span style="width:17cqw;padding:1.6cqw;border-radius:12px;background:rgba(255,255,255,.12);font-size:1.5cqw">&#x1F512;<br>Secure</span><span style="width:17cqw;padding:1.6cqw;border-radius:12px;background:rgba(255,255,255,.12);font-size:1.5cqw">&#x26A1;<br>Simple</span></div></div></div>
+        <!-- slopless-ignore-end -->
+        <span class="tag l">Generated</span><span class="tag r">Decided</span>
+        <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare the generated and decided landing hero">
+      </div>
+      <figcaption><b>Landing hero</b><span>The product's own artefact, left-aligned, one action</span></figcaption>
+    </figure>
+    <figure class="pair w4">
+      <div class="cmp tall phone-stage" role="group" aria-label="App screen, generated versus decided">
+        <div class="layer phone-stage"><div class="phone"><div class="scr a-app"><span class="sb">9:41</span><h5>Trips</h5><div><div class="row"><span>Berlin to Vienna<small>Sleeper, berth 4</small></span><em>21:34</em></div><div class="row"><span>Paris to Milan<small>Couchette</small></span><em>19:12</em></div><div class="row"><span>Zurich to Prague<small>Seat 41</small></span><em>22:05</em></div></div><div></div><div class="cta">New trip</div><div class="tab"><span class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Trips</span><span><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Search</span><span><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Planner</span><span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>You</span></div></div></div></div>
+        <!-- slopless-ignore-start: generated look -->
+        <div class="layer before phone-stage" style="background:#1e1b4b"><div class="phone"><div class="scr" style="background:linear-gradient(160deg,#7c3aed,#2563eb);color:#fff;font-family:Inter,system-ui,sans-serif;display:grid;align-content:center;justify-items:center;gap:6cqw;text-align:center;padding:8cqw"><b style="font-size:11cqw;font-weight:800;line-height:1.05">Welcome back &#x1F44B;</b><span style="font-size:5cqw;opacity:.85">Your AI-powered travel companion</span><span style="font-size:5.4cqw;padding:4cqw 9cqw;border-radius:14px;background:#fff;color:#6d28d9;font-weight:700;box-shadow:0 0 40px rgba(255,255,255,.8)">Get started</span><span style="font-size:7cqw;letter-spacing:3cqw;margin-top:8cqw">&#x1F3E0;&#x1F50D;&#x2764;&#xFE0F;&#x1F464;</span></div></div></div>
+        <!-- slopless-ignore-end -->
+        <span class="tag l">Generated</span><span class="tag r">Decided</span>
+        <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare the generated and decided app screen">
+      </div>
+      <figcaption><b>App screen</b><span>Real phone proportions, system font, drawn icons, one action</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="wrap" id="different">
+  <div class="diff">
+    <div class="sect-head">
+      <h2>How it differs.</h2>
+      <p class="lead">slopless stands on other people's work. This is what it took from each project, and what it adds. It is not a benchmark: we have not run these against each other, and each project has moved since NOTICE was written. Read their own pages for what they do today.</p>
+    </div>
+    <div>
+      <h3>With no skill</h3>
+      <ul class="dl-list"><li><b>The model alone</b><p>Left to its defaults it produces the average of everything it has read: centred hero, eyebrow label, three icon cards, a violet gradient. Nothing checks the result or remembers what you said last time.</p></li></ul>
+      <h3>What slopless adapted</h3>
+      <ul class="dl-list">
+        <li><b><a href="https://github.com/pbakaus/impeccable" target="_blank" rel="noopener">Impeccable</a></b><p>Craft floor checks, refinement versus redesign, colour strategies, training-data font defaults, bounded verification passes, and the bolder, quieter, distill and harden modes. Apache-2.0.</p></li>
+        <li><b><a href="https://github.com/leonxlnx/taste-skill" target="_blank" rel="noopener">taste-skill</a></b><p>The subject inventory and idea sentence, the competitor test, one live thing, a dated tells registry, "removal is not enough" and the look-and-fix screenshot loop. MIT.</p></li>
+        <li><b><a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">UI/UX Pro Max</a></b><p>Priority-ordered UX rules, platform touch targets and native-app polish, a persisted design-system pattern with master and overrides, and density and motion dials. MIT.</p></li>
+      </ul>
+      <h3>What slopless adds</h3>
+      <ul class="dl-list">
+        <li><b>Story-first interview</b><p>Round one asks what it is, who sees it and the one sentence, before any taste question. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/interview.md" target="_blank" rel="noopener">interview.md</a></p></li>
+        <li><b>Presenter-controlled decks</b><p>Arrow keys play the next beat and stop; the presenter owns the pace. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/surfaces/deck.md" target="_blank" rel="noopener">deck.md</a></p></li>
+        <li><b>Taste memory</b><p>Your corrections become dated lines in a file that outranks the skill's defaults on the next run. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/memory.md" target="_blank" rel="noopener">memory.md</a></p></li>
+        <li><b>Opt-in agents with model tiers</b><p>Offered once on big jobs, one to four helpers, cheaper models for mechanical work. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/agents.md" target="_blank" rel="noopener">agents.md</a></p></li>
+        <li><b>Glass when you choose it</b><p>Banned as decoration, allowed as a chosen material with a recipe. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/tells.md" target="_blank" rel="noopener">tells.md</a></p></li>
+        <li><b>One router, references on demand</b><p>A short SKILL.md loads one small file per step, so a small fix never pulls in the library. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/SKILL.md" target="_blank" rel="noopener">SKILL.md</a></p></li>
+        <li><b>A bundled scanner</b><p>The same file runs from the command line and in the scanner above. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/scripts/slop-scan.mjs" target="_blank" rel="noopener">slop-scan.mjs</a></p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section class="wrap" id="palettes">
   <h2>Ten palettes, each with a job.</h2>
   <p class="lead quiet" style="margin-top:24px">Pick one and this page changes to match, including the glass at the top. Bring your own brand colours and slopless derives the rest and checks the contrast.</p>
@@ -385,14 +739,37 @@ tl.addLabel("ticket-claimed")
   </div>
 </section>
 
-<section class="wrap" id="prompts">
-  <h2>How to ask for it.</h2>
-  <div class="prompts">
-    <div class="prompt"><p>Use slopless. I'm giving a 15-minute talk to our platform team on how we cut release time. Here's my outline.</p><span>Starts the interview, then a deck with presenter controls</span></div>
-    <div class="prompt"><p>Use slopless to redesign this landing page. Keep every word. It looks like every other AI site.</p><span>Review first: scan, screenshots, a scored critique</span></div>
-    <div class="prompt"><p>slopless, three Instagram posts announcing our beta, Porcelain Cobalt, 1080×1350.</p><span>Graphics built in HTML and exported at exact size</span></div>
-    <div class="prompt"><p>Use slopless in agents mode with three helpers. Rebuild the deck in the Sapphire Glass direction.</p><span>Builder, motion and reviewer in parallel</span></div>
+<section class="wrap" id="library">
+  <div class="sect-head">
+    <h2>What's in the skill.</h2>
+    <p class="lead">Every file, one line each, linked to the source. A run loads only the rows whose "Loaded" column matches the step it is on.</p>
   </div>
+  <div class="kb-bar">
+    <input id="kbq" type="search" placeholder="Filter files, for example motion or deck" aria-label="Filter the knowledge base">
+    <span class="cap" id="kb-status" role="status"></span>
+  </div>
+  <div id="kb"><!--KB--></div>
+</section>
+
+<section class="wrap" id="inspiration">
+  <div class="sect-head">
+    <h2>Where it looks.</h2>
+    <p class="lead">When you want references, or a technique needs researching, slopless points here. The rule is to learn the technique and never clone the site.</p>
+  </div>
+  <div class="insp">
+    <div><h3>Galleries</h3><ul class="ul-links"><!--GALLERIES--></ul></div>
+    <div><h3>Effects and components</h3><ul class="ul-links"><!--EFFECTS--></ul></div>
+    <div><h3>Reading</h3><ul class="ul-links"><!--READING--></ul></div>
+  </div>
+  <p class="research">To research a technique: open it in a real browser and note what moves, what triggers it and what happens on a phone. Inspect how it is built. Write it down as a decision before coding, then say what was adopted and what was built.</p>
+</section>
+
+<section class="wrap" id="prompts">
+  <div class="sect-head">
+    <h2>Prompts to copy.</h2>
+    <p class="lead">Name the skill, say what you are making, and say what must not change. Anything you leave out, slopless asks.</p>
+  </div>
+  <div><!--PROMPTS--></div>
 </section>
 
 <section class="wrap" id="install">
@@ -452,6 +829,7 @@ cp -r slopless/slopless ~/.claude/skills/</code></pre><button class="copy" type=
     posterBox.append(b);
   }
 
+  window.sloplessPalettes = PALETTES;
   function apply(id) {
     const p = PALETTES.find((x) => x.id === id) || PALETTES[0];
     root.dataset.palette = p.id;
@@ -459,6 +837,7 @@ cp -r slopless/slopless ~/.claude/skills/</code></pre><button class="copy" type=
     document.querySelectorAll('.swatch,.poster').forEach((el) => el.setAttribute('aria-pressed', String(el.dataset.id === p.id)));
     scene?.setPalette(p);
   }
+  window.sloplessApply = apply;
   document.addEventListener('click', (e) => {
     const t = e.target.closest('.swatch,.poster');
     if (t) apply(t.dataset.id);
@@ -558,5 +937,6 @@ cp -r slopless/slopless ~/.claude/skills/</code></pre><button class="copy" type=
   });
 })();
 </script>
+<!--EXTRAS-->
 </body>
 </html>

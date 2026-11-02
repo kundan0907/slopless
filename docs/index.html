@@ -45,7 +45,7 @@ h2{font-size:clamp(40px,5.6vw,96px);max-width:14ch}
 h3{font-size:clamp(24px,2.2vw,34px);letter-spacing:-0.02em;line-height:1.08}
 p{margin:0;text-wrap:pretty}
 .lead{font-size:clamp(19px,1.5vw,23px);max-width:38ch;color:var(--ink)}
-.quiet{color:var(--muted)}
+.quiet{color:var(--ink)}
 .wrap{padding-inline:var(--margin)}
 section{padding:clamp(110px,14vw,220px) 0 0}
 code,pre{font-family:var(--mono);font-size:15px}
@@ -62,7 +62,8 @@ pre{margin:0;white-space:pre-wrap;line-height:1.6}
 .hero{position:relative;min-height:100svh;display:grid;align-items:end;padding:0 var(--margin) clamp(40px,6vw,80px);overflow:clip}
 .hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,var(--ground) 0%,color-mix(in srgb,var(--ground) 70%,transparent) 38%,transparent 62%)}
-.hero .nav,.hero-copy{z-index:1}
+.hero-copy{z-index:1}
+.hero .nav{z-index:3}
 .hero-copy{position:relative;display:grid;gap:28px;max-width:1100px}
 .hero h1 .line{display:block;overflow:clip;padding-bottom:.06em}
 .hero h1 .line>span{display:inline-block}
@@ -186,10 +187,6 @@ figure{margin:0}
 .graph path.off{opacity:0}
 
 /* Prompts + install */
-.prompts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:clamp(50px,6vw,90px)}
-.prompt{background:var(--panel);color:var(--panel-ink);border-radius:20px;padding:26px 28px;display:grid;gap:14px;align-content:start}
-.prompt p{font:400 clamp(19px,1.5vw,22px)/1.35 var(--text)}
-.prompt span{font-size:15px;color:color-mix(in srgb,var(--panel-ink) 60%,var(--panel))}
 .install{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:start}
 .cmd{background:var(--panel);color:var(--panel-ink);border-radius:20px;padding:22px 24px;display:grid;gap:10px;position:relative}
 .cmd + .cmd{margin-top:12px}
@@ -202,15 +199,240 @@ footer{padding:clamp(110px,14vw,220px) var(--margin) 28px;display:grid;gap:40px}
 .credits b{display:block;color:var(--ink);font-weight:500;margin-bottom:6px}
 .bigname{font:300 clamp(80px,30vw,560px)/.8 var(--display);letter-spacing:-0.06em;margin:0 0 0 -0.04em;font-stretch:80%}
 
+
+/* Nav menu (phones) */
+.nav-right{display:flex;align-items:center;gap:28px}
+.menu-btn{display:none;height:44px;padding:0 18px;border:0;border-radius:999px;background:color-mix(in srgb,var(--ink) 10%,transparent);color:var(--ink);font:500 16px/1 var(--text);cursor:pointer;transition:transform .16s var(--out),background-color .2s}
+.menu-btn:active{transform:scale(.97)}
+.menu-btn:hover{background:color-mix(in srgb,var(--ink) 16%,transparent)}
+.menu{position:absolute;top:76px;left:var(--margin);right:var(--margin);z-index:5;background:var(--panel);color:var(--panel-ink);border-radius:20px;padding:10px;display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.menu[hidden]{display:none}
+.menu a{display:flex;align-items:center;min-height:44px;padding:0 14px;border-radius:12px;text-decoration:none;font-size:17px}
+.menu a:hover{background:color-mix(in srgb,var(--panel-ink) 8%,transparent)}
+.menu a:active{background:color-mix(in srgb,var(--panel-ink) 14%,transparent)}
+.nav ul a{display:inline-flex;align-items:center;min-height:44px}
+.nav ul{gap:22px}
+
+/* Shared controls */
+.pillbtn,.seg button,.cp{border:0;color:var(--ink);font:500 16px/1 var(--text);cursor:pointer;border-radius:999px;background:color-mix(in srgb,var(--ink) 9%,transparent);transition:transform .14s var(--out),background-color .2s,color .2s}
+.pillbtn:hover,.seg button:hover,.cp:hover{background:color-mix(in srgb,var(--ink) 16%,transparent)}
+.pillbtn:active,.seg button:active,.cp:active,.btn:active,.opt:active,.ivp:active{transform:scale(.97)}
+.cp{height:44px;padding:0 18px;flex:none}
+.panelbg .cp,.cmdbox .cp{background:color-mix(in srgb,var(--panel-ink) 10%,transparent);color:var(--panel-ink)}
+.cmdbox .cp:hover{background:color-mix(in srgb,var(--panel-ink) 18%,transparent)}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{min-height:44px;padding:0 20px}
+.seg button[aria-pressed="true"],.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+.cmdbox{display:flex;gap:14px;align-items:center;justify-content:space-between;background:color-mix(in srgb,var(--panel-ink) 7%,var(--panel));border-radius:16px;padding:14px 14px 14px 20px}
+.cmdbox pre{font:400 16px/1.5 var(--text);min-width:0}
+.sect-head{display:grid;gap:22px;margin-bottom:clamp(40px,5vw,72px)}
+.cap{font-size:15px;color:var(--muted)}
+
+/* Interview simulator */
+.iv-split{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(28px,6vw,96px);align-items:start}
+.iv-split .sect-head{position:sticky;top:12vh;margin:0}
+.ivbox-wrap{background:var(--panel);color:var(--panel-ink);border-radius:24px;padding:clamp(22px,3vw,40px);display:grid;gap:20px}
+.ivbox-wrap .cap{color:color-mix(in srgb,var(--panel-ink) 70%,var(--panel))}
+#iv{display:grid;gap:18px;min-height:380px;align-content:start}
+#iv .q{font:340 clamp(26px,2.6vw,40px)/1.05 var(--display);letter-spacing:-0.03em;text-wrap:balance}
+.iv-opts{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.opt{border:0;color:inherit;font:inherit;font-size:17px;cursor:pointer;text-align:left;align-items:center;transition:transform .14s var(--out),background-color .2s}
+.opt:hover{background:color-mix(in srgb,var(--panel-ink) 12%,transparent)}
+.opt.pick,.opt.pick:hover{background:var(--accent);color:var(--accent-ink)}
+.iv-pal{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.ivp{border:0;cursor:pointer;border-radius:16px;min-height:96px;padding:14px;background:var(--p-ground);color:var(--p-ink);display:grid;align-content:space-between;justify-items:start;font:500 16px/1.1 var(--text);text-align:left;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--panel-ink) 25%,transparent);transition:transform .14s var(--out)}
+.ivp i{width:22px;height:22px;border-radius:50%;background:var(--p-accent)}
+.ivp[aria-pressed="true"]{box-shadow:0 0 0 3px var(--panel),0 0 0 5px var(--panel-ink)}
+.ivp:hover{transform:translateY(-2px)}
+.fld{display:block;font-size:19px;line-height:1.9}
+.fld input,.fld textarea{font:inherit;color:inherit;background:color-mix(in srgb,var(--panel-ink) 8%,transparent);border:0;border-radius:12px;padding:8px 14px;width:100%;resize:vertical;caret-color:var(--accent);line-height:1.4;margin:4px 0}
+.fld input{width:min(100%,260px)}
+.iv-nav{display:flex;gap:10px;flex-wrap:wrap}
+.play{margin:0;display:grid;gap:0}
+.play div{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:12px 0;border-bottom:1px solid color-mix(in srgb,var(--panel-ink) 12%,transparent)}
+.play dt{color:color-mix(in srgb,var(--panel-ink) 70%,var(--panel));font-size:16px}
+.play dd{margin:0;font-size:17px}
+.iv-btns button.btn{height:48px}
+
+/* Scanner */
+.scan{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.scan textarea{width:100%;min-height:420px;resize:vertical;background:var(--panel);color:var(--panel-ink);border:0;border-radius:24px;padding:24px;font:400 14px/1.6 var(--mono);caret-color:var(--accent);tab-size:2}
+.scan .term{border-radius:24px;padding:24px;min-height:420px;font-size:14px;overflow:auto}
+.scan .term pre{font-size:14px;white-space:pre-wrap;word-break:break-word}
+.scan-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.scan-bar select{height:52px;border-radius:999px;border:0;padding:0 20px;background:color-mix(in srgb,var(--ink) 9%,transparent);color:var(--ink);font:500 16px var(--text);cursor:pointer}
+.scan-bar select option{color:#111}
+#scan-status{margin-left:auto}
+
+/* Modes */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{min-height:48px;padding:0 22px;border:0;border-radius:999px;font:500 17px/1 var(--text);cursor:pointer;color:var(--ink);background:color-mix(in srgb,var(--ink) 9%,transparent);transition:transform .14s var(--out),background-color .2s}
+.tabs button:hover{background:color-mix(in srgb,var(--ink) 16%,transparent)}
+.tabs button:active{transform:scale(.97)}
+.tabs button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+#mode-sub{margin:0 0 28px}
+#mode-sub[hidden]{display:none}
+#mode-panel{background:var(--panel);color:var(--panel-ink);border-radius:24px;padding:clamp(22px,3.4vw,48px);display:grid;grid-template-columns:minmax(0,1fr);gap:28px;min-height:360px;align-items:start}
+#mode-panel:has(.mdemo-wrap){grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.mode-copy{display:grid;gap:20px;align-content:start}
+.mode-copy h3{font-size:clamp(34px,3.6vw,58px)}
+.mode-copy>p{font-size:19px;max-width:52ch}
+.facts{margin:0;display:grid;gap:0}
+.facts div{display:grid;grid-template-columns:90px 1fr;gap:14px;padding:12px 0;border-top:1px solid color-mix(in srgb,var(--panel-ink) 12%,transparent)}
+.facts dt{color:color-mix(in srgb,var(--panel-ink) 70%,var(--panel))}
+.facts dd{margin:0}
+.files{display:flex;flex-wrap:wrap;gap:6px 14px}
+.files a{font:400 15px var(--mono)}
+.mdemo-wrap{display:grid;gap:12px}
+.mdemo{position:relative;aspect-ratio:4/3;border-radius:18px;background:var(--ground);color:var(--ink);overflow:clip;perspective:900px}
+.mdemo .zone{position:absolute;top:0;bottom:0;width:33.33%;display:none;align-items:flex-end;padding:14px;font-size:15px;color:var(--muted)}
+.mdemo .z1{left:0}.mdemo .z2{left:33.33%;background:color-mix(in srgb,var(--ink) 5%,transparent)}.mdemo .z3{left:66.66%}
+.mdemo[data-level="cinematic"] .zone{display:flex}
+.mo{position:absolute;left:50%;top:50%;width:min(52%,230px);margin:-52px 0 0 calc(min(52%,230px) / -2);background:var(--panel);color:var(--panel-ink);border-radius:16px;padding:16px 18px;display:grid;gap:6px;box-shadow:0 24px 40px -22px rgb(0 0 0/.6);transform-style:preserve-3d;transition:background-color .2s,transform .16s var(--out)}
+.mdemo[data-level="cinematic"] .mo{left:0;margin-left:0}
+.mdemo[data-level="still"] .mo:hover{background:color-mix(in srgb,var(--panel-ink) 10%,var(--panel))}
+.mdemo[data-level="still"] .mo:active{transform:scale(.97)}
+.mdemo[data-level="spatial"] .mo{transition:transform .12s linear;box-shadow:0 40px 50px -24px rgb(0 0 0/.7);width:min(46%,200px);margin-left:calc(min(46%,200px) / -2);padding:28px 22px}
+.mo b{font:500 16px/1.2 var(--text)}.mo small{font-size:14px;color:color-mix(in srgb,var(--panel-ink) 70%,var(--panel))}
+.mo i{display:block;height:6px;border-radius:3px;background:var(--accent);width:60%}
+.mdemo-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:15px}
+.mdemo-bar .btn{height:44px;padding:0 20px;font-size:16px}
+.mdemo-bar .btn[hidden]{display:none}
+#mode-panel .btn-ghost{background:color-mix(in srgb,var(--panel-ink) 10%,transparent);color:var(--panel-ink)}
+
+/* Examples */
+.gallery{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(28px,3vw,48px) clamp(14px,2vw,28px);align-items:start}
+.pair{display:grid;gap:12px}
+.pair.w8{grid-column:span 8}.pair.w4{grid-column:span 4}
+.pair figcaption{display:grid;gap:2px}
+.pair figcaption b{font:400 22px/1.1 var(--display);letter-spacing:-0.02em}
+.pair figcaption span{color:var(--muted);font-size:16px}
+.cmp{--pos:50%;position:relative;border-radius:22px;overflow:clip;container-type:inline-size;background:var(--ground);box-shadow:inset 0 0 0 1px var(--line)}
+.cmp.deck{aspect-ratio:16/9}.cmp.land{aspect-ratio:16/10}.cmp.tall{aspect-ratio:4/5}
+.layer{position:absolute;inset:0;overflow:clip}
+.layer.before{clip-path:inset(0 calc(100% - var(--pos)) 0 0)}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;z-index:3;touch-action:pan-y}
+.cmp .handle{position:absolute;top:0;bottom:0;left:var(--pos);width:3px;margin-left:-1.5px;background:var(--accent);z-index:2;pointer-events:none}
+.cmp .handle::after{content:"";position:absolute;top:50%;left:50%;width:44px;height:44px;margin:-22px;border-radius:50%;background:var(--accent);box-shadow:0 10px 20px -8px rgb(0 0 0/.55)}
+.cmp .handle::before{content:"";position:absolute;top:50%;left:50%;z-index:1;width:16px;height:16px;margin:-8px;background:var(--accent-ink);clip-path:polygon(0 50%,35% 20%,35% 40%,65% 40%,65% 20%,100% 50%,65% 80%,65% 60%,35% 60%,35% 80%)}
+.cmp:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:4px}
+.tag{position:absolute;bottom:12px;z-index:2;font:500 14px/1 var(--text);padding:8px 12px;border-radius:999px;background:rgb(0 0 0/.62);color:#fff;pointer-events:none}
+.tag.l{left:12px}.tag.r{right:12px}
+/* decided layers */
+.a{position:absolute;inset:0;background:var(--panel);color:var(--panel-ink);font-family:var(--text)}
+.a h4{margin:0;font:340 7cqw/.95 var(--display);letter-spacing:-0.035em;font-stretch:88%;text-wrap:balance}
+.a-deck{display:grid;grid-template-columns:1.4fr 1fr;align-items:center;gap:5cqw;padding:7cqw}
+.a-deck h4{font-size:6.6cqw}
+.a-deck p{font-size:2.1cqw;margin-top:2cqw;max-width:30ch}
+.a-deck .ticket{position:static;width:auto;font-size:2cqw;padding:2.2cqw;border-radius:2cqw;background:var(--ground);gap:1cqw}
+.a-deck .ticket b{font-size:2.2cqw}.a-deck .ticket small{font-size:1.7cqw}
+.a-deck .step{display:grid;grid-template-columns:1fr;gap:1.4cqw}
+.a-deck .step span{display:block;font-size:1.8cqw;color:var(--muted);padding:1cqw 0 0}
+.a-land{background:var(--ground);color:var(--ink);padding:3cqw 5cqw;display:grid;grid-template-columns:1.25fr 1fr;grid-template-rows:auto 1fr;gap:0 5cqw}
+.a-land nav{grid-column:1/-1;display:flex;justify-content:space-between;font-size:1.7cqw;align-items:center;height:5cqw}
+.a-land nav b{font:500 2.2cqw var(--display);letter-spacing:-0.03em}
+.a-land .c{align-self:center;display:grid;gap:2.2cqw;justify-items:start}
+.a-land h4{font-size:7.6cqw}
+.a-land p{font-size:2cqw;max-width:30ch}
+.a-land .go{background:var(--accent);color:var(--accent-ink);font-size:1.9cqw;font-weight:500;padding:1.6cqw 3cqw;border-radius:99px}
+.a-land .tt{align-self:center;background:var(--panel);color:var(--panel-ink);border-radius:2cqw;padding:1.4cqw 2cqw;display:grid}
+.a-land .tt div{display:flex;justify-content:space-between;gap:2cqw;font-size:1.8cqw;padding:1.3cqw 0;border-bottom:1px solid color-mix(in srgb,var(--panel-ink) 12%,transparent);font-variant-numeric:tabular-nums}
+.a-land .tt div:last-child{border:0}
+.a-land .tt div:first-child span:last-child{color:var(--accent)}
+.a-post{background:var(--accent);color:var(--accent-ink);padding:9cqw;display:grid;align-content:end;gap:6cqw}
+.a-post h4{font:500 17cqw/.86 var(--display);letter-spacing:-0.05em;font-stretch:80%}
+.a-post p{font-size:5cqw;max-width:20ch}
+.a-post span{font-size:4.4cqw}
+.phone-stage{display:grid;place-items:center;background:var(--ground)}
+.phone{height:92%;aspect-ratio:71.5/149.6;border-radius:12cqw/6cqw;background:#0a0a0a;padding:2.4cqw;box-shadow:inset 0 0 0 .6cqw #3a3a3c,0 3cqw 6cqw -3cqw rgb(0 0 0/.7);container-type:inline-size;position:relative}
+.phone .scr{width:100%;height:100%;border-radius:10cqw/5cqw;overflow:clip;position:relative}
+.phone::after{content:"";position:absolute;top:3.4cqw;left:50%;width:30%;height:3.6%;margin-left:-15%;border-radius:99px;background:#000}
+.a-app{background:var(--panel);color:var(--panel-ink);font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;display:grid;grid-template-rows:auto auto 1fr auto auto;padding:14cqw 5cqw 0}
+.a-app .sb{position:absolute;top:4cqw;left:9cqw;font:600 5cqw/1 -apple-system,system-ui,sans-serif}
+.a-app h5{margin:0 0 4cqw;font:700 11cqw/1.1 -apple-system,system-ui,sans-serif;letter-spacing:-.02em}
+.a-app .row{display:flex;justify-content:space-between;align-items:center;padding:3.6cqw 0;border-bottom:1px solid color-mix(in srgb,var(--panel-ink) 12%,transparent);font-size:5cqw}
+.a-app .row small{display:block;color:color-mix(in srgb,var(--panel-ink) 65%,var(--panel));font-size:4cqw;margin-top:.6cqw}
+.a-app .row em{font-style:normal;font-size:4.2cqw;font-variant-numeric:tabular-nums}
+.a-app .cta{margin:4cqw 0;background:var(--accent);color:var(--accent-ink);text-align:center;font:600 5cqw/1 -apple-system,system-ui,sans-serif;padding:4cqw;border-radius:99px}
+.a-app .tab{display:grid;grid-template-columns:repeat(4,1fr);padding:2.6cqw 0 5cqw;font-size:3.2cqw;text-align:center;color:color-mix(in srgb,var(--panel-ink) 65%,var(--panel))}
+.a-app .tab span{display:grid;justify-items:center;gap:1cqw}
+.a-app .tab svg{width:6cqw;height:6cqw;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.a-app .tab .on{color:var(--accent)}
+
+/* Difference */
+.diff{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,6vw,96px);align-items:start}
+.diff .sect-head{position:sticky;top:12vh;margin:0}
+.dl-list{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.dl-list li{display:grid;grid-template-columns:minmax(0,200px) 1fr;gap:6px 28px;padding:20px 0;border-top:1px solid var(--line)}
+.dl-list li>b{font:400 24px/1.1 var(--display);letter-spacing:-0.02em}
+.dl-list li>b a{text-decoration-thickness:1px}
+.dl-list p{font-size:18px}
+.dl-list p a{white-space:nowrap}
+.diff h3{margin:48px 0 8px}
+.diff h3:first-of-type{margin-top:0}
+
+/* Library */
+.kb-bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:36px}
+.kb-bar input{height:56px;flex:1 1 320px;max-width:520px;border-radius:999px;border:0;padding:0 24px;background:var(--panel);color:var(--panel-ink);font:400 18px var(--text);caret-color:var(--accent)}
+.kb-bar input::placeholder{color:color-mix(in srgb,var(--panel-ink) 60%,var(--panel))}
+.kb-group{margin-bottom:34px}
+.kb-group[hidden],.kb-row[hidden]{display:none}
+.kb-group h3{font-size:30px;margin-bottom:6px}
+.kb-row{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr) 150px;gap:24px;padding:14px 0;border-top:1px solid var(--line);align-items:baseline}
+.kb-row a{font:400 15px var(--mono);word-break:break-word}
+.kb-row p{font-size:18px}
+.kb-row span{color:var(--muted);font-size:15px}
+
+/* Inspiration */
+.insp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(28px,4vw,64px)}
+.insp h3{margin-bottom:18px;font-size:28px}
+.ul-links{list-style:none;margin:0;padding:0;display:grid}
+.ul-links li{display:grid;gap:2px;padding:12px 0;border-top:1px solid var(--line)}
+.ul-links a{font:500 18px var(--text);display:inline-flex;align-items:center;min-height:30px}
+.ul-links span{font-size:16px;color:var(--ink)}
+.ul-links a::after{content:" \2197";font-size:.85em;margin-left:.3em}
+.research{margin-top:clamp(40px,5vw,72px);max-width:62ch;font-size:18px}
+
+/* Cookbook */
+.pg-group{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);gap:20px 28px;padding:24px 0;border-top:1px solid var(--line)}
+.pg-group h3{font-size:28px}
+.pg-row{display:flex;gap:18px;justify-content:space-between;align-items:center;padding:14px 0}
+.pg-row+.pg-row{border-top:1px solid var(--line)}
+.pg-row:first-child{padding-top:0}
+.pg-row p{font:400 clamp(18px,1.4vw,21px)/1.4 var(--text)}
+.pg-row span{display:block;color:var(--muted);font-size:15px;margin-top:4px}
+
+.noscript-note{font-size:16px}
+
 @media (max-width: 900px){
   .hero::after{background:linear-gradient(0deg,var(--ground) 0%,color-mix(in srgb,var(--ground) 82%,transparent) 55%,transparent 80%)}
   .nav ul{display:none}
-  .contrast,.step,.agents,.install{grid-template-columns:1fr}
+  .menu-btn{display:inline-flex;align-items:center}
+  .iv-split,.diff{grid-template-columns:1fr}
+  .iv-split .sect-head,.diff .sect-head{position:static}
+  .scan{grid-template-columns:1fr}
+  .scan textarea,.scan .term{min-height:320px}
+  #mode-panel:has(.mdemo-wrap){grid-template-columns:1fr}
+  .gallery{grid-template-columns:1fr}
+  .pair.w8,.pair.w4{grid-column:auto}
+  .pair.w4 .cmp{max-width:420px}
+  .dl-list li{grid-template-columns:1fr}
+  .kb-row{grid-template-columns:1fr;gap:4px}
+  .insp{grid-template-columns:1fr}
+  .pg-group{grid-template-columns:1fr}
+  .play div,.facts div{grid-template-columns:1fr;gap:2px}
+  .cmdbox{flex-direction:column;align-items:stretch}
+  .cmdbox .cp{align-self:flex-start}
+  .menu{grid-template-columns:1fr 1fr}
+  .a-deck h4{font-size:7.4cqw}
+  .contrast,.step,.agents,.install{grid-template-columns:minmax(0,1fr)}
+  .cmd pre{overflow-wrap:anywhere}
+  .cmd .copy{position:static;justify-self:start}
   .contrast-copy{position:static}
   .step:nth-child(even) .artefact{order:0}
   .palettes{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .surfaces{grid-template-columns:1fr 1fr}
-  .prompts,.credits{grid-template-columns:1fr}
+  .surfaces{grid-template-columns:minmax(0,1fr)}
+  .credits{grid-template-columns:1fr}
 }
 @media (prefers-reduced-motion: reduce){*{transition-duration:.01ms!important}}
 </style>
@@ -221,12 +443,19 @@ footer{padding:clamp(110px,14vw,220px) var(--margin) 28px;display:grid;gap:40px}
   <canvas id="glass" aria-hidden="true"></canvas>
   <nav class="nav" aria-label="Main">
     <a class="wordmark" href="#top">slopless</a>
-    <ul>
-      <li><a href="#loop">How it works</a></li>
-      <li><a href="#palettes">Palettes</a></li>
-      <li><a href="#agents">Agents</a></li>
-      <li><a href="#install">Install</a></li>
-    </ul>
+    <div class="nav-right">
+      <ul>
+        <li><a href="#loop">How it works</a></li>
+        <li><a href="#scan">Scanner</a></li>
+        <li><a href="#modes">Modes</a></li>
+        <li><a href="#examples">Examples</a></li>
+        <li><a href="#library">Knowledge</a></li>
+      </ul>
+      <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    </div>
+    <div class="menu" id="menu" hidden>
+      <a href="#loop">How it works</a><a href="#interview">Interview</a><a href="#scan">Scanner</a><a href="#modes">Modes</a><a href="#examples">Examples</a><a href="#different">How it differs</a><a href="#palettes">Palettes</a><a href="#agents">Agents</a><a href="#library">Knowledge</a><a href="#inspiration">Inspiration</a><a href="#prompts">Prompts</a><a href="#install">Install</a>
+    </div>
   </nav>
   <div class="hero-copy">
     <h1><span class="line"><span>Design that</span></span><span class="line"><span>looks decided.</span></span></h1>
@@ -355,6 +584,131 @@ tl.addLabel("ticket-claimed")
   </ol>
 </section>
 
+<section class="wrap" id="interview">
+  <div class="iv-split">
+    <div class="sect-head">
+      <h2>Try the interview.</h2>
+      <p class="lead">These are the real questions from <code>interview.md</code>: story first in round one, taste in round two. Answer them and you get the playback summary and a prompt to paste. The palette you pick here is applied to this page.</p>
+    </div>
+    <div class="ivbox-wrap">
+      <p class="cap" id="iv-prog" aria-live="polite">Round 1 of 2</p>
+      <div id="iv"><noscript><p class="noscript-note">This simulator needs JavaScript. The questions live in references/interview.md.</p></noscript></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="scan">
+  <div class="sect-head">
+    <h2>Scan your own page.</h2>
+    <p class="lead">This runs <code>slop-scan.mjs</code>, the same file the skill ships, in your browser. Nothing is uploaded. Paste HTML, CSS or copy, pick the type, press Scan.</p>
+  </div>
+  <div class="scan-bar">
+    <button class="btn btn-primary" id="scan-run" type="button">Scan</button>
+    <select id="scan-ext" aria-label="Type of the pasted text"><option value=".html">HTML</option><option value=".css">CSS</option><option value=".md">Copy (Markdown)</option><option value=".js">JS / JSX</option></select>
+    <button class="btn btn-ghost" id="scan-sample" type="button">Load sloppy sample</button>
+    <button class="btn btn-ghost" id="scan-clear" type="button">Clear</button>
+    <span class="cap" id="scan-status" role="status"></span>
+  </div>
+  <div class="scan">
+    <textarea id="scan-in" aria-label="Text to scan" spellcheck="false"></textarea>
+    <div class="term"><pre id="scan-out" aria-live="polite">The scanner needs JavaScript.</pre></div>
+  </div>
+  <p class="cap" style="margin-top:14px">It checks violet gradients, gradient text, emoji, stock words, eyebrow labels, glows, bounce easing, default fonts and weak buttons. Wrap deliberate examples in ignore markers, as this page does for its own samples.</p>
+</section>
+
+<section class="wrap" id="modes">
+  <div class="sect-head">
+    <h2>Pick a mode.</h2>
+    <p class="lead">One router decides what to load. Choose a group, then a mode, to see what it does, what triggers it, a prompt for it and the files it reads.</p>
+  </div>
+  <div class="tabs" role="tablist" aria-label="Mode groups" id="mode-tabs"></div>
+  <div class="seg" id="mode-sub" role="group" aria-label="Modes in this group"></div>
+  <div id="mode-panel" role="tabpanel" tabindex="-1"><noscript><p>Modes are listed in SKILL.md and references/review.md.</p></noscript></div>
+</section>
+
+<section class="wrap" id="examples">
+  <div class="sect-head">
+    <h2>Drag to compare.</h2>
+    <p class="lead">Four jobs, each built twice in HTML and CSS: the generated look on the left of the handle, the decided version on the right, in whichever palette you picked. Sample content, to be replaced with yours.</p>
+  </div>
+  <div class="gallery">
+    <figure class="pair w8">
+      <div class="cmp deck" role="group" aria-label="Deck slide, generated versus decided">
+        <div class="layer"><div class="a a-deck"><div><h4>Report to release, one ticket.</h4><p>The demo follows a single bug through triage, the fix, review and the store.</p></div><div class="ticket"><b>Checkout fails on saved cards</b><small>Claimed by build machine 2, 14 min</small><div class="bar"><i></i></div></div></div></div>
+        <!-- slopless-ignore-start: generated look -->
+        <div class="layer before"><div style="position:absolute;inset:0;background:linear-gradient(135deg,#6d28d9,#2563eb);color:#fff;font-family:Inter,system-ui,sans-serif;display:grid;place-content:center;justify-items:center;gap:2cqw;text-align:center;padding:5cqw"><span style="font-size:1.5cqw;letter-spacing:.2em;padding:.8cqw 2cqw;border-radius:99px;background:rgba(255,255,255,.18)">NEW · INTRODUCING</span><b style="font-size:6cqw;line-height:1.05;font-weight:800">&#x1F680; Unlock seamless growth &#x2728;</b><div style="font-size:2.2cqw;line-height:1.7;text-align:left">&#x2705; All-in-one platform<br>&#x2705; Empower your team<br>&#x2705; Supercharge results</div></div></div>
+        <!-- slopless-ignore-end -->
+        <span class="tag l">Generated</span><span class="tag r">Decided</span>
+        <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare the generated and decided deck slide">
+      </div>
+      <figcaption><b>Deck slide</b><span>One idea, the hero object on stage, no emoji bullets</span></figcaption>
+    </figure>
+    <figure class="pair w4">
+      <div class="cmp tall" role="group" aria-label="Social post, generated versus decided">
+        <div class="layer"><div class="a a-post"><span>Studio nights</span><h4>Open studio Friday</h4><p>Doors at six. Fourth floor. Bring a laptop.</p></div></div>
+        <!-- slopless-ignore-start: generated look -->
+        <div class="layer before"><div style="position:absolute;inset:0;background:linear-gradient(160deg,#7c3aed,#db2777);color:#fff;font-family:Inter,system-ui,sans-serif;display:grid;place-content:center;justify-items:center;gap:4cqw;text-align:center;padding:8cqw"><b style="font-size:9cqw;line-height:1.05;font-weight:800">&#x1F525; BIG NEWS &#x1F525;</b><span style="font-size:5.4cqw">Join the revolution today!</span><span style="font-size:5cqw;padding:3cqw 7cqw;border-radius:99px;background:#fff;color:#7c3aed;font-weight:700;box-shadow:0 0 40px rgba(255,255,255,.8)">Learn more</span></div></div>
+        <!-- slopless-ignore-end -->
+        <span class="tag l">Generated</span><span class="tag r">Decided</span>
+        <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare the generated and decided social post">
+      </div>
+      <figcaption><b>Social post</b><span>One message, readable at thumbnail size</span></figcaption>
+    </figure>
+    <figure class="pair w8">
+      <div class="cmp land" role="group" aria-label="Landing hero, generated versus decided">
+        <div class="layer"><div class="a a-land"><nav><b>Nachtzug</b><span>Routes &nbsp; Tickets &nbsp; Help</span></nav><div class="c"><h4>Night trains, booked in one tap.</h4><p>Berlin to Vienna, Paris to Milan. Pick a berth and see the real timetable.</p><span class="go">Book a night train</span></div><div class="tt"><div><span>Berlin - Vienna</span><span>21:34</span></div><div><span>Paris - Milan</span><span>19:12</span></div><div><span>Zurich - Prague</span><span>22:05</span></div><div><span>Brussels - Vienna</span><span>19:42</span></div></div></div></div>
+        <!-- slopless-ignore-start: generated look -->
+        <div class="layer before"><div style="position:absolute;inset:0;background:linear-gradient(135deg,#4c1d95,#1d4ed8);color:#fff;font-family:Inter,system-ui,sans-serif;display:grid;place-content:center;justify-items:center;gap:1.8cqw;text-align:center;padding:4cqw"><span style="font-size:1.4cqw;letter-spacing:.2em;padding:.7cqw 2cqw;border-radius:99px;background:rgba(255,255,255,.18)">&#x2728; INTRODUCING V2</span><b style="font-size:5.4cqw;line-height:1.05;font-weight:800;background:linear-gradient(90deg,#c4b5fd,#7dd3fc);-webkit-background-clip:text;background-clip:text;color:transparent">Travel smarter with AI-powered journeys</b><div style="display:flex;gap:1.4cqw"><span style="font-size:1.8cqw;padding:1.2cqw 2.8cqw;border-radius:10px;background:#fff;color:#4c1d95;font-weight:700;box-shadow:0 0 30px rgba(196,181,253,.9)">Get started</span><span style="font-size:1.8cqw;padding:1.2cqw 2.8cqw;border-radius:10px;border:1px solid #fff">Learn more</span></div><div style="display:flex;gap:1.4cqw;margin-top:1cqw">
+          <span style="width:17cqw;padding:1.6cqw;border-radius:12px;background:rgba(255,255,255,.12);font-size:1.5cqw">&#x1F680;<br>Fast</span><span style="width:17cqw;padding:1.6cqw;border-radius:12px;background:rgba(255,255,255,.12);font-size:1.5cqw">&#x1F512;<br>Secure</span><span style="width:17cqw;padding:1.6cqw;border-radius:12px;background:rgba(255,255,255,.12);font-size:1.5cqw">&#x26A1;<br>Simple</span></div></div></div>
+        <!-- slopless-ignore-end -->
+        <span class="tag l">Generated</span><span class="tag r">Decided</span>
+        <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare the generated and decided landing hero">
+      </div>
+      <figcaption><b>Landing hero</b><span>The product's own artefact, left-aligned, one action</span></figcaption>
+    </figure>
+    <figure class="pair w4">
+      <div class="cmp tall phone-stage" role="group" aria-label="App screen, generated versus decided">
+        <div class="layer phone-stage"><div class="phone"><div class="scr a-app"><span class="sb">9:41</span><h5>Trips</h5><div><div class="row"><span>Berlin to Vienna<small>Sleeper, berth 4</small></span><em>21:34</em></div><div class="row"><span>Paris to Milan<small>Couchette</small></span><em>19:12</em></div><div class="row"><span>Zurich to Prague<small>Seat 41</small></span><em>22:05</em></div></div><div></div><div class="cta">New trip</div><div class="tab"><span class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Trips</span><span><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Search</span><span><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Planner</span><span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>You</span></div></div></div></div>
+        <!-- slopless-ignore-start: generated look -->
+        <div class="layer before phone-stage" style="background:#1e1b4b"><div class="phone"><div class="scr" style="background:linear-gradient(160deg,#7c3aed,#2563eb);color:#fff;font-family:Inter,system-ui,sans-serif;display:grid;align-content:center;justify-items:center;gap:6cqw;text-align:center;padding:8cqw"><b style="font-size:11cqw;font-weight:800;line-height:1.05">Welcome back &#x1F44B;</b><span style="font-size:5cqw;opacity:.85">Your AI-powered travel companion</span><span style="font-size:5.4cqw;padding:4cqw 9cqw;border-radius:14px;background:#fff;color:#6d28d9;font-weight:700;box-shadow:0 0 40px rgba(255,255,255,.8)">Get started</span><span style="font-size:7cqw;letter-spacing:3cqw;margin-top:8cqw">&#x1F3E0;&#x1F50D;&#x2764;&#xFE0F;&#x1F464;</span></div></div></div>
+        <!-- slopless-ignore-end -->
+        <span class="tag l">Generated</span><span class="tag r">Decided</span>
+        <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare the generated and decided app screen">
+      </div>
+      <figcaption><b>App screen</b><span>Real phone proportions, system font, drawn icons, one action</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="wrap" id="different">
+  <div class="diff">
+    <div class="sect-head">
+      <h2>How it differs.</h2>
+      <p class="lead">slopless stands on other people's work. This is what it took from each project, and what it adds. It is not a benchmark: we have not run these against each other, and each project has moved since NOTICE was written. Read their own pages for what they do today.</p>
+    </div>
+    <div>
+      <h3>With no skill</h3>
+      <ul class="dl-list"><li><b>The model alone</b><p>Left to its defaults it produces the average of everything it has read: centred hero, eyebrow label, three icon cards, a violet gradient. Nothing checks the result or remembers what you said last time.</p></li></ul>
+      <h3>What slopless adapted</h3>
+      <ul class="dl-list">
+        <li><b><a href="https://github.com/pbakaus/impeccable" target="_blank" rel="noopener">Impeccable</a></b><p>Craft floor checks, refinement versus redesign, colour strategies, training-data font defaults, bounded verification passes, and the bolder, quieter, distill and harden modes. Apache-2.0.</p></li>
+        <li><b><a href="https://github.com/leonxlnx/taste-skill" target="_blank" rel="noopener">taste-skill</a></b><p>The subject inventory and idea sentence, the competitor test, one live thing, a dated tells registry, "removal is not enough" and the look-and-fix screenshot loop. MIT.</p></li>
+        <li><b><a href="https://github.com/nextlevelbuilder/ui-ux-pro-max-skill" target="_blank" rel="noopener">UI/UX Pro Max</a></b><p>Priority-ordered UX rules, platform touch targets and native-app polish, a persisted design-system pattern with master and overrides, and density and motion dials. MIT.</p></li>
+      </ul>
+      <h3>What slopless adds</h3>
+      <ul class="dl-list">
+        <li><b>Story-first interview</b><p>Round one asks what it is, who sees it and the one sentence, before any taste question. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/interview.md" target="_blank" rel="noopener">interview.md</a></p></li>
+        <li><b>Presenter-controlled decks</b><p>Arrow keys play the next beat and stop; the presenter owns the pace. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/surfaces/deck.md" target="_blank" rel="noopener">deck.md</a></p></li>
+        <li><b>Taste memory</b><p>Your corrections become dated lines in a file that outranks the skill's defaults on the next run. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/memory.md" target="_blank" rel="noopener">memory.md</a></p></li>
+        <li><b>Opt-in agents with model tiers</b><p>Offered once on big jobs, one to four helpers, cheaper models for mechanical work. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/agents.md" target="_blank" rel="noopener">agents.md</a></p></li>
+        <li><b>Glass when you choose it</b><p>Banned as decoration, allowed as a chosen material with a recipe. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/tells.md" target="_blank" rel="noopener">tells.md</a></p></li>
+        <li><b>One router, references on demand</b><p>A short SKILL.md loads one small file per step, so a small fix never pulls in the library. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/SKILL.md" target="_blank" rel="noopener">SKILL.md</a></p></li>
+        <li><b>A bundled scanner</b><p>The same file runs from the command line and in the scanner above. <a href="https://github.com/kundan0907/slopless/blob/main/slopless/scripts/slop-scan.mjs" target="_blank" rel="noopener">slop-scan.mjs</a></p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <section class="wrap" id="palettes">
   <h2>Ten palettes, each with a job.</h2>
   <p class="lead quiet" style="margin-top:24px">Pick one and this page changes to match, including the glass at the top. Bring your own brand colours and slopless derives the rest and checks the contrast.</p>
@@ -387,14 +741,37 @@ tl.addLabel("ticket-claimed")
   </div>
 </section>
 
-<section class="wrap" id="prompts">
-  <h2>How to ask for it.</h2>
-  <div class="prompts">
-    <div class="prompt"><p>Use slopless. I'm giving a 15-minute talk to our platform team on how we cut release time. Here's my outline.</p><span>Starts the interview, then a deck with presenter controls</span></div>
-    <div class="prompt"><p>Use slopless to redesign this landing page. Keep every word. It looks like every other AI site.</p><span>Review first: scan, screenshots, a scored critique</span></div>
-    <div class="prompt"><p>slopless, three Instagram posts announcing our beta, Porcelain Cobalt, 1080×1350.</p><span>Graphics built in HTML and exported at exact size</span></div>
-    <div class="prompt"><p>Use slopless in agents mode with three helpers. Rebuild the deck in the Sapphire Glass direction.</p><span>Builder, motion and reviewer in parallel</span></div>
+<section class="wrap" id="library">
+  <div class="sect-head">
+    <h2>What's in the skill.</h2>
+    <p class="lead">Every file, one line each, linked to the source. A run loads only the rows whose "Loaded" column matches the step it is on.</p>
   </div>
+  <div class="kb-bar">
+    <input id="kbq" type="search" placeholder="Filter files, for example motion or deck" aria-label="Filter the knowledge base">
+    <span class="cap" id="kb-status" role="status"></span>
+  </div>
+  <div id="kb"><div class="kb-group"><h3>Router</h3><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/SKILL.md" target="_blank" rel="noopener">SKILL.md</a><p>The router: starts every run, classifies the job, lists the loop and the floor.</p><span>Always</span></div></div><div class="kb-group"><h3>The loop</h3><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/interview.md" target="_blank" rel="noopener">interview.md</a><p>Story first, then taste. Four questions a round, options with a recommended default, a playback summary.</p><span>Step 1</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/direction.md" target="_blank" rel="noopener">direction.md</a><p>Inventory the subject, write the idea sentence, run the competitor test, pick a colour strategy.</p><span>Step 2</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/palettes.md" target="_blank" rel="noopener">palettes.md</a><p>Ten palettes with tokens, strategy and best use, plus how to derive a custom brand palette.</p><span>Step 2</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/type.md" target="_blank" rel="noopener">type.md</a><p>Type laws, faces that read as decided, training-data defaults to avoid, loading and slides.</p><span>Step 2</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/layout.md" target="_blank" rel="noopener">layout.md</a><p>Composition, space, surfaces, fullness and the responsive rules.</p><span>Step 2</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/motion.md" target="_blank" rel="noopener">motion.md</a><p>The four motion levels, connected storytelling, curves, timelines, 3D, glass and reduced motion.</p><span>Choosing motion</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/brief.md" target="_blank" rel="noopener">brief.md</a><p>The one-screen brief template that doubles as a handoff.</p><span>Writing the brief</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/craft-floor.md" target="_blank" rel="noopener">craft-floor.md</a><p>Contrast, states, browser surfaces, icons, depth, semantics: the checks before editing UI.</p><span>Step 4</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/copy.md" target="_blank" rel="noopener">copy.md</a><p>Write the argument first, plain voice, banned patterns and words.</p><span>Step 4</span></div></div><div class="kb-group"><h3>Surfaces</h3><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/surfaces/deck.md" target="_blank" rel="noopener">surfaces/deck.md</a><p>Talks and decks: beats, presenter-owned controls, one master timeline, offline single file.</p><span>Deck jobs</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/surfaces/web.md" target="_blank" rel="noopener">surfaces/web.md</a><p>Landing pages and portfolios: first screen, claim-to-proof sections, imagery order, build and verify.</p><span>Web jobs</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/surfaces/app.md" target="_blank" rel="noopener">surfaces/app.md</a><p>iOS, Android, React Native and dashboards: platform fit, states, dark mode, verify.</p><span>App jobs</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/surfaces/graphic.md" target="_blank" rel="noopener">surfaces/graphic.md</a><p>Posts, posters and brand boards: sizes, safe areas, HTML-to-PNG export.</p><span>Graphic jobs</span></div></div><div class="kb-group"><h3>Review and memory</h3><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/review.md" target="_blank" rel="noopener">review.md</a><p>Scan, shoot, ten scored passes, content audit, and the bolder, quieter, distill and harden modes.</p><span>Step 5, any review</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/tells.md" target="_blank" rel="noopener">tells.md</a><p>The registry of tells by wave, with banned or warned status and which ones the scanner finds.</p><span>Step 5, any review</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/memory.md" target="_blank" rel="noopener">memory.md</a><p>The taste file and the project DESIGN.md: what to write, when, and who wins.</p><span>Writing memory</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/agents.md" target="_blank" rel="noopener">agents.md</a><p>Opt-in helpers: roles, model tiers, how many, the flow and the helper brief.</p><span>You opt in</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/inspiration.md" target="_blank" rel="noopener">inspiration.md</a><p>Galleries, effect libraries and reading, plus how to research a technique.</p><span>You want references</span></div></div><div class="kb-group"><h3>Scripts</h3><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/scripts/slop-scan.mjs" target="_blank" rel="noopener">scripts/slop-scan.mjs</a><p>Static scan for tells. The scanner on this page is this file, bundled.</p><span>Step 5</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/scripts/shoot.mjs" target="_blank" rel="noopener">scripts/shoot.mjs</a><p>Playwright screenshots at 1440, 768 and 390, or deck sizes with step-through.</p><span>Step 5</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/scripts/contrast.mjs" target="_blank" rel="noopener">scripts/contrast.mjs</a><p>WCAG contrast ratio for two hex colours.</p><span>Palette checks</span></div><div class="kb-row" data-kb><a href="https://github.com/kundan0907/slopless/blob/main/slopless/scripts/test/slop-scan.test.mjs" target="_blank" rel="noopener">scripts/test/slop-scan.test.mjs</a><p>Tests for the scanner rules and the contrast maths.</p><span>Changing the scanner</span></div></div></div>
+</section>
+
+<section class="wrap" id="inspiration">
+  <div class="sect-head">
+    <h2>Where it looks.</h2>
+    <p class="lead">When you want references, or a technique needs researching, slopless points here. The rule is to learn the technique and never clone the site.</p>
+  </div>
+  <div class="insp">
+    <div><h3>Galleries</h3><ul class="ul-links"><li><a href="https://www.awwwards.com" target="_blank" rel="noopener">Awwwards</a><span>Jury-scored sites. Study high-end and experimental motion.</span></li><li><a href="https://godly.website" target="_blank" rel="noopener">Godly</a><span>Curated and shown as video. Study animated landing pages.</span></li><li><a href="https://land-book.com" target="_blank" rel="noopener">Land-book</a><span>Landing pages and portfolios sorted by type.</span></li><li><a href="https://www.siteinspire.com" target="_blank" rel="noopener">Siteinspire</a><span>Minimal, typography-led sites.</span></li><li><a href="https://onepagelove.com" target="_blank" rel="noopener">One Page Love</a><span>Single pages and portfolios.</span></li><li><a href="https://minimal.gallery" target="_blank" rel="noopener">Minimal Gallery</a><span>Restrained, editorial work.</span></li><li><a href="https://mobbin.com" target="_blank" rel="noopener">Mobbin</a><span>Real app screens and flows on iOS, Android and web.</span></li><li><a href="https://www.apple.com" target="_blank" rel="noopener">Apple product pages</a><span>Pacing, type scale and scroll-driven product storytelling.</span></li></ul></div>
+    <div><h3>Effects and components</h3><ul class="ul-links"><li><a href="https://canvasui.dev" target="_blank" rel="noopener">Canvas UI</a><span>WebGL and WebGPU effects: liquid, glass, ripple, clouds, grid. MIT with Commons Clause.</span></li><li><a href="https://experiments.thisiswhitespace.com" target="_blank" rel="noopener">Whitespace experiments</a><span>Optical glass and hero studies.</span></li><li><a href="https://threeui.com" target="_blank" rel="noopener">ThreeUI</a><span>Interactive 3D landing sections.</span></li><li><a href="https://tympanus.net/codrops" target="_blank" rel="noopener">Codrops</a><span>WebGL, shader and scroll tutorials with source.</span></li><li><a href="https://gsap.com/showcase" target="_blank" rel="noopener">GSAP showcase</a><span>Production timelines and ScrollTrigger.</span></li><li><a href="https://threejs.org/examples" target="_blank" rel="noopener">Three.js examples</a><span>The reference for materials, loaders and post effects.</span></li></ul></div>
+    <div><h3>Reading</h3><ul class="ul-links"><li><a href="https://prg.sh/ramblings" target="_blank" rel="noopener">Why your AI keeps building the same purple gradient website</a><span>prg.sh/ramblings. The case for naming the defaults.</span></li><li><a href="https://github.com/pbakaus/impeccable" target="_blank" rel="noopener">Impeccable</a><span>Anti-patterns and craft floor.</span></li><li><a href="https://github.com/leonxlnx/taste-skill" target="_blank" rel="noopener">taste-skill</a><span>Gallery study and tells registry.</span></li><li><a href="https://github.com/emilkowalski/skills" target="_blank" rel="noopener">Emil Kowalski skills</a><span>UI polish and motion.</span></li><li><a href="https://github.com/greensock/gsap-skills" target="_blank" rel="noopener">GSAP agent skills</a><span>The official GSAP skills for agents.</span></li></ul></div>
+  </div>
+  <p class="research">To research a technique: open it in a real browser and note what moves, what triggers it and what happens on a phone. Inspect how it is built. Write it down as a decision before coding, then say what was adopted and what was built.</p>
+</section>
+
+<section class="wrap" id="prompts">
+  <div class="sect-head">
+    <h2>Prompts to copy.</h2>
+    <p class="lead">Name the skill, say what you are making, and say what must not change. Anything you leave out, slopless asks.</p>
+  </div>
+  <div><div class="pg-group"><h3>Deck</h3><div><div class="pg-row"><div><p class="cp-src">Use slopless. I'm giving a 15-minute talk to our platform team on how we cut release time. Here's my outline.</p><span>Runs the interview, then builds a deck with presenter controls.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless. I'm giving a 15-minute tal">Copy</button></div><div class="pg-row"><div><p class="cp-src">Use slopless to rebuild this deck in Sapphire Glass, cinematic motion. Keep every number and the speaker notes exactly as they are.</p><span>A redesign that treats your outline as the source of truth.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless to rebuild this deck in Sap">Copy</button></div></div></div><div class="pg-group"><h3>Web</h3><div><div class="pg-row"><div><p class="cp-src">Use slopless to redesign this landing page. Keep every word. It looks like every other AI site.</p><span>Scan and screenshots first, then a scored critique and one batch of fixes.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless to redesign this landing pa">Copy</button></div><div class="pg-row"><div><p class="cp-src">slopless, portfolio for a motion designer. Moss Paper, subtle motion. One signature interaction that is about her craft.</p><span>Palette and motion level given up front, so the interview skips them.</span></div><button class="cp" type="button" aria-label="Copy prompt: slopless, portfolio for a motion designe">Copy</button></div></div></div><div class="pg-group"><h3>App</h3><div><div class="pg-row"><div><p class="cp-src">Use slopless on this onboarding screen for iOS. 390 by 844, dark and light, add empty and error states.</p><span>Loads the app surface file: platform fit, states, both themes.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless on this onboarding screen f">Copy</button></div></div></div><div class="pg-group"><h3>Graphic</h3><div><div class="pg-row"><div><p class="cp-src">slopless, three Instagram posts announcing our beta, Porcelain Cobalt, 1080 by 1350.</p><span>Built in HTML, exported at exact size, one template for the set.</span></div><button class="cp" type="button" aria-label="Copy prompt: slopless, three Instagram posts announci">Copy</button></div></div></div><div class="pg-group"><h3>Review and modes</h3><div><div class="pg-row"><div><p class="cp-src">Use slopless to review this screen. Why does it look generated?</p><span>Review mode: scan, screenshots, ten passes, top three problems.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless to review this screen. Why ">Copy</button></div><div class="pg-row"><div><p class="cp-src">Use slopless: make this hero bolder.</p><span>Bigger scale contrast, a committed colour field, one signature move. Swap in quieter, distill or harden.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless: make this hero bolder.">Copy</button></div></div></div><div class="pg-group"><h3>Agents and memory</h3><div><div class="pg-row"><div><p class="cp-src">Use slopless in agents mode with three helpers. Rebuild the deck in the Sapphire Glass direction.</p><span>Builder, motion and reviewer run in parallel on a shared core.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless in agents mode with three h">Copy</button></div><div class="pg-row"><div><p class="cp-src">Remember for slopless: I reject decorative colour bars and I want two live studies before a full build.</p><span>Becomes dated lines in your taste file.</span></div><button class="cp" type="button" aria-label="Copy prompt: Remember for slopless: I reject decorati">Copy</button></div></div></div></div>
 </section>
 
 <section class="wrap" id="install">
@@ -4707,6 +5084,7 @@ three/build/three.module.js:
     posterBox.append(b);
   }
 
+  window.sloplessPalettes = PALETTES;
   function apply(id) {
     const p = PALETTES.find((x) => x.id === id) || PALETTES[0];
     root.dataset.palette = p.id;
@@ -4714,6 +5092,7 @@ three/build/three.module.js:
     document.querySelectorAll('.swatch,.poster').forEach((el) => el.setAttribute('aria-pressed', String(el.dataset.id === p.id)));
     scene?.setPalette(p);
   }
+  window.sloplessApply = apply;
   document.addEventListener('click', (e) => {
     const t = e.target.closest('.swatch,.poster');
     if (t) apply(t.dataset.id);
@@ -4812,6 +5191,27 @@ three/build/three.module.js:
     gsap.from('.bigname', { yPercent: 40, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: 'footer', start: 'top 70%', once: true } });
   });
 })();
+</script>
+<script>(()=>{var $=[];var Q={},D=new Set([".html",".htm",".css",".scss",".js",".jsx",".ts",".tsx",".vue",".svelte",".astro",".md",".mdx"]),H=new Set(["node_modules",".git","dist","build",".next",".slopless","vendor"]),U=["seamless","seamlessly","effortless","effortlessly","empower","unlock","elevate","leverage","supercharge","streamline","cutting-edge","next-gen","revolutionary","game-changing","game-changer","ai-powered","all-in-one","at a glance","delve","tapestry","best-in-class","world-class","unleash"],B=["get started","learn more"],Y=/font-family\s*:\s*["']?(Inter|Roboto|Open Sans|Lato|Poppins|Montserrat)\b/gi,K=/\p{Extended_Pictographic}/gu;function _(t){let e=t.replace("#","");(e.length===3||e.length===4)&&(e=[...e.slice(0,3)].map(r=>r+r).join(""));let[s,a,i]=[0,2,4].map(r=>parseInt(e.slice(r,r+2),16)/255),p=Math.max(s,a,i),l=Math.min(s,a,i),d=p-l;return d?{hue:((p===s?60*((a-i)/d%6):p===a?60*((i-s)/d+2):60*((s-a)/d+4))+360)%360,sat:d/(1-Math.abs(p+l-1))}:{hue:0,sat:0}}var G=t=>{let{hue:e,sat:s}=_(t);return e>=245&&e<=300&&s>.35};function X(t,e){if(t=t.replace(/slopless-ignore-start[\s\S]*?slopless-ignore-end/g," "),t=t.replace(/data:[^"')\s]{80,}/g,"data:\u2026").split(`
+`).filter(s=>s.length<2e3).join(`
+`),e===".css"||e===".scss")return{css:t,text:""};if(e===".md"||e===".mdx")return{css:"",text:t.replace(/```[\s\S]*?```/g,"").replace(/`[^`]*`/g,"")};if(e===".html"||e===".htm"){let s=[...t.matchAll(/<style[^>]*>([\s\S]*?)<\/style>|style="([^"]*)"/gi)].map(i=>i[1]||i[2]).join(`
+`),a=t.replace(/<(script|style|pre|code)[^>]*>[\s\S]*?<\/\1>/gi," ").replace(/<[^>]+>/g," ").replace(/&[a-z]+;/g," ");return{css:s,text:a}}return{css:t,text:t.replace(/^\s*import .*$/gm,"")}}var x=(t,e)=>(e.match(t)||[]).length;function C(t,e){let{css:s,text:a}=X(t,e),i=a.toLowerCase(),p=[],l=(f,A,y)=>p.push({level:f,rule:A,msg:y}),u=(s.match(/(linear|radial|conic)-gradient\([^;{}]*\)/gi)||[]).filter(f=>(f.match(/#[0-9a-f]{3,8}\b/gi)||[]).some(G)).length+x(/\b(from|via|to)-(purple|violet|indigo|fuchsia)-\d{2,3}\b/g,s);u&&l("FAIL","violet-gradient",`${u} violet/indigo gradient(s)`),/background-clip\s*:\s*text|bg-clip-text/i.test(s)&&l("FAIL","gradient-text","gradient-filled text");let r=x(K,a.replace(/[©®™]/g,""));r&&l("FAIL","emoji",`${r} emoji in visible text (use drawn icons or words)`);let h=U.filter(f=>new RegExp(`\\b${f}\\b`).test(i));h.length&&l("FAIL","copy",`stock words: ${h.join(", ")}`),/lorem ipsum/.test(i)&&l("FAIL","lorem","lorem ipsum");let o=[...s.matchAll(Y)].map(f=>f[1]);o.length&&l("WARN","default-font",`training-data default face: ${[...new Set(o)].join(", ")}`);let n=[...s.matchAll(/\{[^}]*\}/g)].filter(f=>/text-transform\s*:\s*uppercase/i.test(f[0])&&/letter-spacing\s*:\s*0?\.(0[8-9]|[1-9])/i.test(f[0])).length+x(/\buppercase\b[^"'`]*\btracking-(wider|widest)\b/g,s);n&&l("WARN","eyebrow",`${n} tiny tracked-uppercase label style(s)`);let c=x(/box-shadow\s*:\s*0(px)?\s+0(px)?\s+\d+px/gi,s);c&&l("WARN","glow",`${c} zero-offset glow shadow(s)`);let w=x(/backdrop-filter\s*:/gi,s);w>6&&l("WARN","glass-everywhere",`${w} backdrop-filter declarations; keep glass to a few surfaces`),/ease\s*:\s*["']?(bounce|elastic)|cubic-bezier\([^)]*,\s*-?(1\.[3-9]|[2-9])/i.test(s)&&l("WARN","bounce","bounce/elastic easing");let b=B.filter(f=>i.includes(f));b.length&&l("WARN","weak-cta",`generic action label: ${b.join(", ")}`);let k=x(/—/g,a);return k>6&&l("WARN","em-dash",`${k} em dashes`),p}function I(t,e){if(0(t).isDirectory())for(let a of 0(t))H.has(a)||I(0(t,a),e);else D.has(0(t).toLowerCase())&&e.push(t);return e}if(Q.url===`file://${$[1]}`){let t=$.slice(2),e=t.indexOf("--allow"),s=new Set(e>=0?t.splice(e,2)[1].split(","):[]),a=t.includes("--json"),i=t.filter(d=>!d.startsWith("--"));i.length||(console.error("usage: slop-scan.mjs <file|dir>... [--allow rule,rule] [--json]"),process.exit(2));let p=i.flatMap(d=>I(d,[])).map(d=>({file:d,findings:C(0(d,"utf8"),0(d).toLowerCase()).filter(u=>!s.has(u.rule))})),l=p.reduce((d,u)=>d+u.findings.filter(r=>r.level==="FAIL").length,0);if(a)console.log(JSON.stringify(p,null,2));else{for(let u of p)for(let r of u.findings)console.log(`${r.level.padEnd(4)} ${u.file}  [${r.rule}] ${r.msg}`);let d=p.reduce((u,r)=>u+r.findings.filter(h=>h.level==="WARN").length,0);console.log(`
+${p.length} file(s): ${l} FAIL, ${d} WARN${l?"":" \u2014 clean of banned tells"}`)}process.exit(l?1:0)}var m=(t,e=document)=>e.querySelector(t),L=(t,e=document)=>[...e.querySelectorAll(t)],g=t=>String(t).replace(/[&<>"]/g,e=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[e]),j=matchMedia("(prefers-reduced-motion: reduce)").matches,E=()=>window.sloplessPalettes||[];function J(t,e){let s=()=>{let a=t.dataset.label||t.textContent;t.dataset.label=a,t.textContent="Copied",setTimeout(()=>t.textContent=a,1400)};(navigator.clipboard?.writeText(e)||Promise.reject()).then(s,()=>{let a=document.createElement("textarea");a.value=e,document.body.append(a),a.select();try{document.execCommand("copy"),s()}catch{}a.remove()})}document.addEventListener("click",t=>{let e=t.target.closest(".cp");if(!e)return;let s=e.dataset.target?document.getElementById(e.dataset.target):e.parentElement.querySelector(".cp-src");s&&J(e,s.value??s.textContent)});{let t=m("#menu-btn"),e=m("#menu"),s=a=>{t.setAttribute("aria-expanded",String(a)),e.hidden=!a};t.addEventListener("click",()=>s(e.hidden)),e.addEventListener("click",a=>{a.target.closest("a")&&s(!1)}),addEventListener("keydown",a=>{a.key==="Escape"&&!e.hidden&&(s(!1),t.focus())})}var M="<",R=`${M}style>
+.hero{background:linear-gradient(135deg,#7c3aed,#2563eb);text-align:center;font-family:Inter,sans-serif}
+.kicker{text-transform:uppercase;letter-spacing:.2em;font-size:12px}
+h1{background:linear-gradient(90deg,#a78bfa,#38bdf8);-webkit-background-clip:text;color:transparent}
+.btn{box-shadow:0 0 40px #a78bfa;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+${M}/style>
+<section class="hero">
+  <p class="kicker">New \xB7 Introducing</p>
+  <h1>\u{1F680} Unlock seamless workflows \u2728</h1>
+  <p>The all-in-one platform that empowers your team to do more.</p>
+  <a class="btn">Get started</a>
+</section>`;{let t=m("#scan-in"),e=m("#scan-out"),s=m("#scan-ext"),a=()=>{let i=C(t.value,s.value),p=i.filter(u=>u.level==="FAIL").length,l=i.length-p,d=i.map(u=>`<span class="${u.level==="FAIL"?"f":"w"}">${u.level.padEnd(4)}</span> snippet${s.value}  [${g(u.rule)}] ${g(u.msg)}`);d.push("",`<span class="${p?"f":"ok"}">1 file(s): ${p} FAIL, ${l} WARN${p?"":" - clean of banned tells"}</span>`),e.innerHTML=d.join(`
+`),m("#scan-status").textContent=`${p} fail, ${l} warn`};t.value=R,m("#scan-run").addEventListener("click",a),m("#scan-sample").addEventListener("click",()=>{t.value=R,s.value=".html",a()}),m("#scan-clear").addEventListener("click",()=>{t.value="",t.focus(),e.textContent="Paste HTML, CSS or copy, then press Scan.",m("#scan-status").textContent=""}),s.addEventListener("change",a),t.addEventListener("keydown",i=>{(i.metaKey||i.ctrlKey)&&i.key==="Enter"&&a()}),a()}{let d=function(){if(s>=t.length)return u();let r=t[s];i.textContent=`Round ${r.round} of 2, question ${s+1} of ${t.length}`;let h="";r.text?h=`<label class="fld">After this, <input id="iv-aud" value="${g(e.aud)}" aria-label="Audience"> believes<br><textarea id="iv-claim" rows="2" aria-label="Claim">${g(e.claim)}</textarea>because<br><textarea id="iv-proof" rows="2" aria-label="Proof">${g(e.proof)}</textarea></label><div class="iv-nav"><button class="btn btn-primary" type="button" data-next>Next</button></div>`:r.palette?h=`<div class="iv-pal" role="group" aria-label="Palette">${E().map(o=>`<button type="button" class="ivp" data-pal="${o.id}" aria-pressed="${e.pal===o.id}" style="--p-ground:${o.ground};--p-accent:${o.accent};--p-ink:${o.ink}"><i></i><span>${g(o.name)}</span></button>`).join("")}</div>`:h=`<div class="opts iv-opts">${r.opts.map((o,n)=>`<button type="button" class="opt${e[r.id]===o[0]?" pick":""}" data-k="${n}"><span>${g(o[0])}</span><small>${g(o[1]&&r.id==="motion"?o[1]:n===r.rec?"recommended":"")}</small></button>`).join("")}</div>`,a.innerHTML=`<h3 class="q">${g(r.q)}</h3>${h}<div class="iv-nav">${s?'<button class="btn btn-ghost" type="button" data-back>Back</button>':""}</div>`,a.querySelector("button, input")?.focus({preventScroll:!0})},u=function(){let r=t[0].opts.find(b=>b[0]===e.what)||t[0].opts[1],h=E().find(b=>b.id===e.pal)||E()[0],o=p(h.ground)>.5?"light":"dark",n=`After this, ${l("aud").toLowerCase()} believes ${l("claim")} because ${l("proof")}.`,c=[["Story",n],["Format",r[1]],["Hero",`${e.hero.toLowerCase()} that travels through every part`],["Taste",`${h.name}, ${e.mat.toLowerCase()}, ${e.motion.toLowerCase()} motion, ${o}, mood: ${e.mood.toLowerCase()}`],["Authority","your own material. Must not change: facts and numbers you give me"]],w=`Use slopless. I'm making ${r[2]}. ${n.replace(/^After this, /,"After this, ")} Hero object: ${e.hero.toLowerCase()}. Taste: ${h.name}, ${e.mat.toLowerCase()}, ${e.motion.toLowerCase()} motion, ${e.mood.toLowerCase()}. Keep my facts and numbers exactly as given.`;i.textContent="Playback",a.innerHTML=`<h3 class="q">Playback. Say yes and the build starts.</h3><dl class="play">${c.map(([b,k])=>`<div><dt>${b}</dt><dd>${g(k)}</dd></div>`).join("")}</dl>
+      <div class="cmdbox"><pre><code class="cp-src" id="iv-prompt">${g(w)}</code></pre><button class="cp" type="button">Copy prompt</button></div>
+      <div class="iv-nav"><button class="btn btn-ghost" type="button" data-back>Back</button><button class="btn btn-ghost" type="button" data-restart>Start over</button></div>`},t=[{id:"what",round:1,q:"What is it?",opts:[["Talk with a presenter","deck, 15 minutes, presenter-paced","a talk"],["Scrolling page","web, one page, scrolling","a landing page"],["Portfolio","web, portfolio, scrolling","a portfolio"],["App screen or flow","app, one flow, 390x844","an app flow"],["Graphic","graphic, a set of posts, exact pixel size","a graphic set"]],rec:1},{id:"aud",round:1,q:"Who sees it?",opts:[["My team"],["Customers"],["Hiring managers"],["A conference room"]],rec:0},{id:"line",round:1,q:"The one sentence.",text:!0},{id:"hero",round:1,q:"The hero object: the one thing that travels through the story.",opts:[["A ticket"],["A message"],["A device"],["A person's day"],["A product"],["A number"]],rec:0},{id:"mood",round:2,q:"Mood",opts:[["Bold and loud"],["Calm and editorial"],["Dark and cinematic"],["Light and airy"],["Technical"]],rec:2},{id:"motion",round:2,q:"Motion",opts:[["Still","hover and press feedback only"],["Subtle","entrances, gentle parallax"],["Cinematic","connected scenes, scrubbed timelines"],["Spatial 3D","real 3D, shaders"]],rec:2},{id:"mat",round:2,q:"Material",opts:[["Flat ink"],["Paper / matte"],["Frosted glass"],["Atmosphere"],["Blueprint lines"],["Photography-led"]],rec:1},{id:"pal",round:2,q:"Palette (applies to this page)",palette:!0}],e={aud:"My team",claim:"the checkout bug could be fixed the same day",proof:"we followed one ticket from report to release",pal:"obsidian"},s=0,a=m("#iv"),i=m("#iv-prog"),p=r=>{let[h,o,n]=[1,3,5].map(c=>parseInt(r.slice(c,c+2),16)/255);return .2126*h+.7152*o+.0722*n},l=r=>e[r]??"";a.addEventListener("click",r=>{let h=t[s],o=r.target.closest(".opt"),n=r.target.closest("[data-pal]");if(r.target.closest("[data-back]")){s=Math.max(0,s-1),d();return}if(r.target.closest("[data-restart]")){s=0,d();return}if(r.target.closest("[data-next]")){e.aud=m("#iv-aud").value.trim()||e.aud,e.claim=m("#iv-claim").value.trim()||e.claim,e.proof=m("#iv-proof").value.trim()||e.proof,s++,d();return}if(o&&h){e[h.id]=h.opts[+o.dataset.k][0],s++,d();return}n&&(e.pal=n.dataset.pal,window.sloplessApply?.(e.pal),s++,d())}),e.what=t[0].opts[1][0],e.hero="A ticket",e.mood="Dark and cinematic",e.motion="Cinematic",e.mat="Paper / matte",d()}{let r=function(o){let n=m("#mdemo"),c=m("#mo"),w=m("#mdemo-hint"),b=m("#mdemo-replay");n.dataset.level=o;let k={still:"Hover and press the card. Nothing else moves.",subtle:"Entrance once: rise and fade, staggered.",cinematic:"One object travels through three scenes.",spatial:"Move over the slab: depth responds to the pointer."};w.textContent=k[o];let f=window.gsap,A=()=>{if(!(!f||j)&&(f.killTweensOf([c,...c.children]),f.set(c,{clearProps:"all"}),f.set(c.children,{clearProps:"all"}),o==="subtle"&&f.from([c,...c.children],{y:24,opacity:0,duration:.6,ease:"power3.out",stagger:.08}),o==="cinematic")){let y=L(".zone",n).map(v=>v.offsetLeft+v.offsetWidth/2-c.offsetWidth/2-c.offsetLeft);f.timeline().fromTo(c,{x:y[0]},{x:y[0],duration:.01}).to(c,{x:y[1],duration:1.1,ease:"power3.inOut"},"+=0.3").to(c,{x:y[2],scale:.7,rotate:-4,duration:1.2,ease:"power3.inOut"},"+=0.5")}};if(b.hidden=o==="still"||o==="spatial",o==="cinematic"&&((()=>{let v=m(".z1",n);c.style.left=v.offsetLeft+v.offsetWidth/2-c.offsetWidth/2+"px"})(),j)){let v=m(".z3",n);c.style.left=v.offsetLeft+v.offsetWidth/2-c.offsetWidth/2+"px"}if(o==="spatial"){let y=v=>{let S=n.getBoundingClientRect(),P=(v.clientX-S.left)/S.width-.5,W=(v.clientY-S.top)/S.height-.5;c.style.transform=`rotateY(${P*40}deg) rotateX(${-W*30}deg)`};j||(n.addEventListener("pointermove",y),n.addEventListener("pointerleave",()=>c.style.transform="")),c.style.transform="rotateY(-18deg) rotateX(8deg)"}b.onclick=A,A()},t={surfaces:{label:"Surfaces",items:{deck:{n:"Deck",does:"Builds beats, not slides. One master timeline, the presenter owns the pace, and a stage object carries the story across chapters.",when:"A talk, demo deck, keynote or interactive explainer.",p:"Use slopless. I'm giving a 15-minute talk to our platform team on how we cut release time. Here's my outline.",loads:["surfaces/deck.md","interview.md","motion.md"]},web:{n:"Web",does:"The first screen says what it is in large type. Sections follow claim to proof, and the idea reaches the footer.",when:"A landing page, product page, portfolio or one-pager.",p:"Use slopless to redesign this landing page. Keep every word. It looks like every other AI site.",loads:["surfaces/web.md","layout.md","type.md"]},app:{n:"App",does:"Platform fit first: iOS, Android or React Native conventions, every list state, designed dark mode, 44pt or 48dp targets.",when:"An app screen, mobile flow or dashboard.",p:"Use slopless on this onboarding screen for iOS. 390 by 844, dark and light, add empty and error states.",loads:["surfaces/app.md","craft-floor.md"]},graphic:{n:"Graphic",does:"One message readable in two seconds. Built in HTML or SVG at exact pixel size, then exported.",when:"A social post, poster, slide image, brand board or thumbnail.",p:"slopless, three Instagram posts announcing our beta, Porcelain Cobalt, 1080 by 1350.",loads:["surfaces/graphic.md","palettes.md"]}}},review:{label:"Review modes",items:{review:{n:"Review",does:"Scan, screenshot, then ten scored passes. Reports a score, a verdict, the top three problems and what was not verified.",when:'Review, audit, "why does this look AI", or polishing something that exists.',p:"Use slopless to review this screen. Why does it look generated?",loads:["review.md","tells.md"]},bolder:{n:"Bolder",does:"For safe and bland work: bigger scale contrast, a committed colour field, one signature move.",when:"You say it is bland, safe or forgettable.",p:"Use slopless: make this hero bolder.",loads:["review.md","direction.md"]},quieter:{n:"Quieter",does:"For loud work: remove effects, drop to one accent, keep one motion moment, add space.",when:"You say it is loud, busy or too much.",p:"Use slopless: make this page quieter.",loads:["review.md","motion.md"]},distill:{n:"Distill",does:"For cluttered work: cut sections without a claim, merge beats, one idea per view.",when:"You say it is cluttered or too long.",p:"Use slopless to distill this deck. One idea per slide.",loads:["review.md","layout.md"]},harden:{n:"Harden",does:"For production: empty, error and loading states, long text, i18n, slow network, keyboard.",when:"You are about to ship.",p:"Use slopless to harden this checkout screen.",loads:["review.md","craft-floor.md"]}}},motion:{label:"Motion levels",items:{still:{n:"Still",does:"Hover, press and focus feedback only. A thing that needs animation to look finished is not finished.",when:"You pick it in round 2 of the interview.",p:"Use slopless on this dashboard. Still motion, feedback only.",loads:["motion.md"],demo:"still"},subtle:{n:"Subtle",does:"Entrances once per section, 60 to 90 ms stagger, 16 to 32 px rise with opacity, gentle parallax.",when:"You pick it in round 2 of the interview.",p:"Use slopless on this portfolio. Subtle motion.",loads:["motion.md"],demo:"subtle"},cinematic:{n:"Cinematic",does:"Scenes connect. The same object travels from one beat to the next on scrubbed, pinned timelines.",when:"You pick it in round 2 of the interview.",p:"Use slopless for the demo deck. Cinematic: the ticket travels between slides.",loads:["motion.md","surfaces/deck.md"],demo:"cinematic"},spatial:{n:"Spatial",does:"Real 3D objects and shader backgrounds, with depth and lighting that respond to angle. Starts after load, pauses offscreen.",when:"You pick it in round 2 of the interview.",p:"Use slopless for the launch page. Spatial 3D, a glass slab hero.",loads:["motion.md"],demo:"spatial"}}},agents:{label:"Agents mode",items:{agents:{n:"Agents",does:"Off by default. On a big job it is offered once; you choose one to four helpers. Mechanical work runs on cheaper models.",when:"The job is about 12+ slides, 6+ sections or several surfaces, and you say yes.",p:"Use slopless in agents mode with three helpers. Rebuild the deck in the Sapphire Glass direction.",loads:["agents.md","brief.md"]}}},memory:{label:"Taste memory",items:{memory:{n:"Taste memory",does:"Reads your taste file and the project DESIGN.md first. Writes one dated line whenever you correct or praise the look.",when:"Every run reads it; corrections, praise and palette picks write to it.",p:"Remember for slopless: I reject decorative colour bars and I want two live studies before a full build.",loads:["memory.md"]}}}},e=m("#mode-tabs"),s=m("#mode-sub"),a=m("#mode-panel"),i="surfaces",p="deck",l=()=>{e.innerHTML=Object.entries(t).map(([n,c])=>`<button role="tab" type="button" id="mt-${n}" aria-selected="${n===i}" aria-controls="mode-panel" tabindex="${n===i?0:-1}" data-g="${n}">${c.label}</button>`).join("");let o=Object.entries(t[i].items);s.hidden=o.length<2,s.innerHTML=o.map(([n,c])=>`<button type="button" data-k="${n}" aria-pressed="${n===p}">${c.n}</button>`).join("")},d="https://github.com/kundan0907/slopless/blob/main/slopless/references/",u=()=>{let o=t[i].items[p];a.setAttribute("aria-labelledby",`mt-${i}`),a.innerHTML=`<div class="mode-copy"><h3>${g(o.n)}</h3><p>${g(o.does)}</p><dl class="facts"><div><dt>Triggers</dt><dd>${g(o.when)}</dd></div><div><dt>Loads</dt><dd class="files">${["SKILL.md"].concat(o.loads).map(n=>`<a href="${n==="SKILL.md"?d.replace("references/","")+n:d+n}" target="_blank" rel="noopener">${n}</a>`).join("")}</dd></div></dl>
+      <div class="cmdbox"><pre><code class="cp-src">${g(o.p)}</code></pre><button class="cp" type="button">Copy prompt</button></div></div>${o.demo?'<div class="mdemo-wrap"><div class="mdemo" id="mdemo" data-level="" aria-label="Live demo"><span class="zone z1">Queue</span><span class="zone z2">Machine</span><span class="zone z3">Phone</span><div class="mo" id="mo" tabindex="0"><b>Checkout fails on saved cards</b><small>Ticket 4821</small><i></i></div></div><div class="mdemo-bar"><span id="mdemo-hint"></span><button class="btn btn-ghost" id="mdemo-replay" type="button">Replay</button></div></div>':""}`,o.demo&&r(o.demo)},h=()=>{l(),u()};e.addEventListener("click",o=>{let n=o.target.closest("[data-g]");n&&(i=n.dataset.g,p=Object.keys(t[i].items)[0],h(),n.ownerDocument.getElementById("mt-"+i).focus())}),e.addEventListener("keydown",o=>{let n=Object.keys(t),c=n.indexOf(i),w={ArrowRight:1,ArrowLeft:-1}[o.key];w&&(i=n[(c+w+n.length)%n.length],p=Object.keys(t[i].items)[0],h(),m("#mt-"+i).focus(),o.preventDefault())}),s.addEventListener("click",o=>{let n=o.target.closest("[data-k]");n&&(p=n.dataset.k,l(),u(),m(`[data-k="${p}"]`,s).focus())}),h()}L(".cmp").forEach(t=>{let e=m("input",t),s=()=>{t.style.setProperty("--pos",e.value+"%"),e.setAttribute("aria-valuetext",e.value<15?"Showing the decided version":e.value>85?"Showing the generated version":`${e.value} percent generated`)};e.addEventListener("input",s),s()});{let t=m("#kbq"),e=L("[data-kb]"),s=L(".kb-group"),a=m("#kb-status");t.addEventListener("input",()=>{let i=t.value.trim().toLowerCase(),p=0;e.forEach(l=>{let d=!i||l.textContent.toLowerCase().includes(i);l.hidden=!d,d&&p++}),s.forEach(l=>l.hidden=!L("[data-kb]:not([hidden])",l).length),a.textContent=i?`${p} of ${e.length} files`:""})}})();
 </script>
 </body>
 </html>

@@ -22,6 +22,32 @@ slopless works in six steps:
 | ![Generated example being wiped away](docs/images/before-after.jpg) | ![The decided version](docs/images/after.jpg) |
 | ![Interview step](docs/images/loop-interview.jpg) | ![Verify step](docs/images/loop-verify.jpg) |
 
+## Try it on the page
+
+The showcase is interactive. Everything runs in the browser from the single HTML file; nothing is uploaded.
+
+**Scanner.** Paste HTML, CSS or copy and press Scan. It runs the real `slop-scan.mjs` (bundled by the build, not re-implemented) and prints FAIL and WARN lines like the terminal does.
+
+![Live slop scanner](docs/images/scanner.jpg)
+
+**Interview simulator.** Click through the round-one and round-two questions from `interview.md`. You get the playback summary and a prompt to copy, and the palette you pick is applied to the page.
+
+![Interview simulator](docs/images/interview-simulator.jpg)
+
+**Modes explorer.** Surfaces (deck, web, app, graphic), review modes (review, bolder, quieter, distill, harden), motion levels (still, subtle, cinematic, spatial, each demonstrated live on one object), agents mode and taste memory. Each shows what it does, what triggers it, an example prompt and the reference files it loads.
+
+![Modes explorer](docs/images/modes.jpg)
+
+**Examples.** A deck slide, a landing hero, an app screen on a phone with real proportions and a social post, each built twice in HTML and CSS. Drag the handle, or use the arrow keys, to compare the generated look with the decided one in the current palette.
+
+![Before and after gallery](docs/images/examples.jpg)
+
+**How it differs.** What slopless adapted from Impeccable, taste-skill and UI/UX Pro Max (taken from NOTICE), and what it adds, each linked to the file that defines it. It is not a benchmark.
+
+![How it differs](docs/images/comparison.jpg)
+
+**Knowledge base, inspirations and prompts.** Every reference file and script with a one-line summary and a GitHub link (filterable), the galleries, effect libraries and reading from `inspiration.md`, and a cookbook of prompts with copy buttons.
+
 ## Ten palettes
 
 Each palette has a job and passes contrast checks. Pick one, rename it, or bring your own brand colours and slopless derives the rest of the palette.
