@@ -1,63 +1,51 @@
 ---
 name: slopless
-description: Design and build anything visual so it looks decided, premium and human, never AI-made. Covers presentations and demo decks, landing pages and portfolios, mobile and app screens (iOS, Android, React Native), and graphics (social posts, posters, brand boards). Interviews for the story and taste, deals a direction and a curated palette, builds with GSAP / Three.js / WebGL motion when wanted, verifies in a real browser, scans for slop, and learns the user's taste across sessions. Optional agents mode for big jobs. Use when someone asks to design, build, redesign, review or polish any UI, deck, site or graphic, or says it looks generic, cheap, templated or "AI".
+description: Improve an existing UI or HTML deck, or design a new website, app screen, presentation or graphic. Use for visual hierarchy, distinctive composition, storytelling, interaction polish and removing generic generated-design patterns. Quick mode produces a focused V2; deeper design and review modes are available.
 ---
 
 # slopless
 
-AI output looks cheap because it is the average of everything: centred hero, eyebrow label, three icon cards, purple gradient, emoji bullets, slogan headlines, motion that decorates. slopless replaces every default with a decision, checks the result with eyes and a scanner, and remembers what this user likes.
+Make the subject clear, distinctive and useful. Preserve the user's facts, intent and chosen identity. More effects and more process do not mean better design.
 
-Load only what the current step needs. Each reference below is small and single-purpose.
+## Choose the route first
 
-## 0. Start every run
+Read relevant existing source and any taste memory (`~/.slopless/taste.md`, project `.slopless/DESIGN.md`) once. Missing memory is normal. Current instructions win; do not treat earlier agent choices as user preferences.
 
-1. Read the taste memory if it exists: `~/.slopless/taste.md` (this user, all projects) and `.slopless/DESIGN.md` (this project). Their decisions beat this skill's defaults. Format: `references/memory.md` (load only when writing to memory).
-2. Classify the job and load its surface file:
+| Route | Trigger | Read next |
+| --- | --- | --- |
+| **Quick** | Existing work: improve, polish, restyle, V2, fast; default for refinements | `references/quick.md` |
+| **Standard** | New work or an explicit redesign/rebuild | The surface below; follow the design loop |
+| **Deep** | Explicit exploration, complex story, cinematic/spatial work, or detailed audit | Standard plus only the relevant specialist references |
+| **Review** | Critique/audit without a request to edit | `references/review.md`; report findings, do not change files |
 
-| Job | Load |
-| --- | --- |
-| Talk, demo deck, keynote, interactive explainer | `references/surfaces/deck.md` |
-| Landing page, product page, portfolio, one-pager | `references/surfaces/web.md` |
-| App screen, mobile, iOS / Android / React Native, dashboard | `references/surfaces/app.md` |
-| Social post, poster, slide image, brand board, thumbnail | `references/surfaces/graphic.md` |
-| Review, audit, "why does this look AI", polish an existing thing | `references/review.md` |
+Quick keeps the same craft floor and a smaller scope. If a Quick request has no existing artifact, make the smallest new result using Standard. Say the selected route in one short line. Ask only about a consequential missing decision; a complete brief needs no interview.
 
-3. Size it. Small (one component, one screen, one fix): skip to step 4 of the loop with a one-line reading of the brief. Large (a whole deck, site, app flow): run the full loop. If it is very large (≈12+ slides, 6+ sections, several surfaces), offer agents mode once (`references/agents.md`). Never start it unasked.
+## Design loop (Standard and Deep)
 
-## The loop
+1. **Understand.** Infer answered requirements from the brief and source. For unknown story/taste decisions, use `references/interview.md`. State assumptions as your choices. An existing design does not need a new questionnaire.
+2. **Decide.** Load `references/direction.md` and `references/storytelling.md`. Choose the idea, hierarchy and material before effects. Consult `palettes.md`, `type.md`, `layout.md` or `motion.md` only for decisions still open. A user's exact palette beats a suggested mood. Record project decisions in `.slopless/DESIGN.md` when useful.
+3. **Prove early.** For a new visual direction, render a small real-content study including the opening and the densest view before propagating it. Show two alternatives only when the user wants a choice or the direction is genuinely unresolved. Use existing authorization; do not add a confirmation round to an already specified direction.
+4. **Build.** Read `references/craft-floor.md`. Reuse the existing stack, components, assets and working navigation. Build a convincing still composition first. Load `copy.md` only for authorized copywriting, `assets.md` only when new assets are needed. Do not reconstruct supplied content through model output.
+5. **Verify.** Follow `references/browser.md` and the surface checks. Scan changed files if Node is available, inspect rendered results, test affected behavior and source preservation. Use `references/visual-quality.md` for the visual critique. Fix once as a batch and recheck affected views; expand only for a remaining concrete failure.
+6. **Learn.** Save explicit user corrections with `references/memory.md`. Do not persist an inferred preference as something the user approved.
 
-1. **Interview** — `references/interview.md`. Story first, then taste. At most four questions per round, with options and a recommended default. Skip what memory or the brief already answers. Play back a five-line summary and get a yes.
-2. **Direction** — `references/direction.md`. Inventory the subject, find the idea, pick a colour strategy and a palette (`references/palettes.md`), type (`references/type.md`), composition (`references/layout.md`), motion level (`references/motion.md`). Write the brief (`references/brief.md`) and save durable decisions to `.slopless/DESIGN.md`.
-3. **Prove** — for large or new-world work, build two small live studies that differ in material and choreography, on real content. Screenshot them. The user picks. Never run a full build on an unapproved direction.
-4. **Build** — tokens first, then the hero/opening, then each part. Read `references/craft-floor.md` right before editing UI. Write copy with `references/copy.md`. Fetch real icons, fonts and images with `scripts/assets.mjs` (`references/assets.md`); never draw icons by hand or use emoji. Still first, motion second.
-5. **Verify** — `node <skill>/scripts/slop-scan.mjs <files>` then `node <skill>/scripts/shoot.mjs <file-or-url>`; open the screenshots and critique them with `references/review.md`. Fix everything in one batch, re-check once, stop. Report what was checked in a real browser and what is unproven.
-6. **Learn** — when the user corrects taste ("fonts feel cheap", "too busy", "I love this glass"), add one dated line to `~/.slopless/taste.md` right away. Project-specific decisions go in `.slopless/DESIGN.md`.
+## Surface (load one when its rules matter)
 
-## The floor (always)
+- Deck/talk: `references/surfaces/deck.md`.
+- Website: `references/surfaces/web.md`.
+- App/dashboard: `references/surfaces/app.md`.
+- Graphic/poster: `references/surfaces/graphic.md`.
 
-- The brief and the user's memory win over this skill's taste. A chosen material (glass, neon, serif) is allowed when chosen; never by default.
-- A design pass never rewrites the story or facts. Copy changes are a separate pass with sources.
-- One accent. Two type families at most. Tone steps instead of borders. Shadows only on things that float.
-- No emoji as icons, no gradient text, no violet-blue gradients, no eyebrow labels, no rows of identical icon cards, no glow halos, no fake metrics, no count-up numbers.
-- Motion explains cause and effect or carries the story; it never decorates. Reduced motion lands every state.
-- Real objects look real: devices, hardware, interfaces built from real dimensions and real screenshots.
-- Deliverables are complete and self-contained; earlier versions are never overwritten.
-- Full registry of tells: `references/tells.md`.
+## Craft that survives every mode
 
-## Files
+- Preserve text, numbers, units, associations, caveats, links, images, notes and behavior unless their change is authorized.
+- One dominant idea per view; composition follows the information. Cards group related objects, not every paragraph. Semantic data colours may need more than one accent.
+- Readable type and contrast, accessible controls, visible focus, responsive layouts, reduced motion and correct settled states are required. Use real assets or none; no fabricated proof.
+- A banned-pattern scan cannot judge design quality. Never give an aesthetic score without looking at the rendered work.
+- Keep complete deliverables self-contained when requested; retain the original and use a unique filename. Follow the user's artifact location rules.
 
-| File | Load when |
-| --- | --- |
-| `references/interview.md` | Step 1 |
-| `references/direction.md` · `palettes.md` · `type.md` · `layout.md` | Step 2 |
-| `references/motion.md` | Choosing or building motion, 3D, WebGL |
-| `references/brief.md` | Writing the brief or a handoff |
-| `references/craft-floor.md` · `copy.md` | Step 4 |
-| `references/review.md` · `tells.md` | Step 5, or any review |
-| `references/assets.md` | Step 4: icons, fonts, photos, device frames, 3D, licences |
-| `references/memory.md` | Writing taste memory |
-| `references/agents.md` | User opts into agents mode |
-| `references/inspiration.md` | User wants references, or you need to research a technique |
-| `scripts/slop-scan.mjs` | Static scan of HTML/CSS/JS/JSX/TSX/MD for tells (Node 18+) |
-| `scripts/shoot.mjs` | Screenshots at 1440, 768, 390 (and 1920 for decks) with Playwright |
-| `scripts/assets.mjs` | Fetch icons (Iconify), fonts (Google Fonts) and photos (Openverse) (Node 18+) |
+## Keep runs cheap
+
+Load only this route's references, not the library. Search then read relevant ranges; never dump embedded fonts, base64 or vendor bundles. Patch shared styles/components; do not rewrite unchanged content. Run scripts rather than read them unless debugging. Reuse browser sessions and cached assets. Quick has no mandatory external research, asset fetching, scoring essay or agents. Helpers require user opt-in (`references/agents.md`).
+
+Report the deliverable, the material improvements, checks performed and any unverified limits. Never promise a fixed speed or token saving without a measured run. For unfamiliar techniques or explicit research, use `references/inspiration.md`; do not browse for basic design decisions.

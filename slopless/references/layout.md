@@ -2,7 +2,7 @@
 
 ## Composition
 - Each view is a poster: one dominant thing and the content it carries. Make the big thing big before anything else exists.
-- Neighbouring sections or slides never share a layout family. Rotate between: full-bleed object, split asymmetric, statement type, dense evidence, one live thing.
+- Vary neighbouring views when their information differs; repeat alignment and layout when it makes comparisons easier. Rotate between: full-bleed object, split asymmetric, statement type, dense evidence, one live thing.
 - The order comes from the argument (claim → proof), not the stock sequence (hero, logos, three features, testimonial, pricing, CTA). A section with no claim is deleted.
 - Carry the idea into every part, including the footer, pricing, FAQ and the last slide. The commonest failure is a distinctive opening followed by stock blocks.
 
@@ -13,7 +13,7 @@
 - Text blocks share two or three left edges on the whole page.
 
 ## Surfaces
-- Cards are the lazy container. Use them only for things that are actually objects (a ticket, a PR, a product). Never nest cards.
+- Use cards for distinct objects or meaningful comparison groups. Use flows, labelled evidence or typographic groups when the relationship matters more than the container. Avoid nesting cards without a functional reason.
 - Separate by tone step. Declare elevation once: border or shadow, not both. Shadows have an offset and a soft blur; only floating things (menus, dialogs, a device) cast them.
 - Radii chosen once: square, or 16–24px for objects, pills for small controls.
 

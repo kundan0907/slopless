@@ -59,7 +59,7 @@ const iconStrip = `<div class="icon-strip" aria-hidden="true">${stripIcons.map((
 // "What your agent reads": excerpts come from the real files, so they cannot drift.
 const ROOT = new URL('../', import.meta.url);
 const excerpt = (path, start, max) => {
-  const all = readFileSync(new URL(path, ROOT), 'utf8').replace(/^---[\s\S]*?---\n/, '').split('\n');
+  const all = readFileSync(new URL(path, ROOT), 'utf8').split('\n');
   const isScript = path.endsWith('.mjs');
   let from = 0;
   if (start) from = all.findIndex((l) => new RegExp(start).test(l));

@@ -7,7 +7,7 @@
 - Type does most of the work: one family, two sizes, tight display tracking, headline ≤ 6 words.
 
 ## Build
-Make graphics in HTML/CSS (or SVG) at exact pixel size, then export with `shoot.mjs --size WxH --full false` or the browser. This keeps type crisp, colours exact and edits cheap. For a series, one template with data swapped per card, so the set is consistent.
+Make graphics in HTML/CSS (or SVG) at exact pixel size, then export with `shoot.mjs artwork.html --sizes WxH` or the browser. This keeps type crisp, colours exact and edits cheap. For a series, one template with data swapped per card, so the set is consistent.
 
 ## Brand boards
 Logo on ground and on accent, palette with roles and hex, type specimen at real sizes, two or three applications (slide, post, app icon), clear-space and misuse examples. If image generation is available and the user wants mockups, generate scenes but keep logo and type composited from the real files.

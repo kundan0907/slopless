@@ -12,15 +12,16 @@ Each page is one self-contained file (`docs/index.html`, `docs/explore.html`), b
 
 ## What it does
 
-slopless works in six steps:
+Choose a route, or let the request choose it:
 
-1. **Interview** — asks about the story first: who it's for, the one sentence they should leave with, and the object that travels through it. Then it asks about taste. It asks at most four questions at a time, and each one comes with a recommended answer.
-2. **Direction** — lists things only your subject has, writes one idea sentence for the design, and picks a palette, type, layout and motion level.
-3. **Prove** — on big jobs, builds two small live studies on your real content. You pick one before anything is fully built.
-4. **Build** — sets the colour and type tokens first, then builds the opening, then every other part. GSAP, Three.js and WebGL motion are used only when the motion explains something.
-5. **Verify** — a scanner checks for generated-design tells, it takes screenshots at every size in a real browser, scores them against a ten-pass critique, and fixes everything in one batch.
-6. **Learn** — saves every correction you make to `~/.slopless/taste.md`, so the next project starts from your taste.
+- **Quick** is the default for existing work: “Use slopless quick. Make this a better V2.” It inspects the source and rendering, fixes the three biggest visual problems, preserves content and working controls, and verifies one repair batch. No default interview, new engine, asset downloads or scoring essay.
+- **Standard** is for new work or an explicit redesign. It resolves missing decisions, proves the opening and densest view on real content, builds, then checks the result.
+- **Deep** is explicit exploration, detailed audit or complex storytelling and motion. It loads the extra guidance needed for that job; helpers remain opt-in.
+- **Review** reports findings without editing.
 
+All routes retain the same craft: clear hierarchy, composition that explains the information, readable evidence, accessible interactions, appropriate motion and exact source preservation. Quick reduces scope and repeated work, not the quality floor. Runtime depends on content and the environment; no fixed speed or token saving is promised.
+
+The [router](slopless/SKILL.md) explains the workflow. [Quick](slopless/references/quick.md), [storytelling](slopless/references/storytelling.md), [visual quality](slopless/references/visual-quality.md) and [browser setup](slopless/references/browser.md) provide the relevant details.
 ![A generated landing hero next to the decided version](docs/images/before-after.jpg)
 
 ## Try it in the toolbox
@@ -31,7 +32,7 @@ The [explore page](https://kundan0907.github.io/slopless/explore.html) is intera
 
 ![Interview simulator](docs/images/interview-simulator.jpg)
 
-**What your agent reads.** Pick a job (deck, landing page, app screen, graphic, review) and see the exact files it loads, in order: the SKILL.md router, the surface and references, the scripts it runs. The excerpts are cut from the real files at build time and link to GitHub.
+**What your agent reads.** Pick a job (deck, landing page, app screen, graphic, review) and see representative files for that route: the SKILL.md router, the surface and references, the scripts it runs. The excerpts are cut from the real files at build time and link to GitHub.
 
 ![What your agent reads](docs/images/what-your-agent-reads.jpg)
 
@@ -39,7 +40,7 @@ The [explore page](https://kundan0907.github.io/slopless/explore.html) is intera
 
 ![Assets](docs/images/assets.jpg)
 
-**Modes explorer.** Surfaces (deck, web, app, graphic), review modes (review, bolder, quieter, distill, harden), motion levels (still, subtle, cinematic, spatial: picking one re-runs a shared scene with a card, a device and a ticket in that level, in the interview, here and in the design-language section, and the choice is saved), agents mode and taste memory. Each shows what it does, what triggers it, an example prompt and the reference files it loads.
+**Modes explorer.** Run modes (Quick, Standard, Deep), surfaces (deck, web, app, graphic), review modes (review, bolder, quieter, distill, harden), motion levels (still, subtle, cinematic, spatial: picking one re-runs a shared scene with a card, a device and a ticket in that level, in the interview, here and in the design-language section, and the choice is saved), agents mode and taste memory. Each shows what it does, what triggers it, an example prompt and the reference files it loads.
 
 ![Modes explorer](docs/images/modes.jpg)
 
@@ -76,6 +77,7 @@ Agents mode is off by default. On a big job, slopless offers it once and you cho
 ## How to prompt it
 
 ```text
+Use slopless quick. Improve this HTML deck into V2. Keep every word, number, image and working control.
 Use slopless. I'm giving a 15-minute talk to our platform team on how we cut release time. Here's my outline.
 Use slopless to redesign this landing page. Keep every word. It looks like every other AI site.
 slopless, three Instagram posts announcing our beta, Porcelain Cobalt, 1080×1350.
@@ -97,13 +99,17 @@ cp -r slopless/slopless ~/.claude/skills/     # Claude Code
 cp -r slopless/slopless ~/.agents/skills/     # Codex and others
 ```
 
-Optional, for the screenshot step: `npm i -D playwright && npx playwright install chromium`.
+No manual project setup after installing the skill: the agent uses its available browser tools first. The optional screenshot CLI uses Node 20+ and npm. On first use it provisions pinned Playwright and Chromium into user caches, leaving your project's dependencies unchanged. Downloads need network access and a supported OS; cached capture can work offline. `--no-install` prevents downloads. Without a usable browser, it reports visual verification as unavailable.
+
+The scanner, asset fetcher and contrast helper use Node 18+ built-ins. New assets need network access; existing offline assets stay local. No API key is required. See [browser setup and failure handling](slopless/references/browser.md).
 
 ## Tools in the skill
 
 ```sh
 node slopless/scripts/slop-scan.mjs <files|dir>     # FAIL/WARN on violet gradients, gradient text, emoji icons, stock copy, eyebrows, glows…
-node slopless/scripts/shoot.mjs page.html --deck --steps 12   # screenshots for review
+node slopless/scripts/shoot.mjs page.html --quick             # focused capture; setup handled automatically
+node slopless/scripts/shoot.mjs deck.html --deck --steps 12   # 12 advances, not 12 slides
+node slopless/scripts/shoot.mjs post.html --sizes 1080x1350   # exact pixel export
 node slopless/scripts/contrast.mjs '#ECE8E1' '#0B0C0F'        # WCAG ratio
 node slopless/scripts/assets.mjs icon lucide:arrow-right --size 24 --stroke 1.5   # real SVG from Iconify
 node slopless/scripts/assets.mjs icons lucide arrow-right,check --out ./icons
@@ -111,13 +117,18 @@ node slopless/scripts/assets.mjs search arrow --prefix lucide
 node slopless/scripts/assets.mjs font "Hanken Grotesk" --weights 400..700 --out ./fonts [--inline]
 node slopless/scripts/assets.mjs photo "night train"          # Openverse, commercial-use licences
 node --test slopless/scripts/test/*.mjs
+SLOPLESS_BROWSER_TESTS=1 node --test slopless/scripts/test/deck-browser.test.mjs  # cached browser required
 ```
 
 Wrap deliberate bad examples in `<!-- slopless-ignore-start -->` … `<!-- slopless-ignore-end -->`.
 
 ## How it stays light
 
-`SKILL.md` is a short router. Each step loads only its own reference file (interview, direction, palettes, type, layout, motion, craft floor, copy, assets, tells, review, memory, agents, plus one file per surface), so a small fix never pulls in the whole library.
+`SKILL.md` routes before loading the library. Quick reads its compact guide and relevant source; specialist references are conditional. Agents search before reading, skip embedded vendor/base64 content, patch shared styles and reuse assets and navigation. Scripts run without loading their implementations into the conversation. Taste memory records explicit user choices; inferred design decisions stay project-specific.
+
+The optional [deck controller](slopless/assets/deck-controller.js) gives new standalone decks cancellable transitions, beat navigation, readiness signals, reduced motion and print restoration without a framework or animation package. Quick keeps the existing engine.
+
+Verification checks label–value–unit relationships per section; global word counts are insufficient. Screenshots record hashes and optional beat IDs in `capture.json`. A static scan cannot establish design quality. [Playwright provisioning](https://playwright.dev/docs/browsers) defines browser prerequisites; the craft floor follows [WCAG contrast guidance](https://www.w3.org/TR/WCAG22/#contrast-minimum) and [reduced-motion guidance](https://www.w3.org/WAI/WCAG22/Techniques/css/C39).
 
 ## Repository
 
@@ -125,7 +136,8 @@ Wrap deliberate bad examples in `<!-- slopless-ignore-start -->` … `<!-- slopl
 slopless/            the skill (copy this folder)
   SKILL.md
   references/        loaded on demand
-  scripts/           slop-scan, shoot, contrast, assets (+ tests)
+  scripts/           slop-scan, shoot, contrast, assets, cached browser runtime (+ tests)
+  assets/            optional dependency-free deck controller
 showcase/            source of docs/index.html and docs/explore.html (npm i && npm run build)
 docs/                the two built pages and README images
 ```

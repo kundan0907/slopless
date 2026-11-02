@@ -4,7 +4,7 @@ slopless gets better for each user by writing down what they like and reject. Tw
 
 ## `~/.slopless/taste.md` — the person (all projects)
 
-Append one dated line per learning. Keep it under ~60 lines; when it grows, merge duplicates and keep the newest wording.
+Append one dated line per explicit user preference, with its source: user correction, choice or quote. Label agent-selected project decisions as agent choices in project DESIGN.md, not as personal taste. Keep memory under ~60 lines; when merging conflicting entries, preserve scope and prefer the newest explicit correction.
 
 ```markdown
 # Taste

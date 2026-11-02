@@ -78,14 +78,19 @@ const PAL = () => window.sloplessPalettes || [];
 /* ---------- Modes explorer ---------- */
 {
   const M = {
+    routes: { label: 'Run modes', items: {
+      quick: { n: 'Quick', does: 'Inspects existing work, fixes the three biggest visual problems, preserves content and working controls, then verifies one repair batch.', when: 'Improve, polish, restyle or make a fast V2 of an existing artifact.', p: 'Use slopless quick. Improve this deck into V2. Keep every word, number and working control.', loads: ['quick.md'] },
+      standard: { n: 'Standard', does: 'Resolves missing decisions, renders the opening and densest view early, then builds and verifies.', when: 'New work or an explicit redesign.', p: 'Use slopless Standard to redesign this page. Keep the content and show the visual direction early.', loads: ['direction.md', 'storytelling.md', 'craft-floor.md'] },
+      deep: { n: 'Deep', does: 'Adds focused research, alternatives and detailed storytelling or motion checks when the job calls for them.', when: 'Explicit exploration, detailed audits or complex motion. Helpers remain opt-in.', p: 'Use slopless Deep. Explore two storytelling directions for this presentation.', loads: ['storytelling.md', 'visual-quality.md', 'motion.md'] },
+    } },
     surfaces: { label: 'Surfaces', items: {
-      deck: { n: 'Deck', does: 'Builds beats, not slides. One master timeline, the presenter owns the pace, and a stage object carries the story across chapters.', when: 'A talk, demo deck, keynote or interactive explainer.', p: "Use slopless. I'm giving a 15-minute talk to our platform team on how we cut release time. Here's my outline.", loads: ['surfaces/deck.md', 'interview.md', 'motion.md'] },
+      deck: { n: 'Deck', does: 'Preserves working decks. New decks use presenter-paced beats and a dependency-free controller, with cinematic timelines only when needed.', when: 'A talk, demo deck, keynote or interactive explainer.', p: "Use slopless. I'm giving a 15-minute talk to our platform team on how we cut release time. Here's my outline.", loads: ['surfaces/deck.md', 'interview.md', 'motion.md'] },
       web: { n: 'Web', does: 'The first screen says what it is in large type. Sections follow claim to proof, and the idea reaches the footer.', when: 'A landing page, product page, portfolio or one-pager.', p: 'Use slopless to redesign this landing page. Keep every word. It looks like every other AI site.', loads: ['surfaces/web.md', 'layout.md', 'type.md'] },
       app: { n: 'App', does: 'Platform fit first: iOS, Android or React Native conventions, every list state, designed dark mode, 44pt or 48dp targets.', when: 'An app screen, mobile flow or dashboard.', p: 'Use slopless on this onboarding screen for iOS. 390 by 844, dark and light, add empty and error states.', loads: ['surfaces/app.md', 'craft-floor.md'] },
       graphic: { n: 'Graphic', does: 'One message readable in two seconds. Built in HTML or SVG at exact pixel size, then exported.', when: 'A social post, poster, slide image, brand board or thumbnail.', p: 'slopless, three Instagram posts announcing our beta, Porcelain Cobalt, 1080 by 1350.', loads: ['surfaces/graphic.md', 'palettes.md'] },
     } },
     review: { label: 'Review modes', items: {
-      review: { n: 'Review', does: 'Scan, screenshot, then ten scored passes. Reports a score, a verdict, the top three problems and what was not verified.', when: 'Review, audit, "why does this look AI", or polishing something that exists.', p: 'Use slopless to review this screen. Why does it look generated?', loads: ['review.md', 'tells.md'] },
+      review: { n: 'Review', does: 'Inspect the source and rendering, then report a verdict, three concrete problems and missing coverage. Scores are optional; no edits in Review.', when: 'Review, audit, "why does this look AI", or polishing something that exists.', p: 'Use slopless to review this screen. Why does it look generated?', loads: ['review.md', 'tells.md'] },
       bolder: { n: 'Bolder', does: 'For safe and bland work: bigger scale contrast, a committed colour field, one signature move.', when: 'You say it is bland, safe or forgettable.', p: 'Use slopless: make this hero bolder.', loads: ['review.md', 'direction.md'] },
       quieter: { n: 'Quieter', does: 'For loud work: remove effects, drop to one accent, keep one motion moment, add space.', when: 'You say it is loud, busy or too much.', p: 'Use slopless: make this page quieter.', loads: ['review.md', 'motion.md'] },
       distill: { n: 'Distill', does: 'For cluttered work: cut sections without a claim, merge beats, one idea per view.', when: 'You say it is cluttered or too long.', p: 'Use slopless to distill this deck. One idea per slide.', loads: ['review.md', 'layout.md'] },
@@ -105,7 +110,7 @@ const PAL = () => window.sloplessPalettes || [];
     } },
   };
   const tabs = $('#mode-tabs'), sub = $('#mode-sub'), panel = $('#mode-panel');
-  let g = 'surfaces', k = 'deck';
+  let g = 'routes', k = 'quick';
   // The motion group follows the shared level, so a pick here also updates the interview and this page.
   const motionKey = () => window.sloplessMotion.level;
   document.addEventListener('sloplessmotion', () => { if (g === 'motion') { k = motionKey(); renderTabs(); renderPanel(); } });

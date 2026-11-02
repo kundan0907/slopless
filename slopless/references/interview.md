@@ -1,6 +1,6 @@
 # Interview
 
-Every unanswered question becomes a default, and defaults are what make output look generated. Ask at most four questions per round, each with 2–4 concrete options and a recommended default (use the structured question tool when the harness has one). Skip anything the brief, the attached material or the taste memory already answers. If the user says "you pick", pick, and say what you picked.
+Use this only for consequential gaps that the brief, source and memory do not answer. Quick refinement normally skips the interview. Ask about exact palette/material when those choices are unresolved, rather than silently translating a mood into unrelated tokens. Ask at most four questions per round, each with 2–4 concrete options and a recommended default (use the structured question tool when the harness has one). Skip anything the brief, the attached material or the taste memory already answers. If the user says "you pick", pick, and say what you picked.
 
 ## Round 1 — the story
 
@@ -35,4 +35,4 @@ Taste:     <palette>, <material>, <motion level>, <dark/light>
 Authority: <source> — must not change: <list>
 ```
 
-Get an explicit yes. Save the taste answers to memory if they are new (see `memory.md`).
+For an unresolved new direction, get agreement before the full build. An already specified direction or instruction to choose and proceed needs no additional approval round. Save explicit user taste answers if they are new (see `memory.md`); never save your assumption as their preference.

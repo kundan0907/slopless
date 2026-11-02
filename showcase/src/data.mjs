@@ -4,7 +4,11 @@ export const REPO = 'https://github.com/kundan0907/slopless/blob/main/';
 // [path, one line, loaded when]
 export const KB = [
   ['Router', [
-    ['slopless/SKILL.md', 'The router: starts every run, classifies the job, lists the loop and the floor.', 'Always'],
+    ['slopless/SKILL.md', 'Routes to Quick, Standard, Deep or Review before loading specialist guidance.', 'Always'],
+    ['slopless/references/quick.md', 'Focused V2: preserve source and behavior, fix three material problems, verify once.', 'Existing refinements'],
+    ['slopless/references/storytelling.md', 'Claims, evidence and composition matched to the information.', 'New or redesigned story'],
+    ['slopless/references/visual-quality.md', 'Five rendered passes: hierarchy, composition, reading, interaction and fit.', 'Visual verification'],
+    ['slopless/references/browser.md', 'Host browser first, cached automatic CLI setup, honest offline limits.', 'Browser checks'],
   ]],
   ['The loop', [
     ['slopless/references/interview.md', 'Story first, then taste. Four questions a round, options with a recommended default, a playback summary.', 'Step 1'],
@@ -19,25 +23,33 @@ export const KB = [
     ['slopless/references/assets.md', 'Licence-checked icon sets, fonts, photos, device dimensions, 3D and animation sources, and the rules for using them.', 'Step 4'],
   ]],
   ['Surfaces', [
-    ['slopless/references/surfaces/deck.md', 'Talks and decks: beats, presenter-owned controls, one master timeline, offline single file.', 'Deck jobs'],
+    ['slopless/references/surfaces/deck.md', 'Preserve existing decks; optional dependency-free controller for new builds, cinematic timelines when needed.', 'Deck jobs'],
     ['slopless/references/surfaces/web.md', 'Landing pages and portfolios: first screen, claim-to-proof sections, imagery order, build and verify.', 'Web jobs'],
     ['slopless/references/surfaces/app.md', 'iOS, Android, React Native and dashboards: platform fit, states, dark mode, verify.', 'App jobs'],
     ['slopless/references/surfaces/graphic.md', 'Posts, posters and brand boards: sizes, safe areas, HTML-to-PNG export.', 'Graphic jobs'],
   ]],
   ['Review and memory', [
-    ['slopless/references/review.md', 'Scan, shoot, ten scored passes, content audit, and the bolder, quieter, distill and harden modes.', 'Step 5, any review'],
+    ['slopless/references/review.md', 'Rendered critique and semantic preservation checks; optional scores and review lenses.', 'Step 5, any review'],
     ['slopless/references/tells.md', 'The registry of tells by wave, with banned or warned status and which ones the scanner finds.', 'Step 5, any review'],
     ['slopless/references/memory.md', 'The taste file and the project DESIGN.md: what to write, when, and who wins.', 'Writing memory'],
     ['slopless/references/agents.md', 'Opt-in helpers: roles, model tiers, how many, the flow and the helper brief.', 'You opt in'],
     ['slopless/references/inspiration.md', 'Galleries, effect libraries and reading, plus how to research a technique.', 'You want references'],
   ]],
+  ['Starter', [
+    ['slopless/assets/deck-controller.js', 'Optional dependency-free controller for new HTML decks; readiness, cancellation and reduced motion.', 'New deck only'],
+  ]],
   ['Scripts', [
     ['slopless/scripts/slop-scan.mjs', 'Static scan for tells in HTML, CSS, JS and copy. Prints FAIL and WARN lines.', 'Step 5'],
-    ['slopless/scripts/shoot.mjs', 'Playwright screenshots at 1440, 768 and 390, or deck sizes with step-through.', 'Step 5'],
+    ['slopless/scripts/shoot.mjs', 'Automatic cached setup, Quick capture, exact export sizes, readiness and beat manifest.', 'Step 5'],
     ['slopless/scripts/contrast.mjs', 'WCAG contrast ratio for two hex colours.', 'Palette checks'],
-    ['slopless/scripts/assets.mjs', 'Fetch icons from Iconify, fonts from Google Fonts and photos from Openverse.', 'Step 4'],
+    ['slopless/scripts/assets.mjs', 'Fetch icons from Iconify, fonts from Google Fonts and photos from Openverse.', 'New assets only'],
+    ['slopless/scripts/browser.mjs', 'Pinned cached runtime and one-attempt browser provisioning without project changes.', 'CLI capture'],
+    ['slopless/scripts/cli.mjs', 'Canonical entry-point checks for installed symlinks and encoded paths.', 'CLI execution'],
     ['slopless/scripts/test/slop-scan.test.mjs', 'Tests for the scanner rules and the contrast maths.', 'Changing the scanner'],
     ['slopless/scripts/test/assets.test.mjs', 'Tests for argument parsing, SVG rewriting and font CSS parsing. No network.', 'Changing assets.mjs'],
+    ['slopless/scripts/test/cli.test.mjs', 'Executable CLI, symlink, source scan and argument regressions.', 'CLI changes'],
+    ['slopless/scripts/test/browser.test.mjs', 'Offline lookup, cached setup and bounded install failure checks.', 'Runtime changes'],
+    ['slopless/scripts/test/deck-browser.test.mjs', 'Real browser navigation, editable controls, long handoffs and capture dimensions.', 'Browser validation'],
   ]],
 ];
 
@@ -70,6 +82,9 @@ export const READING = [
 
 // [group, [prompt, note]]
 export const PROMPTS = [
+  ['Quick V2', [
+    ['Use slopless quick. Make this a better V2. Keep the content, data and working controls.', 'Default refinement path: three high-impact fixes and one repair batch.'],
+  ]],
   ['Deck', [
     ["Use slopless. I'm giving a 15-minute talk to our platform team on how we cut release time. Here's my outline.", 'Runs the interview, then builds a deck with presenter controls.'],
     ['Use slopless to rebuild this deck in Sapphire Glass, cinematic motion. Keep every number and the speaker notes exactly as they are.', 'A redesign that treats your outline as the source of truth.'],
@@ -85,7 +100,7 @@ export const PROMPTS = [
     ['slopless, three Instagram posts announcing our beta, Porcelain Cobalt, 1080 by 1350.', 'Built in HTML, exported at exact size, one template for the set.'],
   ]],
   ['Review and modes', [
-    ['Use slopless to review this screen. Why does it look generated?', 'Review mode: scan, screenshots, ten passes, top three problems.'],
+    ['Use slopless to review this screen. Why does it look generated?', 'Review mode: inspect the rendering, report three concrete problems and verification limits.'],
     ['Use slopless: make this hero bolder.', 'Bigger scale contrast, a committed colour field, one signature move. Swap in quieter, distill or harden.'],
   ]],
   ['Agents and memory', [
@@ -129,19 +144,21 @@ export const SOURCES = [
 
 // What each job loads: [path, role, start pattern (null = after the title), max lines]
 export const JOBS = [
+  ['quick', 'Quick V2', [
+    ['slopless/SKILL.md', 'Router', '^## Choose', 12], ['slopless/references/quick.md', 'Reference', null, 10], ['slopless/references/browser.md', 'Reference', null, 8]]],
   ['deck', 'Talk or deck', [
-    ['slopless/SKILL.md', 'Router', '^2\\. Classify', 12], ['slopless/references/surfaces/deck.md', 'Surface', null, 9], ['slopless/references/motion.md', 'Reference', null, 9], ['slopless/references/craft-floor.md', 'Reference', null, 8],
+    ['slopless/SKILL.md', 'Router', '^## Choose', 12], ['slopless/references/surfaces/deck.md', 'Surface', null, 9], ['slopless/references/motion.md', 'Reference', null, 9], ['slopless/references/craft-floor.md', 'Reference', null, 8],
     ['slopless/scripts/slop-scan.mjs', 'Script', null, 8], ['slopless/scripts/shoot.mjs', 'Script', null, 8]]],
   ['web', 'Landing page', [
-    ['slopless/SKILL.md', 'Router', '^2\\. Classify', 12], ['slopless/references/surfaces/web.md', 'Surface', null, 9], ['slopless/references/layout.md', 'Reference', null, 9], ['slopless/references/craft-floor.md', 'Reference', null, 8], ['slopless/references/assets.md', 'Reference', null, 9],
+    ['slopless/SKILL.md', 'Router', '^## Choose', 12], ['slopless/references/surfaces/web.md', 'Surface', null, 9], ['slopless/references/layout.md', 'Reference', null, 9], ['slopless/references/craft-floor.md', 'Reference', null, 8], ['slopless/references/assets.md', 'Reference', null, 9],
     ['slopless/scripts/assets.mjs', 'Script', null, 9], ['slopless/scripts/slop-scan.mjs', 'Script', null, 8], ['slopless/scripts/shoot.mjs', 'Script', null, 8]]],
   ['app', 'App screen', [
-    ['slopless/SKILL.md', 'Router', '^2\\. Classify', 12], ['slopless/references/surfaces/app.md', 'Surface', null, 9], ['slopless/references/craft-floor.md', 'Reference', null, 8], ['slopless/references/assets.md', 'Reference', null, 9],
+    ['slopless/SKILL.md', 'Router', '^## Choose', 12], ['slopless/references/surfaces/app.md', 'Surface', null, 9], ['slopless/references/craft-floor.md', 'Reference', null, 8], ['slopless/references/assets.md', 'Reference', null, 9],
     ['slopless/scripts/assets.mjs', 'Script', null, 9], ['slopless/scripts/shoot.mjs', 'Script', null, 8]]],
   ['graphic', 'Graphic', [
-    ['slopless/SKILL.md', 'Router', '^2\\. Classify', 12], ['slopless/references/surfaces/graphic.md', 'Surface', null, 9], ['slopless/references/palettes.md', 'Reference', null, 9], ['slopless/references/assets.md', 'Reference', null, 9],
+    ['slopless/SKILL.md', 'Router', '^## Choose', 12], ['slopless/references/surfaces/graphic.md', 'Surface', null, 9], ['slopless/references/palettes.md', 'Reference', null, 9], ['slopless/references/assets.md', 'Reference', null, 9],
     ['slopless/scripts/assets.mjs', 'Script', null, 9], ['slopless/scripts/shoot.mjs', 'Script', null, 8]]],
   ['review', 'Review', [
-    ['slopless/SKILL.md', 'Router', '^2\\. Classify', 12], ['slopless/references/review.md', 'Reference', null, 9], ['slopless/references/tells.md', 'Reference', null, 9],
+    ['slopless/SKILL.md', 'Router', '^## Choose', 12], ['slopless/references/review.md', 'Reference', null, 9], ['slopless/references/tells.md', 'Reference', null, 9],
     ['slopless/scripts/slop-scan.mjs', 'Script', null, 8], ['slopless/scripts/shoot.mjs', 'Script', null, 8]]],
 ];

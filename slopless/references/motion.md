@@ -18,7 +18,7 @@ Keep the hero object alive between beats. A ticket leaves the queue, is claimed 
 - No bounce easing, no infinite loops that mean nothing, no fade-up on every block, no hover-lift on every card.
 
 ## Timelines
-- Decks and pinned stories: one GSAP master timeline with a label per beat; every visual is a pure function of timeline position, so reverse, scrub and jump land correctly. No fire-and-forget keyframes or timers.
+- Connected cinematic decks and pinned stories: one GSAP master timeline with a label per beat; every visual derives from timeline position so reverse, scrub and jump land correctly. Preserve working existing controllers. Basic decks can use the dependency-free controller in `assets/deck-controller.js`; do not add GSAP for a fade. Cancel stale animations before applying a new state.
 - Sites: ScrollTrigger for pinned scenes and scrubs; `gsap.matchMedia()` for breakpoints and `prefers-reduced-motion`.
 - Elements are visible by default; motion enhances. Content never stays hidden if a script fails.
 
@@ -35,7 +35,7 @@ Keep the hero object alive between beats. A ticket leaves the queue, is claimed 
 - `@supports not (backdrop-filter: blur(1px))` → solid tinted panel.
 
 ## Performance
-Hot path animates `transform` and `opacity`; `clip-path`, `filter` and `backdrop-filter` only when profiled smooth. Loops run only while visible (IntersectionObserver). Target p99 frame < 10ms on a laptop; record numbers rather than claiming smoothness.
+Hot path animates `transform` and `opacity`; `clip-path`, `filter` and `backdrop-filter` only when profiled smooth. Loops run only while visible (IntersectionObserver). Measure frame timing on the target hardware before claiming smoothness; do not invent a percentile or universal frame budget.
 
 ## Reduced motion
 `prefers-reduced-motion: reduce` → each state lands with a ≤150ms fade; no travel, no parallax, no 3D camera moves; one still frame for backgrounds.

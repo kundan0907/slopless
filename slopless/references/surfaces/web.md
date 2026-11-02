@@ -2,7 +2,7 @@
 
 ## Shape
 - The first screen answers the visitor's first question in large type: what it is and what it does (product), who and what they do (person). One primary action as a real button.
-- Sections follow the argument (claim → proof). Neighbours never share a layout. The idea reaches the footer; the footer is a designed close, often the name at full width.
+- Sections follow the argument (claim → proof). Vary composition when the claim or evidence changes; repeat useful comparison layouts. The idea reaches the footer; the footer is a designed close, often the name at full width.
 - Navigation: wordmark, 3–5 plain links, one action. No floating blurred pill unless glass is the chosen material.
 - Imagery: the project's own > generated > real pictures of the subject's world (open collections, credited; `scripts/assets.mjs photo`, `references/assets.md`) > drawn from the subject in code > type and colour alone. Never a fake product shot, never grey-bar dashboards. One dominant image beats six small ones.
 

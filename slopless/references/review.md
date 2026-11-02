@@ -1,40 +1,25 @@
 # Review
 
-Judge pictures, not code. If a problem is visible in a screenshot, it is real.
+Judge the rendered result. A source scan is evidence about source patterns, not design quality. Review-only requests produce findings without modifying the artifact; an authorized polish follows Quick.
 
 ## Order
-1. `node <skill>/scripts/slop-scan.mjs <files>` — fix every `FAIL`; justify or fix every `WARN`.
-2. `node <skill>/scripts/shoot.mjs <file-or-url> [--deck]` — screenshots at 1440/768/390 (decks: 1920×1080 and 1440×810, plus `--steps N` to press → between shots). Open every image.
-3. Critique with the passes below; write it down in the format at the end.
-4. Fix the top problems in one batch. Re-shoot once. Stop: open-ended polishing burns time and makes things worse.
 
-## Passes (score each 0–10)
-1. **Squint** — is there one dominant thing per view? Is hierarchy obvious with eyes half-closed?
-2. **Idea** — could the competitor's name replace this one's and nothing change?
-3. **Type** — sizes far apart, headlines ≤ 2 lines, measure, chosen face actually loaded.
-4. **Colour** — one accent, used on the action; body in full ink; strategy consistent.
-5. **Composition** — neighbours differ; no stock section order; idea carried into every part.
-6. **Tells** — count against `tells.md`. Four or more = average; the score caps at 5.
-7. **Real things** — real content, real images/devices/data; nothing fake or placeholder.
-8. **Motion** — one signature move with a job; states land; reduced motion works; nothing too fast to talk over.
-9. **Craft floor** — states, focus, browser surfaces, contrast (`craft-floor.md`).
-10. **Fit** — matches the brief, the playback summary and the user's taste memory.
+1. Read the brief and relevant source. Run `node <skill>/scripts/slop-scan.mjs <changed-files>` when Node is available. Fix new failures only when editing is authorized; explain intentional patterns and source copy that must remain unchanged. `--allow copy` is appropriate for locked source wording, not permission to rewrite it.
+2. Use `browser.md` to inspect the rendering. No manual browser package setup is required when host tools work. Capture the relevant sizes and states; deck advances are beats, not slide counts.
+3. Apply `visual-quality.md`. Record up to three concrete defects with view/state and evidence. Load `tells.md` only when a tell needs closer diagnosis.
+4. For an authorized fix, repair in one batch and recheck affected views. Broaden only for a remaining concrete defect. Do not stop while hiding a critical regression.
 
-Caps: any banned tell → max 6. Unreadable text at rest → max 4. Missing content from the source → fail regardless.
+## Content preservation
 
-## Content audit (when there is a source of truth)
-Diff semantically: every heading, number, unit, caveat, link, note and image in the source is present and unchanged. Report discrepancies explicitly.
+Compare per slide/section, not global word counts. Check text and reading order, each label–value–unit association, denominators/time ranges, caveats, notes, links and images. Values swapped between teams can pass a word-count comparison and still be wrong. When source markup is retained, verify that the new layout and animations have not hidden or reassociated it. When markup changes, inspect the rendered evidence against the source explicitly.
 
-## Output
-```
-Score: <n>/100   Verdict: ship | fix first | rethink direction
-Top 3 problems (with screenshot + location): …
-Tells found: …
-Not verified: <browsers/devices/real presenter hardware not tested>
-```
+## Evidence and output
 
-## Modes for an existing design
-- **Bolder** — it's safe and bland: bigger scale contrast, a committed colour field, one signature move.
-- **Quieter** — it's loud: remove effects, drop to one accent, one motion moment, more space.
-- **Distill** — it's cluttered: cut sections without claims, merge beats, one idea per view.
-- **Harden** — production: empty/error/loading states, long text, i18n, slow network, keyboard.
+State verdict (ship / fix first / rethink direction), the top findings, checks performed and missing coverage. Scores are optional; give none without rendered inspection. Missing source content fails preservation regardless of visual polish. Unreadable evidence or broken interaction fails release. Do not claim a full review from sampled screenshots.
+
+## Useful lenses
+
+- **Bolder:** improve scale contrast, commit to a visual idea and show real proof.
+- **Quieter:** reduce competing effects and noise, preserve informative distinctions.
+- **Distill:** simplify grouping and sequencing; cutting copy or sections still requires authorization.
+- **Harden:** exercise relevant empty/error/loading states, long text, keyboard, themes, slow network and actual device behavior.
