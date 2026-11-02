@@ -8,6 +8,7 @@
 // Icons: the Iconify API first, then the same data on jsDelivr when the API is blocked.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { isMain } from './cli.mjs';
 
 const ICONIFY = ['https://api.iconify.design'];
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
@@ -165,4 +166,4 @@ async function main(argv) {
   } else { console.error(USAGE); process.exit(cmd ? 2 : 0); }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main(process.argv.slice(2)).catch((e) => { console.error(`assets: ${e.message}`); process.exit(1); });
+if (isMain(import.meta.url)) main(process.argv.slice(2)).catch((e) => { console.error(`assets: ${e.message}`); process.exit(1); });

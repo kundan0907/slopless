@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // WCAG contrast ratio. Usage: node contrast.mjs '#fg' '#bg'
+import { isMain } from './cli.mjs';
 const lum = (hex) => {
   let h = hex.replace('#', '');
   if (h.length === 3) h = [...h].map((c) => c + c).join('');
@@ -10,7 +11,7 @@ const lum = (hex) => {
 };
 export const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMain(import.meta.url)) {
   const [fg, bg] = process.argv.slice(2);
   if (!/^#?[0-9a-f]{3}([0-9a-f]{3})?$/i.test(fg || '') || !/^#?[0-9a-f]{3}([0-9a-f]{3})?$/i.test(bg || '')) { console.error("usage: contrast.mjs '#fg' '#bg'"); process.exit(2); }
   const r = ratio(fg, bg);

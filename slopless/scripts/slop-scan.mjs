@@ -4,6 +4,7 @@
 // Wrap deliberate bad examples in comments containing slopless-ignore-start / slopless-ignore-end.
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, extname } from 'node:path';
+import { isMain } from './cli.mjs';
 
 const EXT = new Set(['.html', '.htm', '.css', '.scss', '.js', '.jsx', '.ts', '.tsx', '.vue', '.svelte', '.astro', '.md', '.mdx']);
 const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'build', '.next', '.slopless', 'vendor']);
@@ -27,11 +28,12 @@ const isViolet = (hex) => { const { hue, sat } = hueSat(hex); return hue >= 245 
 // Separate styling from visible text so copy rules don't fire on CSS and vice versa.
 function split(src, ext) {
   src = src.replace(/slopless-ignore-start[\s\S]*?slopless-ignore-end/g, ' '); // deliberate "before" examples
-  src = src.replace(/data:[^"')\s]{80,}/g, 'data:…').split('\n').filter((l) => l.length < 2000).join('\n'); // drop inlined assets and minified libs
+  src = src.replace(/data:[^"')\s]{80,}/g, 'data:…'); // keep authored content even when its HTML is minified
   if (ext === '.css' || ext === '.scss') return { css: src, text: '' };
   if (ext === '.md' || ext === '.mdx') return { css: '', text: src.replace(/```[\s\S]*?```/g, '').replace(/`[^`]*`/g, '') };
   if (ext === '.html' || ext === '.htm') {
-    const css = [...src.matchAll(/<style[^>]*>([\s\S]*?)<\/style>|style="([^"]*)"/gi)].map((m) => m[1] || m[2]).join('\n');
+    src = src.replace(/<(script|pre|code)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ');
+    const css = [...src.matchAll(/<style[^>]*>([\s\S]*?)<\/style>|\bstyle=(?:"([^"]*)"|'([^']*)')/gi)].map((m) => m[1] || m[2] || m[3]).join('\n');
     const text = src.replace(/<(script|style|pre|code)[^>]*>[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/g, ' ');
     return { css, text };
   }
@@ -79,20 +81,25 @@ function walk(p, files) {
   return files;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  const args = process.argv.slice(2);
-  const allowIdx = args.indexOf('--allow');
-  const allow = new Set(allowIdx >= 0 ? args.splice(allowIdx, 2)[1].split(',') : []);
-  const json = args.includes('--json');
-  const targets = args.filter((a) => !a.startsWith('--'));
-  if (!targets.length) { console.error('usage: slop-scan.mjs <file|dir>... [--allow rule,rule] [--json]'); process.exit(2); }
-  const results = targets.flatMap((t) => walk(t, [])).map((f) => ({ file: f, findings: scan(readFileSync(f, 'utf8'), extname(f).toLowerCase()).filter((x) => !allow.has(x.rule)) }));
-  const fails = results.reduce((n, r) => n + r.findings.filter((x) => x.level === 'FAIL').length, 0);
-  if (json) console.log(JSON.stringify(results, null, 2));
-  else {
-    for (const r of results) for (const x of r.findings) console.log(`${x.level.padEnd(4)} ${r.file}  [${x.rule}] ${x.msg}`);
-    const warns = results.reduce((n, r) => n + r.findings.filter((x) => x.level === 'WARN').length, 0);
-    console.log(`\n${results.length} file(s): ${fails} FAIL, ${warns} WARN${fails ? '' : ' — clean of banned tells'}`);
-  }
-  process.exit(fails ? 1 : 0);
+if (isMain(import.meta.url)) {
+  try {
+    const args = process.argv.slice(2);
+    const allowIdx = args.indexOf('--allow');
+    if (allowIdx >= 0 && (!args[allowIdx + 1] || args[allowIdx + 1].startsWith('--'))) throw new Error('--allow needs comma-separated rule names');
+    const allow = new Set(allowIdx >= 0 ? args.splice(allowIdx, 2)[1].split(',') : []);
+    if (args.some((a) => a.startsWith('--') && a !== '--json')) throw new Error('Unknown option; use --allow or --json');
+    const json = args.includes('--json');
+    const targets = args.filter((a) => !a.startsWith('--'));
+    if (!targets.length) { console.error('usage: slop-scan.mjs <file|dir>... [--allow rule,rule] [--json]'); process.exit(2); }
+    const results = targets.flatMap((t) => walk(t, [])).map((f) => ({ file: f, findings: scan(readFileSync(f, 'utf8'), extname(f).toLowerCase()).filter((x) => !allow.has(x.rule)) }));
+    if (!results.length) throw new Error('No supported files found in the supplied targets');
+    const fails = results.reduce((n, r) => n + r.findings.filter((x) => x.level === 'FAIL').length, 0);
+    if (json) console.log(JSON.stringify(results, null, 2));
+    else {
+      for (const r of results) for (const x of r.findings) console.log(`${x.level.padEnd(4)} ${r.file}  [${x.rule}] ${x.msg}`);
+      const warns = results.reduce((n, r) => n + r.findings.filter((x) => x.level === 'WARN').length, 0);
+      console.log(`\n${results.length} file(s): ${fails} FAIL, ${warns} WARN — visual review still required`);
+    }
+    process.exit(fails ? 1 : 0);
+  } catch (e) { console.error(`slop-scan: ${e.message}`); process.exitCode = 2; }
 }
