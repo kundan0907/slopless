@@ -1,6 +1,24 @@
 # slopless
 
-An agent skill that makes Claude Code, Codex and other coding agents design like someone who decided every pixel: decks, landing pages, portfolios, app screens and graphics that don't look AI-made.
+Build websites, app screens, decks and graphics from scratch, or improve an existing UI. A design skill for Claude Code, Codex and other coding agents.
+
+## Get started
+
+Run this in your project and choose your coding agent when prompted:
+
+```sh
+npx skills add kundan0907/slopless
+```
+
+Then mention **slopless** in your request:
+
+```text
+Use slopless quick. Improve this UI. Keep its content and working behavior.
+```
+
+Starting fresh? Try: `Use slopless. Build a portfolio website for a product designer.`
+
+The [installer](https://github.com/vercel-labs/skills#install-a-skill) requires Node.js 22.20+. See [manual installation](#install) for other options.
 
 [![slopless showcase, Obsidian Brass palette](docs/images/hero-obsidian-brass.jpg)](https://kundan0907.github.io/slopless/)
 
@@ -12,7 +30,7 @@ Each page is one self-contained file (`docs/index.html`, `docs/explore.html`), b
 
 ## What it does
 
-The agent reads the content, audience and task before designing. Clear hierarchy and purposeful interaction come first. Generic taglines, redundant helper text and secondary labels are cut when editing is allowed; supporting text and tables stay when they serve the user. Changes should improve UX, DX and AX together while preserving content and working behavior.
+The agent reads the content, audience and task before designing. Clear hierarchy and purposeful interaction come first. It reuses your components, sources suitable implementations from libraries such as Kokonut UI and shadcn/ui, and builds custom pieces where needed. Generic taglines, redundant helper text and secondary labels are cut when editing is allowed; supporting text and tables stay when they serve the user. Changes should improve UX, DX and AX together while preserving content and working behavior.
 
 That does not prescribe a minimal look. Rich 3D, glass and cinematic motion remain valid design choices, including in this project's showcase. The user's design language and intent control the expression.
 
@@ -30,7 +48,6 @@ Every task has a design owner: understand the intent, choose the visual interven
 Visual changes use three gates: inspect the current view, inspect a representative early result, then compare the final result at the same viewport and state. The agent captures or views the work automatically. Existing current evidence can be reused; nonvisual changes need no screenshot ritual. See [visual evidence and capture](slopless/references/browser.md#when-to-view-or-capture).
 
 The [router](slopless/SKILL.md) explains the workflow. [Quick](slopless/references/quick.md), [storytelling](slopless/references/storytelling.md), [visual quality](slopless/references/visual-quality.md) and [browser setup](slopless/references/browser.md) provide the relevant details.
-![A generated landing hero next to the decided version](docs/images/before-after.jpg)
 
 ## Try it in the toolbox
 
@@ -103,6 +120,7 @@ npx skills add kundan0907/slopless
 
 # or by hand
 git clone https://github.com/kundan0907/slopless
+mkdir -p ~/.claude/skills ~/.agents/skills
 cp -r slopless/slopless ~/.claude/skills/     # Claude Code
 cp -r slopless/slopless ~/.agents/skills/     # Codex and others
 ```
@@ -149,6 +167,12 @@ slopless/            the skill (copy this folder)
 showcase/            source of docs/index.html and docs/explore.html (npm i && npm run build)
 docs/                the two built pages and README images
 ```
+
+## Before and after
+
+![A generated landing hero next to the decided version](docs/images/before-after.jpg)
+
+[Drag the live comparison](https://kundan0907.github.io/slopless/#before-after).
 
 ## Credits
 

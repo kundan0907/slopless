@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>slopless: make AI-built interfaces look designed</title>
-<meta name="description" content="A skill for Claude Code and Codex. It gives your agent a design language, then checks what it built, so pages, decks and app screens stop looking AI-made.">
+<meta name="description" content="Build new websites, apps and decks, or improve an existing UI. Install slopless for your coding agent, then ask it to design and build.">
 <script>
   // Restore the visitor's palette before first paint.
   try { const p = localStorage.getItem('slopless:palette'); if (p) document.documentElement.dataset.palette = p; } catch {}
@@ -62,7 +62,7 @@ pre{margin:0;white-space:pre-wrap;line-height:1.6}
 .btn-ghost:hover{background:var(--wash-hi)}
 
 /* Hero */
-.hero{position:relative;min-height:100svh;display:grid;align-items:end;padding:0 var(--margin) clamp(40px,6vw,80px);overflow:clip}
+.hero{position:relative;min-height:100svh;display:grid;align-items:end;padding:112px var(--margin) clamp(40px,6vw,80px);overflow:clip}
 .hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,var(--ground) 0%,color-mix(in srgb,var(--ground) 70%,transparent) 38%,transparent 62%)}
 .hero-copy{z-index:1}
@@ -445,6 +445,18 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 /* Home */
 .hero h1{font-size:clamp(48px,8.2vw,140px)}
 .hero .lead{max-width:44ch}
+.hero-actions.hero-start{display:grid;gap:14px;max-width:560px;scroll-margin-top:24px}
+.start-step{display:grid;gap:6px;min-width:0}
+.start-step>span{font-size:16px;color:var(--ink)}
+.start-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px 12px 10px 18px;border-radius:16px;background:var(--panel);color:var(--panel-ink)}
+.start-row pre{min-width:0;overflow-wrap:anywhere}
+.start-row p{font-size:18px;line-height:1.4}
+.start-row .cp{color:var(--panel-ink);background:color-mix(in srgb,var(--panel-ink) 10%,transparent)}
+.start-row .cp:hover{background:color-mix(in srgb,var(--panel-ink) 18%,transparent)}
+.start-step:first-child .cp{background:var(--pa);color:var(--pa-ink)}
+.start-links{display:flex;flex-wrap:wrap;gap:12px 24px;font-size:16px}
+.start-links a{min-height:44px;display:inline-flex;align-items:center}
+.install-note{margin-bottom:18px;max-width:52ch;color:var(--muted);font-size:17px}
 .sect-head p.lead{max-width:52ch}
 .hint{font-size:15px;color:var(--muted);margin:14px 0 0}
 .pair.full{max-width:1100px}
@@ -486,6 +498,10 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 
 @media (max-width: 900px){
   .hero::after{background:linear-gradient(0deg,var(--ground) 0%,color-mix(in srgb,var(--ground) 82%,transparent) 55%,transparent 80%)}
+  .hero-copy{gap:22px}
+  .start-row{padding-left:14px;gap:8px}
+  .start-row code{font-size:13px}
+  .start-row .cp{padding-inline:14px}
   .nav ul{display:none}
   .menu-btn{display:inline-flex;align-items:center}
   .iv-split,.diff{grid-template-columns:1fr}
@@ -529,46 +545,40 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
       <ul>
         <li><a href="#how">How it works</a></li>
         <li><a href="#language">Design language</a></li>
-        <li><a href="#install">Use it</a></li>
+        <li><a href="#start">Install</a></li>
         <li><a href="explore.html">Explore</a></li>
       </ul>
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
     </div>
     <div class="menu" id="menu" hidden>
-      <a href="#how">How it works</a><a href="#fixes">What it fixes</a><a href="#language">Design language</a><a href="#install">Use it</a><a href="explore.html">Explore</a>
+      <a href="#how">How it works</a><a href="#before-after">Before and after</a><a href="#language">Design language</a><a href="#start">Install</a><a href="explore.html">Explore</a>
     </div>
   </nav>
   <div class="hero-copy">
     <h1><span class="line"><span>Make AI-built UI</span></span><span class="line"><span>look designed.</span></span></h1>
-    <p class="lead">slopless gives your coding agent a design language, with a palette, type and motion chosen for your subject. Then it checks what it built, so your pages, decks and app screens stop looking generated.</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="#install">Install</a>
-      <a class="btn btn-ghost" href="#how">See how it works</a>
+    <p class="lead">Build websites, apps, decks and graphics from scratch, or improve what you have. A design skill for Claude Code, Codex and other coding agents.</p>
+    <div class="hero-actions hero-start" id="start">
+      <div class="start-step">
+        <span>1. Install in your project</span>
+        <div class="start-row">
+          <pre><code id="start-command">npx skills add kundan0907/slopless</code></pre>
+          <button class="cp" type="button" data-target="start-command" aria-label="Copy install command">Copy</button>
+        </div>
+      </div>
+      <div class="start-step">
+        <span>2. Ask your agent</span>
+        <div class="start-row">
+          <p id="start-prompt">Use slopless quick. Improve this UI.</p>
+          <button class="cp" type="button" data-target="start-prompt" aria-label="Copy starter prompt">Copy</button>
+        </div>
+      </div>
+      <div class="start-links"><a href="#before-after">See before and after</a><a href="#install">Install options</a></div>
     </div>
     <div class="swatches" role="group" aria-label="Palette"><span>Try a palette</span></div>
   </div>
 </header>
 
 <main>
-<section class="wrap" id="before-after">
-  <div class="sect-head">
-    <h2>Same page. Decided.</h2>
-    <p class="lead">What an agent makes by default, then the same job after slopless. Drag the handle to compare.</p>
-  </div>
-  <figure class="pair full" data-pair="land">
-      <div class="cmp land" role="group" aria-label="Landing hero, generated versus decided">
-        <div class="layer"><div class="a a-land"><nav><b>Nachtzug</b><span>Routes &nbsp; Tickets &nbsp; Help</span></nav><div class="c"><h4>Night trains, booked in one tap.</h4><p>Berlin to Vienna, Paris to Milan. Pick a berth and see the real timetable.</p><span class="go">Book a night train</span></div><div class="tt"><div><span>Berlin - Vienna</span><span>21:34</span></div><div><span>Paris - Milan</span><span>19:12</span></div><div><span>Zurich - Prague</span><span>22:05</span></div><div><span>Brussels - Vienna</span><span>19:42</span></div></div></div></div>
-        <!-- slopless-ignore-start: generated look -->
-        <div class="layer before"><div class="g g-land"><div class="g-nav"><b>Nachtzug</b><span>Home&emsp;Features&emsp;Pricing&emsp;Contact</span><i class="g-btn sm">Sign up</i></div><span class="g-pill">New: Version 2.0 is here</span><h4>Travel smarter with Nachtzug</h4><p>The all-in-one platform for booking night trains across Europe. Simple, fast and secure.</p><div class="g-row"><span class="g-btn">Get started</span><span class="g-btn out">Learn more</span></div><div class="g-cards"><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></g></svg><b>Easy booking</b><small>Book your journey in just a few clicks.</small></div><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12l2 2l4-4"/></g></svg><b>Secure payments</b><small>Your data is always safe and protected.</small></div><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.914 4a1.5 1.5 0 0 0-2.474-1.561l-9 9A1.5 1.5 0 0 0 5.5 14h4.002a.5.5 0 0 1 .471.666L8.086 20a1.5 1.5 0 0 0 2.475 1.56l9-9A1.5 1.5 0 0 0 18.5 10h-3.997a.5.5 0 0 1-.472-.667z"/></svg><b>Fast and simple</b><small>Get tickets in seconds, anywhere.</small></div></div></div></div>
-        <!-- slopless-ignore-end -->
-        <span class="tag l">Generated</span><span class="tag r">Decided</span>
-        <span class="handle"></span><input type="range" min="0" max="100" value="92" aria-label="Compare the generated and decided landing hero">
-      </div>
-      
-    </figure>
-  <p class="hint">Left: a centred hero, a pill badge, three identical cards and a soft indigo button. Right: the product's own timetable and one clear action.</p>
-</section>
-
 <section class="wrap" id="how">
   <div class="sect-head">
     <h2>How it works.</h2>
@@ -622,15 +632,19 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 
 <section class="wrap" id="install">
   <div class="sect-head">
-    <h2>Use it.</h2>
+    <h2>Install options.</h2>
   </div>
   <div class="use">
     <div>
-      <h3>Install</h3>
+      <h3>Choose your agent</h3>
+      <p class="install-note">Run the installer in your project and choose your coding agent when prompted. The installer requires Node.js 22.20+; you can also copy the skill folder by hand.</p>
       <div class="cmd"><small>Any agent that reads skills</small><pre><code>npx skills add kundan0907/slopless</code></pre><button class="copy" type="button">Copy</button></div>
       <div class="cmd"><small>Claude Code, by hand</small><pre><code>git clone https://github.com/kundan0907/slopless
+mkdir -p ~/.claude/skills
 cp -r slopless/slopless ~/.claude/skills/</code></pre><button class="copy" type="button">Copy</button></div>
-      <div class="cmd"><small>Codex and others</small><pre><code>cp -r slopless/slopless ~/.agents/skills/</code></pre><button class="copy" type="button">Copy</button></div>
+      <div class="cmd"><small>Codex and others</small><pre><code>git clone https://github.com/kundan0907/slopless
+mkdir -p ~/.agents/skills
+cp -r slopless/slopless ~/.agents/skills/</code></pre><button class="copy" type="button">Copy</button></div>
     </div>
     <div>
       <h3>Then ask</h3>
@@ -655,6 +669,23 @@ cp -r slopless/slopless ~/.claude/skills/</code></pre><button class="copy" type=
     <a href="explore.html#inspiration"><b>Inspirations</b><span>Galleries and effect libraries it points to.</span></a>
     <a class="go-all" href="explore.html"><b>Open the toolbox</b><span>All of it, on one page.</span></a>
   </div>
+</section>
+<section class="wrap" id="before-after">
+  <div class="sect-head">
+    <h2>Same page. Decided.</h2>
+    <p class="lead">What an agent makes by default, then the same job after slopless. Drag the handle to compare.</p>
+  </div>
+  <figure class="pair full" data-pair="land">
+      <div class="cmp land" role="group" aria-label="Landing hero, generated versus decided">
+        <div class="layer"><div class="a a-land"><nav><b>Nachtzug</b><span>Routes &nbsp; Tickets &nbsp; Help</span></nav><div class="c"><h4>Night trains, booked in one tap.</h4><p>Berlin to Vienna, Paris to Milan. Pick a berth and see the real timetable.</p><span class="go">Book a night train</span></div><div class="tt"><div><span>Berlin - Vienna</span><span>21:34</span></div><div><span>Paris - Milan</span><span>19:12</span></div><div><span>Zurich - Prague</span><span>22:05</span></div><div><span>Brussels - Vienna</span><span>19:42</span></div></div></div></div>
+        <!-- slopless-ignore-start: generated look -->
+        <div class="layer before"><div class="g g-land"><div class="g-nav"><b>Nachtzug</b><span>Home&emsp;Features&emsp;Pricing&emsp;Contact</span><i class="g-btn sm">Sign up</i></div><span class="g-pill">New: Version 2.0 is here</span><h4>Travel smarter with Nachtzug</h4><p>The all-in-one platform for booking night trains across Europe. Simple, fast and secure.</p><div class="g-row"><span class="g-btn">Get started</span><span class="g-btn out">Learn more</span></div><div class="g-cards"><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></g></svg><b>Easy booking</b><small>Book your journey in just a few clicks.</small></div><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12l2 2l4-4"/></g></svg><b>Secure payments</b><small>Your data is always safe and protected.</small></div><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.914 4a1.5 1.5 0 0 0-2.474-1.561l-9 9A1.5 1.5 0 0 0 5.5 14h4.002a.5.5 0 0 1 .471.666L8.086 20a1.5 1.5 0 0 0 2.475 1.56l9-9A1.5 1.5 0 0 0 18.5 10h-3.997a.5.5 0 0 1-.472-.667z"/></svg><b>Fast and simple</b><small>Get tickets in seconds, anywhere.</small></div></div></div></div>
+        <!-- slopless-ignore-end -->
+        <span class="tag l">Generated</span><span class="tag r">Decided</span>
+        <span class="handle"></span><input type="range" min="0" max="100" value="92" aria-label="Compare the generated and decided landing hero">
+      </div>
+    </figure>
+  <p class="hint">Left: a centred hero, a pill badge, three identical cards and a soft indigo button. Right: the product's own timetable and one clear action.</p>
 </section>
 </main>
 

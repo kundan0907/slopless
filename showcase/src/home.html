@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>slopless: make AI-built interfaces look designed</title>
-<meta name="description" content="A skill for Claude Code and Codex. It gives your agent a design language, then checks what it built, so pages, decks and app screens stop looking AI-made.">
+<meta name="description" content="Build new websites, apps and decks, or improve an existing UI. Install slopless for your coding agent, then ask it to design and build.">
 <!--HEAD-->
 </head>
 <body>
@@ -17,36 +17,40 @@
       <ul>
         <li><a href="#how">How it works</a></li>
         <li><a href="#language">Design language</a></li>
-        <li><a href="#install">Use it</a></li>
+        <li><a href="#start">Install</a></li>
         <li><a href="explore.html">Explore</a></li>
       </ul>
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
     </div>
     <div class="menu" id="menu" hidden>
-      <a href="#how">How it works</a><a href="#fixes">What it fixes</a><a href="#language">Design language</a><a href="#install">Use it</a><a href="explore.html">Explore</a>
+      <a href="#how">How it works</a><a href="#before-after">Before and after</a><a href="#language">Design language</a><a href="#start">Install</a><a href="explore.html">Explore</a>
     </div>
   </nav>
   <div class="hero-copy">
     <h1><span class="line"><span>Make AI-built UI</span></span><span class="line"><span>look designed.</span></span></h1>
-    <p class="lead">slopless gives your coding agent a design language, with a palette, type and motion chosen for your subject. Then it checks what it built, so your pages, decks and app screens stop looking generated.</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="#install">Install</a>
-      <a class="btn btn-ghost" href="#how">See how it works</a>
+    <p class="lead">Build websites, apps, decks and graphics from scratch, or improve what you have. A design skill for Claude Code, Codex and other coding agents.</p>
+    <div class="hero-actions hero-start" id="start">
+      <div class="start-step">
+        <span>1. Install in your project</span>
+        <div class="start-row">
+          <pre><code id="start-command">npx skills add kundan0907/slopless</code></pre>
+          <button class="cp" type="button" data-target="start-command" aria-label="Copy install command">Copy</button>
+        </div>
+      </div>
+      <div class="start-step">
+        <span>2. Ask your agent</span>
+        <div class="start-row">
+          <p id="start-prompt">Use slopless quick. Improve this UI.</p>
+          <button class="cp" type="button" data-target="start-prompt" aria-label="Copy starter prompt">Copy</button>
+        </div>
+      </div>
+      <div class="start-links"><a href="#before-after">See before and after</a><a href="#install">Install options</a></div>
     </div>
     <div class="swatches" role="group" aria-label="Palette"><span>Try a palette</span></div>
   </div>
 </header>
 
 <main>
-<section class="wrap" id="before-after">
-  <div class="sect-head">
-    <h2>Same page. Decided.</h2>
-    <p class="lead">What an agent makes by default, then the same job after slopless. Drag the handle to compare.</p>
-  </div>
-  <!--PAIR:land-->
-  <p class="hint">Left: a centred hero, a pill badge, three identical cards and a soft indigo button. Right: the product's own timetable and one clear action.</p>
-</section>
-
 <section class="wrap" id="how">
   <div class="sect-head">
     <h2>How it works.</h2>
@@ -100,15 +104,19 @@
 
 <section class="wrap" id="install">
   <div class="sect-head">
-    <h2>Use it.</h2>
+    <h2>Install options.</h2>
   </div>
   <div class="use">
     <div>
-      <h3>Install</h3>
+      <h3>Choose your agent</h3>
+      <p class="install-note">Run the installer in your project and choose your coding agent when prompted. The installer requires Node.js 22.20+; you can also copy the skill folder by hand.</p>
       <div class="cmd"><small>Any agent that reads skills</small><pre><code>npx skills add kundan0907/slopless</code></pre><button class="copy" type="button">Copy</button></div>
       <div class="cmd"><small>Claude Code, by hand</small><pre><code>git clone https://github.com/kundan0907/slopless
+mkdir -p ~/.claude/skills
 cp -r slopless/slopless ~/.claude/skills/</code></pre><button class="copy" type="button">Copy</button></div>
-      <div class="cmd"><small>Codex and others</small><pre><code>cp -r slopless/slopless ~/.agents/skills/</code></pre><button class="copy" type="button">Copy</button></div>
+      <div class="cmd"><small>Codex and others</small><pre><code>git clone https://github.com/kundan0907/slopless
+mkdir -p ~/.agents/skills
+cp -r slopless/slopless ~/.agents/skills/</code></pre><button class="copy" type="button">Copy</button></div>
     </div>
     <div>
       <h3>Then ask</h3>
@@ -133,6 +141,14 @@ cp -r slopless/slopless ~/.claude/skills/</code></pre><button class="copy" type=
     <a href="explore.html#inspiration"><b>Inspirations</b><span>Galleries and effect libraries it points to.</span></a>
     <a class="go-all" href="explore.html"><b>Open the toolbox</b><span>All of it, on one page.</span></a>
   </div>
+</section>
+<section class="wrap" id="before-after">
+  <div class="sect-head">
+    <h2>Same page. Decided.</h2>
+    <p class="lead">What an agent makes by default, then the same job after slopless. Drag the handle to compare.</p>
+  </div>
+  <!--PAIR:land-->
+  <p class="hint">Left: a centred hero, a pill badge, three identical cards and a soft indigo button. Right: the product's own timetable and one clear action.</p>
 </section>
 </main>
 

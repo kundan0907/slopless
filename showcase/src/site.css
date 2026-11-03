@@ -48,7 +48,7 @@ pre{margin:0;white-space:pre-wrap;line-height:1.6}
 .btn-ghost:hover{background:var(--wash-hi)}
 
 /* Hero */
-.hero{position:relative;min-height:100svh;display:grid;align-items:end;padding:0 var(--margin) clamp(40px,6vw,80px);overflow:clip}
+.hero{position:relative;min-height:100svh;display:grid;align-items:end;padding:112px var(--margin) clamp(40px,6vw,80px);overflow:clip}
 .hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,var(--ground) 0%,color-mix(in srgb,var(--ground) 70%,transparent) 38%,transparent 62%)}
 .hero-copy{z-index:1}
@@ -431,6 +431,18 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 /* Home */
 .hero h1{font-size:clamp(48px,8.2vw,140px)}
 .hero .lead{max-width:44ch}
+.hero-actions.hero-start{display:grid;gap:14px;max-width:560px;scroll-margin-top:24px}
+.start-step{display:grid;gap:6px;min-width:0}
+.start-step>span{font-size:16px;color:var(--ink)}
+.start-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px 12px 10px 18px;border-radius:16px;background:var(--panel);color:var(--panel-ink)}
+.start-row pre{min-width:0;overflow-wrap:anywhere}
+.start-row p{font-size:18px;line-height:1.4}
+.start-row .cp{color:var(--panel-ink);background:color-mix(in srgb,var(--panel-ink) 10%,transparent)}
+.start-row .cp:hover{background:color-mix(in srgb,var(--panel-ink) 18%,transparent)}
+.start-step:first-child .cp{background:var(--pa);color:var(--pa-ink)}
+.start-links{display:flex;flex-wrap:wrap;gap:12px 24px;font-size:16px}
+.start-links a{min-height:44px;display:inline-flex;align-items:center}
+.install-note{margin-bottom:18px;max-width:52ch;color:var(--muted);font-size:17px}
 .sect-head p.lead{max-width:52ch}
 .hint{font-size:15px;color:var(--muted);margin:14px 0 0}
 .pair.full{max-width:1100px}
@@ -472,6 +484,10 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 
 @media (max-width: 900px){
   .hero::after{background:linear-gradient(0deg,var(--ground) 0%,color-mix(in srgb,var(--ground) 82%,transparent) 55%,transparent 80%)}
+  .hero-copy{gap:22px}
+  .start-row{padding-left:14px;gap:8px}
+  .start-row code{font-size:13px}
+  .start-row .cp{padding-inline:14px}
   .nav ul{display:none}
   .menu-btn{display:inline-flex;align-items:center}
   .iv-split,.diff{grid-template-columns:1fr}

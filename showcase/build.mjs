@@ -98,7 +98,7 @@ const fill = (src, map) => Object.entries(map).reduce((h, [k, v]) => h.replace(`
 const pages = {
   'index.html': fill(text('./src/home.html'), {
     HEAD: head, GSAP: gsapFull, SCENE: js.SCENE, COMMON: js.COMMON, HOME: js.HOME, UI: js.UI,
-    'PAIR:land': pair('land').replace('class="pair w8"', 'class="pair full"').replace(/<figcaption>[\s\S]*?<\/figcaption>/, '').replace('value="50"', 'value="92"'),
+    'PAIR:land': pair('land').replace('class="pair w8"', 'class="pair full"').replace(/\s*<figcaption>[\s\S]*?<\/figcaption>/, '').replace('value="50"', 'value="92"'),
     PROMPTS: homePrompts, MOTION: js.MOTION, ICONSTRIP: iconStrip,
     FOOTER: footer('<a href="explore.html">Explore the toolbox</a>'),
   }),
