@@ -533,6 +533,26 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 .assets-note .more{min-height:44px;display:inline-flex;align-items:center}
 .use h3.sub{margin:clamp(28px,3vw,40px) 0 18px}
 .cmd + .install-note,.install-note + .cmd{margin-top:12px}
+.modes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.6vw,20px)}
+.mode{--accent:var(--pa);--accent-ink:var(--pa-ink);--muted:var(--panel-muted);background:var(--panel);color:var(--panel-ink);border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.mode header{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.mode h3{font-size:clamp(28px,2.4vw,36px)}
+.mode-tag{font:500 13px/1 var(--text);padding:5px 9px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--accent);color:var(--accent)}
+.mode-use{font-weight:500}
+.mode-does{font-size:16px;color:color-mix(in srgb,var(--panel-ink) 78%,var(--panel))}
+.mode .cmdbox,.modes-more .cmdbox{padding:12px 14px}
+.mode .cmdbox{margin-top:auto;flex-direction:column;align-items:stretch;gap:10px}
+.mode .cmdbox .cp{align-self:flex-start;height:40px}
+.cmdbox p{font-size:15px;line-height:1.45}
+.chips{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.chips li{display:grid;gap:2px;align-content:start;border-radius:10px;padding:8px 10px;font-size:14px;line-height:1.35;background:color-mix(in srgb,var(--panel-ink) 7%,transparent);color:color-mix(in srgb,var(--panel-ink) 78%,var(--panel))}
+.chips b{font:500 15px/1.2 var(--text);color:var(--panel-ink)}
+.modes-more{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,2fr);gap:clamp(20px,3vw,48px);margin-top:clamp(28px,3vw,40px);padding-top:clamp(20px,2.4vw,28px);border-top:1px solid var(--line)}
+.modes-more h3{font-size:clamp(22px,2vw,28px);margin-bottom:8px}
+.modes-more p{color:var(--muted);font-size:17px;max-width:56ch}
+.modes-more p.cp-src{color:inherit;font-size:15px}
+.modes-more .cmdbox{margin-top:14px;max-width:560px}
+.modes-link{margin-top:14px}
 .after-steps{margin-top:24px;color:var(--muted);font-size:17px}
 .fixes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(28px,5vw,80px);list-style:none;margin:0;padding:0}
 .fixes li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px 20px;padding:18px 0;border-top:1px solid var(--line);align-items:baseline;font-size:18px}
@@ -593,12 +613,14 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
   .cmd pre{overflow-wrap:anywhere}
   .cmd .copy{position:static;justify-self:start}
   .palettes{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .steps,.lang,.use,.fixes,.ask,.feel,.assets-note{grid-template-columns:minmax(0,1fr)}
+  .steps,.lang,.use,.fixes,.ask,.feel,.assets-note,.modes-more{grid-template-columns:minmax(0,1fr)}
   .deeper{grid-template-columns:repeat(2,minmax(0,1fr))}
   .fixes li{grid-template-columns:1fr}
   .credits{grid-template-columns:1fr}
 }
+@media (max-width: 1180px){.modes{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width: 1180px) and (min-width: 901px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width: 700px){.modes{grid-template-columns:minmax(0,1fr)}}
 @media (max-width: 600px){.feel>*{min-height:0}.ask-opts li{grid-template-columns:auto minmax(0,1fr)}.ask-opts em{grid-column:2;justify-self:start}.deeper{grid-template-columns:minmax(0,1fr)}.deeper a{min-height:0}}
 @media (prefers-reduced-motion: reduce){*{transition-duration:.01ms!important}}
 
@@ -614,6 +636,7 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
       <ul>
         <li><a href="#how">How it works</a></li>
         <li><a href="#before-after">Before and after</a></li>
+        <li><a href="#modes">Modes</a></li>
         <li><a href="#language">Palettes</a></li>
         <li><a href="#start">Install</a></li>
         <li><a href="explore.html">Explore</a></li>
@@ -621,7 +644,7 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
     </div>
     <div class="menu" id="menu" hidden>
-      <a href="#how">How it works</a><a href="#before-after">Before and after</a><a href="#language">Palettes</a><a href="#start">Install</a><a href="explore.html">Explore</a>
+      <a href="#how">How it works</a><a href="#before-after">Before and after</a><a href="#modes">Modes</a><a href="#language">Palettes</a><a href="#start">Install</a><a href="explore.html">Explore</a>
     </div>
   </nav>
   <div class="hero-copy">
@@ -747,6 +770,57 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 </div>
 </section>
 
+<section class="wrap" id="modes">
+  <div class="sect-head">
+    <h2>Pick a mode.</h2>
+    <p class="lead">Name the mode in your request. If you don't, slopless chooses: Quick for existing work, Standard for new work.</p>
+  </div>
+  <div class="modes">
+    <article class="mode">
+      <header><h3>Quick</h3><span class="mode-tag">Default for existing work</span></header>
+      <p class="mode-use">You have a page, screen or deck to improve.</p>
+      <p class="mode-does">A focused V2 with no interview. Up to three high-impact fixes, your content and working controls kept, and a check before and after.</p>
+      <div class="cmdbox"><p class="cp-src">Use slopless quick. Improve this page. Keep my content.</p><button class="cp" type="button" aria-label="Copy the Quick prompt">Copy</button></div>
+    </article>
+    <article class="mode">
+      <header><h3>Standard</h3><span class="mode-tag">Default for new work</span></header>
+      <p class="mode-use">You are building something new, or redesigning.</p>
+      <p class="mode-does">Asks a few questions with options A to D and a recommended pick. Then it builds, checks and reports.</p>
+      <div class="cmdbox"><p class="cp-src">Use slopless. Build a website for my product. Interview me first.</p><button class="cp" type="button" aria-label="Copy the Standard prompt">Copy</button></div>
+    </article>
+    <article class="mode">
+      <header><h3>Deep</h3></header>
+      <p class="mode-use">The story is complex, the work is cinematic or 3D, or you want a detailed audit.</p>
+      <p class="mode-does">Standard, plus deeper exploration of direction, storytelling and motion.</p>
+      <div class="cmdbox"><p class="cp-src">Use slopless deep. A cinematic launch page for our new app.</p><button class="cp" type="button" aria-label="Copy the Deep prompt">Copy</button></div>
+    </article>
+    <article class="mode">
+      <header><h3>Review</h3></header>
+      <p class="mode-use">You want a critique, not changes.</p>
+      <p class="mode-does">Inspects the rendered result and reports findings. It never edits your files. Ask for one lens:</p>
+      <ul class="chips">
+        <li><b>Bolder</b>More scale contrast, one clear idea.</li>
+        <li><b>Quieter</b>Fewer competing effects.</li>
+        <li><b>Distill</b>Simpler grouping and order.</li>
+        <li><b>Harden</b>Empty states, long text, keyboard.</li>
+      </ul>
+      <div class="cmdbox"><p class="cp-src">Use slopless to review this screen. Why does it look AI-made?</p><button class="cp" type="button" aria-label="Copy the Review prompt">Copy</button></div>
+    </article>
+  </div>
+  <div class="modes-more">
+    <div>
+      <h3>Agents, if you opt in</h3>
+      <p>For big jobs, add 1 to 4 helpers such as a builder, a motion specialist and a reviewer. It costs more, so it only pays off on large work.</p>
+      <div class="cmdbox"><p class="cp-src">Use slopless in agents mode with two helpers. Rebuild the deck.</p><button class="cp" type="button" aria-label="Copy the Agents prompt">Copy</button></div>
+    </div>
+    <div>
+      <h3>Short on time?</h3>
+      <p>Say “you pick” and slopless accepts every recommended answer in the interview.</p>
+      <p class="modes-link"><a class="btn btn-ghost" href="explore.html#modes">All modes and examples →</a></p>
+    </div>
+  </div>
+</section>
+
 <section class="wrap" id="references">
   <div class="sect-head">
     <h2>Reference sites.</h2>
@@ -832,8 +906,8 @@ cp -r slopless/slopless ~/.agents/skills/</code></pre><button class="copy" type=
       <div class="cmd"><small>If you installed with npx skills</small><pre><code>npx skills update slopless</code></pre><button class="copy" type="button">Copy</button></div>
     </div>
     <div>
-      <h3>Start building, or improve what you have</h3>
-      <div class="pg-row"><div><p class="cp-src">Use slopless quick. Improve my existing landing page. Keep my content and links.</p><span>Fixes the three biggest problems and shows before and after.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless quick. Improve my existing ">Copy</button></div><div class="pg-row"><div><p class="cp-src">Use slopless to build a website for my invoicing app. Interview me first.</p><span>Asks about story, motion, reference sites, colours and wording, then builds.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless to build a website for my i">Copy</button></div><div class="pg-row"><div><p class="cp-src">Use slopless to build a landing page for Fieldnote. Brand colours are #1B3A2F and #E8B04A, logo attached. Keep my copy.</p><span>Keeps your colours exact, works out the rest, and skips questions you already answered.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless to build a landing page for">Copy</button></div><div class="pg-row"><div><p class="cp-src">Use slopless quick. This dashboard feels cluttered. Make the main task obvious.</p><span>Regroups the screen around the main task and keeps your data and controls.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless quick. This dashboard feels">Copy</button></div><div class="pg-row"><div><p class="cp-src">Use slopless to turn these notes into a 10-minute talk deck.</p><span>Interviews you about the story and look, then builds a deck with presenter controls.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless to turn these notes into a ">Copy</button></div><div class="pg-row"><div><p class="cp-src">Use slopless to review this screen. Why does it look AI-made?</p><span>Lists the concrete problems and changes no files.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless to review this screen. Why ">Copy</button></div>
+      <h3>Or start from your situation</h3>
+      <div class="pg-row"><div><p class="cp-src">Use slopless quick. This dashboard feels cluttered. Make the main task obvious.</p><span>Regroups the screen around the main task and keeps your data and controls.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless quick. This dashboard feels">Copy</button></div><div class="pg-row"><div><p class="cp-src">Use slopless to turn these notes into a 10-minute talk deck.</p><span>Interviews you about the story and look, then builds a deck with presenter controls.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless to turn these notes into a ">Copy</button></div><div class="pg-row"><div><p class="cp-src">Use slopless to build a landing page for Fieldnote. Brand colours are #1B3A2F and #E8B04A, logo attached. Keep my copy.</p><span>Keeps your colours exact, works out the rest, and skips questions you already answered.</span></div><button class="cp" type="button" aria-label="Copy prompt: Use slopless to build a landing page for">Copy</button></div>
     </div>
   </div>
 </section>

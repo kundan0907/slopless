@@ -111,14 +111,11 @@ export const PROMPTS = [
   ]],
 ];
 
-// The home page's "Start building" list: [prompt, what happens]
+// The home page's situational starting points (the mode prompts live in home.html): [prompt, what happens]
 export const START = [
-  ['Use slopless quick. Improve my existing landing page. Keep my content and links.', 'Fixes the three biggest problems and shows before and after.'],
-  ['Use slopless to build a website for my invoicing app. Interview me first.', 'Asks about story, motion, reference sites, colours and wording, then builds.'],
-  ['Use slopless to build a landing page for Fieldnote. Brand colours are #1B3A2F and #E8B04A, logo attached. Keep my copy.', 'Keeps your colours exact, works out the rest, and skips questions you already answered.'],
   ['Use slopless quick. This dashboard feels cluttered. Make the main task obvious.', 'Regroups the screen around the main task and keeps your data and controls.'],
   ['Use slopless to turn these notes into a 10-minute talk deck.', 'Interviews you about the story and look, then builds a deck with presenter controls.'],
-  ['Use slopless to review this screen. Why does it look AI-made?', 'Lists the concrete problems and changes no files.'],
+  ['Use slopless to build a landing page for Fieldnote. Brand colours are #1B3A2F and #E8B04A, logo attached. Keep my copy.', 'Keeps your colours exact, works out the rest, and skips questions you already answered.'],
 ];
 
 // [category, name, url, licence, note]

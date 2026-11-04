@@ -17,6 +17,7 @@
       <ul>
         <li><a href="#how">How it works</a></li>
         <li><a href="#before-after">Before and after</a></li>
+        <li><a href="#modes">Modes</a></li>
         <li><a href="#language">Palettes</a></li>
         <li><a href="#start">Install</a></li>
         <li><a href="explore.html">Explore</a></li>
@@ -24,7 +25,7 @@
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
     </div>
     <div class="menu" id="menu" hidden>
-      <a href="#how">How it works</a><a href="#before-after">Before and after</a><a href="#language">Palettes</a><a href="#start">Install</a><a href="explore.html">Explore</a>
+      <a href="#how">How it works</a><a href="#before-after">Before and after</a><a href="#modes">Modes</a><a href="#language">Palettes</a><a href="#start">Install</a><a href="explore.html">Explore</a>
     </div>
   </nav>
   <div class="hero-copy">
@@ -98,6 +99,57 @@
     <p class="lead">Four jobs for the same product, each built twice with the same words and data. Drag a handle, or focus it and use the arrow keys.</p>
   </div>
   <div class="gallery"><!--GALLERY--></div>
+</section>
+
+<section class="wrap" id="modes">
+  <div class="sect-head">
+    <h2>Pick a mode.</h2>
+    <p class="lead">Name the mode in your request. If you don't, slopless chooses: Quick for existing work, Standard for new work.</p>
+  </div>
+  <div class="modes">
+    <article class="mode">
+      <header><h3>Quick</h3><span class="mode-tag">Default for existing work</span></header>
+      <p class="mode-use">You have a page, screen or deck to improve.</p>
+      <p class="mode-does">A focused V2 with no interview. Up to three high-impact fixes, your content and working controls kept, and a check before and after.</p>
+      <div class="cmdbox"><p class="cp-src">Use slopless quick. Improve this page. Keep my content.</p><button class="cp" type="button" aria-label="Copy the Quick prompt">Copy</button></div>
+    </article>
+    <article class="mode">
+      <header><h3>Standard</h3><span class="mode-tag">Default for new work</span></header>
+      <p class="mode-use">You are building something new, or redesigning.</p>
+      <p class="mode-does">Asks a few questions with options A to D and a recommended pick. Then it builds, checks and reports.</p>
+      <div class="cmdbox"><p class="cp-src">Use slopless. Build a website for my product. Interview me first.</p><button class="cp" type="button" aria-label="Copy the Standard prompt">Copy</button></div>
+    </article>
+    <article class="mode">
+      <header><h3>Deep</h3></header>
+      <p class="mode-use">The story is complex, the work is cinematic or 3D, or you want a detailed audit.</p>
+      <p class="mode-does">Standard, plus deeper exploration of direction, storytelling and motion.</p>
+      <div class="cmdbox"><p class="cp-src">Use slopless deep. A cinematic launch page for our new app.</p><button class="cp" type="button" aria-label="Copy the Deep prompt">Copy</button></div>
+    </article>
+    <article class="mode">
+      <header><h3>Review</h3></header>
+      <p class="mode-use">You want a critique, not changes.</p>
+      <p class="mode-does">Inspects the rendered result and reports findings. It never edits your files. Ask for one lens:</p>
+      <ul class="chips">
+        <li><b>Bolder</b>More scale contrast, one clear idea.</li>
+        <li><b>Quieter</b>Fewer competing effects.</li>
+        <li><b>Distill</b>Simpler grouping and order.</li>
+        <li><b>Harden</b>Empty states, long text, keyboard.</li>
+      </ul>
+      <div class="cmdbox"><p class="cp-src">Use slopless to review this screen. Why does it look AI-made?</p><button class="cp" type="button" aria-label="Copy the Review prompt">Copy</button></div>
+    </article>
+  </div>
+  <div class="modes-more">
+    <div>
+      <h3>Agents, if you opt in</h3>
+      <p>For big jobs, add 1 to 4 helpers such as a builder, a motion specialist and a reviewer. It costs more, so it only pays off on large work.</p>
+      <div class="cmdbox"><p class="cp-src">Use slopless in agents mode with two helpers. Rebuild the deck.</p><button class="cp" type="button" aria-label="Copy the Agents prompt">Copy</button></div>
+    </div>
+    <div>
+      <h3>Short on time?</h3>
+      <p>Say “you pick” and slopless accepts every recommended answer in the interview.</p>
+      <p class="modes-link"><a class="btn btn-ghost" href="explore.html#modes">All modes and examples →</a></p>
+    </div>
+  </div>
 </section>
 
 <section class="wrap" id="references">
@@ -185,7 +237,7 @@ cp -r slopless/slopless ~/.agents/skills/</code></pre><button class="copy" type=
       <div class="cmd"><small>If you installed with npx skills</small><pre><code>npx skills update slopless</code></pre><button class="copy" type="button">Copy</button></div>
     </div>
     <div>
-      <h3>Start building, or improve what you have</h3>
+      <h3>Or start from your situation</h3>
       <!--PROMPTS-->
     </div>
   </div>
