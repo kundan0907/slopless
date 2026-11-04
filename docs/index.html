@@ -237,7 +237,9 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 .cmp .handle::before{content:"";position:absolute;top:50%;left:50%;z-index:1;width:16px;height:16px;margin:-8px;background:var(--accent-ink);clip-path:polygon(0 50%,35% 20%,35% 40%,65% 40%,65% 20%,100% 50%,65% 80%,65% 60%,35% 60%,35% 80%)}
 .cmp:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:4px}
 .tag{position:absolute;bottom:12px;z-index:2;font:500 14px/1 var(--text);padding:8px 12px;border-radius:999px;background:rgb(0 0 0/.62);color:#fff;pointer-events:none}
-.tag.l{left:12px}.tag.r{right:12px}
+.tag{transition:opacity .15s}
+/* Each pill fades out as its side is covered: --p is the split position, 0 to 100. */
+.tag.l{left:12px;opacity:clamp(0,calc((var(--p) - 6) / 16),1)}.tag.r{right:12px;opacity:clamp(0,calc((94 - var(--p)) / 16),1)}
 /* decided layers */
 .a{position:absolute;inset:0;background:var(--panel);color:var(--panel-ink);font-family:var(--text)}
 .a h4{margin:0;font:340 7cqw/.95 var(--display);letter-spacing:-0.035em;font-stretch:88%;text-wrap:balance}
@@ -278,8 +280,7 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 .a-post .p-line{display:flex;align-items:center;gap:3cqw;font:500 6cqw/1 var(--display);font-variant-numeric:tabular-nums}
 .a-post .p-line i{flex:1;border-top:.8cqw dotted currentColor}
 .a-post p{font-size:5cqw}
-.a-app{background:var(--panel);color:var(--panel-ink);font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;display:grid;grid-template-rows:auto auto auto 1fr auto;padding:14cqw 5cqw 0}
-.a-app .sb{position:absolute;top:4cqw;left:9cqw;font:600 5cqw/1 -apple-system,system-ui,sans-serif}
+.a-app{background:var(--panel);color:var(--panel-ink);font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif;display:grid;grid-template-rows:auto auto auto 1fr auto;padding:15cqw 5cqw 0}
 .a-app h5{margin:0 0 4cqw;font:700 13cqw/1.1 -apple-system,system-ui,sans-serif;letter-spacing:-.02em}
 .a-app .tkt{background:var(--accent);color:var(--accent-ink);border-radius:7cqw;padding:6cqw;display:grid;gap:3cqw}
 .a-app .tkt-t{display:flex;justify-content:space-between;align-items:baseline}
@@ -292,14 +293,28 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 .a-app .row{display:flex;justify-content:space-between;align-items:center;padding:4.2cqw 0;border-bottom:1px solid color-mix(in srgb,var(--panel-ink) 12%,transparent);font-size:5.8cqw}
 .a-app .row small{display:block;color:color-mix(in srgb,var(--panel-ink) 65%,var(--panel));font-size:4.4cqw;margin-top:.6cqw}
 .a-app .row em{font-style:normal;font-size:5cqw;font-variant-numeric:tabular-nums}
-.a-app .tab{display:grid;grid-template-columns:repeat(4,1fr);padding:2.6cqw 0 5cqw;font-size:3.2cqw;text-align:center;color:color-mix(in srgb,var(--panel-ink) 65%,var(--panel))}
+.a-app .tab{display:grid;grid-template-columns:repeat(4,1fr);padding:2.6cqw 0 7.5cqw;font-size:3.2cqw;text-align:center;color:color-mix(in srgb,var(--panel-ink) 65%,var(--panel))}
 .a-app .tab span{display:grid;justify-items:center;gap:1cqw}
 .a-app .tab svg{width:6cqw;height:6cqw;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .a-app .tab .on{color:var(--accent)}
 .phone-stage{display:grid;place-items:center;background:var(--ground)}
-.phone{height:92%;aspect-ratio:71.5/149.6;border-radius:12cqw/6cqw;background:#0a0a0a;padding:2.4cqw;box-shadow:inset 0 0 0 .6cqw #3a3a3c,0 3cqw 6cqw -3cqw rgb(0 0 0/.7);container-type:inline-size;position:relative}
-.phone .scr{width:100%;height:100%;border-radius:10cqw/5cqw;overflow:clip;position:relative}
-.phone::after{content:"";position:absolute;top:3.4cqw;left:50%;width:30%;height:3.6%;margin-left:-15%;border-radius:99px;background:#000}
+.handset{position:relative;height:92%;aspect-ratio:71.5/149.6;container-type:inline-size}
+.hw{position:absolute;width:1cqw;background:#2e2e31;border-radius:.5cqw}
+.hw-act{left:-.6cqw;top:15%;height:3.2%}.hw-up{left:-.6cqw;top:21.5%;height:6.6%}.hw-dn{left:-.6cqw;top:30%;height:6.6%}.hw-pw{right:-.6cqw;top:26%;height:10.5%}
+.hw-body{position:absolute;inset:0;border-radius:15cqw;padding:.8cqw;background:linear-gradient(150deg,#55555a,#1d1d1f 32%,#3b3b3f 66%,#19191b);box-shadow:0 3cqw 6cqw -3cqw rgb(0 0 0/.65)}
+.hw-bezel{height:100%;border-radius:14.2cqw;padding:2.3cqw;background:#000}
+.hw-screen{position:relative;height:100%;border-radius:11.9cqw;overflow:clip;background:#fff}
+.hw-screen .layer{position:absolute;inset:0;isolation:isolate}
+.hw-screen .scr{position:absolute;inset:0;overflow:clip}
+.hw-island{position:absolute;z-index:4;top:2.6cqw;left:50%;width:27cqw;height:7.8cqw;margin-left:-13.5cqw;border-radius:9cqw;background:#000;pointer-events:none}
+.sbar{position:absolute;z-index:1;top:0;left:0;right:0;height:13cqw;padding:0 7.5cqw 0 9.5cqw;display:flex;align-items:center;justify-content:space-between}
+.sbar b{font:600 4.6cqw/1 -apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-variant-numeric:tabular-nums}
+.sbar span{display:flex;align-items:center;gap:1.4cqw}
+.sbar svg{height:3cqw;width:auto;fill:currentColor;display:block}
+.home-ind{position:absolute;z-index:1;bottom:1.9cqw;left:50%;width:34cqw;height:1.3cqw;margin-left:-17cqw;border-radius:9cqw;background:currentColor;opacity:.9}
+.hw-screen .handle::after{width:34px;height:34px;margin:-17px}
+.hw-screen .handle::before{width:14px;height:14px;margin:-7px}
+
 /* slopless-ignore-start: the generated "before" look is deliberately generic */
 .g{position:absolute;inset:0;background:#fff;color:#111827;font-family:Inter,ui-sans-serif,system-ui,sans-serif;display:grid;align-content:center;justify-items:center;text-align:center}
 .g h4{margin:0;font:700 5cqw/1.1 Inter,ui-sans-serif,system-ui,sans-serif;letter-spacing:-.02em;color:#111827}
@@ -332,16 +347,14 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 .g-post .g-pill{font-size:3.4cqw;padding:1.2cqw 3.4cqw}
 .g-post .g-btn{font-size:4.2cqw;padding:2.6cqw 6cqw;border-radius:2.4cqw}
 .g-post small{font-size:3.4cqw;color:#9ca3af}
-.g-stage{background:#e5e7eb}
-.g-app{background:#f9fafb;align-content:start;justify-items:stretch;text-align:left;padding:14cqw 5cqw 0;font-family:-apple-system,BlinkMacSystemFont,Inter,system-ui,sans-serif;grid-template-rows:auto auto 1fr auto}
-.g-app .sb{position:absolute;top:4cqw;left:9cqw;font:600 5cqw/1 -apple-system,system-ui,sans-serif}
+.g-app{background:#f9fafb;align-content:start;justify-items:stretch;text-align:left;padding:15cqw 5cqw 0;font-family:-apple-system,BlinkMacSystemFont,Inter,system-ui,sans-serif;grid-template-rows:auto auto 1fr auto}
 .g-app .t{font:700 10cqw/1.1 -apple-system,system-ui,sans-serif;margin-bottom:3cqw}
 .g-search{display:flex;align-items:center;gap:2cqw;background:#e5e7eb;border-radius:3cqw;padding:2.6cqw 3cqw;font-size:4.4cqw;color:#9ca3af;margin-bottom:4cqw}
 .g-app svg{width:6cqw;height:6cqw}
 .g-list{display:grid;gap:3cqw;align-content:start}
 .g-app .g-card{display:flex;gap:3cqw;align-items:center;text-align:left;justify-items:start;padding:3.4cqw;border-radius:4cqw}
 .g-app .g-card b{display:block;font-size:4.6cqw}.g-app .g-card small{display:block;font-size:3.6cqw}
-.g-tabs{display:grid;grid-template-columns:repeat(4,1fr);padding:3cqw 0 5cqw;font-size:3cqw;text-align:center;color:#9ca3af;border-top:1px solid #e5e7eb;margin:0 -5cqw;background:#fff}
+.g-tabs{display:grid;grid-template-columns:repeat(4,1fr);padding:3cqw 0 7.5cqw;font-size:3cqw;text-align:center;color:#9ca3af;border-top:1px solid #e5e7eb;margin:0 -5cqw;background:#fff}
 .g-tabs span{display:grid;justify-items:center;gap:1cqw}.g-tabs .on{color:#4f46e5}
 .g-tabs svg{stroke:currentColor}
 /* slopless-ignore-end */
@@ -495,26 +508,6 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 .lens-pane{position:absolute;z-index:3;left:calc(var(--x)*1%);top:calc(var(--y)*1%);width:calc(var(--w)*1%);height:calc(var(--h)*1%);border-radius:18px;pointer-events:none;box-shadow:0 0 0 1px rgb(255 255 255/.65),0 0 0 2px rgb(0 0 0/.14),0 26px 36px -16px rgb(0 0 0/.5),inset 0 1px 0 rgb(255 255 255/.8)}
 .lens-pane::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:10px;background:linear-gradient(160deg,rgb(255 255 255/.36),rgb(255 255 255/.05) 40%,rgb(255 255 255/.16));-webkit-backdrop-filter:blur(4px) saturate(1.2);backdrop-filter:blur(4px) saturate(1.2);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
 
-.ask{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,500px);gap:clamp(32px,6vw,96px);align-items:center}
-.steps{list-style:none;margin:0;padding:0;display:grid}
-.steps li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:6px 16px;padding:22px 0;border-top:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
-.steps li:last-child{border-bottom:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
-.steps .n{grid-row:span 2;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;font:500 15px/1 var(--text);border:1px solid color-mix(in srgb,var(--ink) 30%,transparent)}
-.steps li.on .n{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.steps b{font:340 clamp(24px,2vw,30px)/1.1 var(--display);letter-spacing:-0.02em}
-.steps p{font-size:17px;color:var(--muted);max-width:56ch}
-.ask-card{align-self:start;position:sticky;top:96px;margin:0;background:var(--panel);color:var(--panel-ink);border-radius:18px;padding:18px 20px;display:grid;gap:12px;box-shadow:0 24px 60px -30px rgb(0 0 0 / .45)}
-.ask-tag{font:500 13px/1 var(--text);color:var(--pa)}
-.ask-more{font-size:14px;color:color-mix(in srgb,var(--panel-ink) 72%,var(--panel))}
-.ask-q{font:340 24px/1.1 var(--display);letter-spacing:-0.02em}
-.ask-opts{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-.ask-opts li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 10px;align-items:start;padding:8px 10px;border-radius:10px;border:1px solid color-mix(in srgb,var(--panel-ink) 18%,transparent)}
-.ask-opts li.rec{border-color:var(--pa);background:color-mix(in srgb,var(--pa) 12%,transparent)}
-.ask-opts b{display:block;font:500 16px/1.3 var(--text)}
-.ask-opts div span{display:block;font-size:14px;line-height:1.4;color:color-mix(in srgb,var(--panel-ink) 76%,var(--panel))}
-.ask-k{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;font:500 13px/1 var(--text);background:color-mix(in srgb,var(--panel-ink) 12%,transparent)}
-.rec .ask-k{background:var(--pa);color:var(--pa-ink)}
-.ask-opts em{font:500 13px/1.2 var(--text);font-style:normal;padding:4px 9px;border-radius:999px;background:var(--pa);color:var(--pa-ink);white-space:nowrap}
 .feel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,20px)}
 .feel>*{display:grid;gap:8px;align-content:start;min-height:170px;padding:22px;border-radius:20px;background:var(--panel);color:var(--panel-ink);text-decoration:none}
 .feel b{font:400 26px/1.1 var(--display);letter-spacing:-0.02em}
@@ -551,6 +544,65 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 .modes-more p.cp-src{color:inherit;font-size:15px}
 .modes-more .cmdbox{margin-top:14px;max-width:560px}
 .modes-link{margin-top:14px}
+.ask{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,500px);gap:clamp(48px,7vw,112px);align-items:start}
+.steps{list-style:none;margin:0;padding:0;display:grid}
+.steps>li{border-top:1px solid color-mix(in srgb,var(--ink) 14%,transparent);min-height:clamp(150px,26vh,260px);display:grid}
+.steps>li:last-child{border-bottom:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+.step{display:grid;grid-template-columns:44px minmax(0,1fr);gap:6px 16px;align-content:center;align-items:start;width:100%;padding:22px 0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.step .n{grid-row:span 2;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;font:500 15px/1 var(--text);border:1px solid color-mix(in srgb,var(--ink) 30%,transparent);color:color-mix(in srgb,var(--ink) 75%,var(--ground));transition:background-color .35s,color .35s,border-color .35s}
+.step b{font:340 clamp(24px,2vw,30px)/1.1 var(--display);letter-spacing:-0.02em;color:color-mix(in srgb,var(--ink) 62%,var(--ground));transition:color .35s}
+.step .d{font-size:17px;color:var(--muted);max-width:56ch}
+.step:hover b{color:var(--ink)}
+.steps>li.on .step .n{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.steps>li.on .step b{color:var(--ink)}
+.steps>li.on .step .d{color:color-mix(in srgb,var(--ink) 86%,var(--ground))}
+.step:focus-visible{outline-offset:-2px;border-radius:12px}
+.link{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:2}
+.link[hidden]{display:none}
+.link-line{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round}
+.link-head{fill:var(--accent)}
+.stage{position:sticky;top:max(24px,calc(50vh - 220px));margin:0;min-height:420px;background:var(--panel);color:var(--panel-ink);border-radius:18px;padding:20px 22px;display:grid;align-content:center;box-shadow:0 24px 60px -30px rgb(0 0 0 / .45);--accent:var(--pa);--accent-ink:var(--pa-ink)}
+.scene{display:grid;gap:12px}
+.scene[hidden]{display:none}
+.sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.chat{display:grid;gap:12px}
+.bubble{max-width:88%;padding:12px 16px;border-radius:18px;font-size:18px;line-height:1.4}
+.bubble.me{justify-self:end;background:var(--pa);color:var(--pa-ink);border-bottom-right-radius:6px}
+.bubble.bot{justify-self:start;background:color-mix(in srgb,var(--panel-ink) 9%,transparent);border-bottom-left-radius:6px}
+.ask-more{font-size:14px;color:color-mix(in srgb,var(--panel-ink) 72%,var(--panel))}
+.ask-q{font:340 24px/1.1 var(--display);letter-spacing:-0.02em}
+.ask-opts{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.ask-opts li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 10px;align-items:start;padding:8px 10px;border-radius:10px;border:1px solid color-mix(in srgb,var(--panel-ink) 18%,transparent);transition:opacity .4s,background-color .4s,border-color .4s}
+.ask-opts li.rec{border-color:var(--pa);background:color-mix(in srgb,var(--pa) 14%,transparent)}
+.ask-opts.picked li:not(.rec){opacity:.55}
+.ask-opts b{display:block;font:500 16px/1.3 var(--text)}
+.ask-opts div span{display:block;font-size:14px;line-height:1.4;color:color-mix(in srgb,var(--panel-ink) 76%,var(--panel))}
+.ask-k{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;font:500 13px/1 var(--text);background:color-mix(in srgb,var(--panel-ink) 12%,transparent);transition:background-color .4s,color .4s}
+.rec .ask-k{background:var(--pa);color:var(--pa-ink)}
+.ask-opts em{font:500 13px/1.2 var(--text);font-style:normal;padding:4px 9px;border-radius:999px;background:var(--pa);color:var(--pa-ink);white-space:nowrap}
+.ask-opts em{transition:opacity .3s,transform .3s}
+.ask-opts:not(.picked) em{opacity:0;transform:scale(.8)}
+.ask-opts:not(.picked) li.rec{border-color:color-mix(in srgb,var(--panel-ink) 18%,transparent);background:none}
+.ask-opts:not(.picked) .rec .ask-k{background:color-mix(in srgb,var(--panel-ink) 12%,transparent);color:inherit}
+.mini{display:grid;grid-template-columns:1.2fr 1fr;grid-template-rows:auto auto auto 1fr;gap:8px 14px;padding:14px;border-radius:12px;background:color-mix(in srgb,var(--panel-ink) 7%,var(--panel));min-height:170px}
+.mini i{display:block;border-radius:6px;background:color-mix(in srgb,var(--panel-ink) 22%,transparent)}
+.m-nav{grid-column:1/-1;height:10px;width:44%}
+.m-h{height:16px;width:90%;grid-column:1}.m-h.s{width:64%}
+.m-board{grid-column:2;grid-row:2/5;background:color-mix(in srgb,var(--panel-ink) 14%,transparent)!important;border-radius:10px!important}
+.m-btn{grid-column:1;height:22px;width:42%;align-self:end;background:var(--pa)!important;border-radius:99px!important}
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.checks li{display:flex;align-items:center;gap:10px;font-size:16px}
+.checks svg{width:22px;height:22px;padding:4px;border-radius:50%;background:var(--pa);color:var(--pa-ink);flex:none}
+.report{display:grid;gap:10px}
+.r-row{display:grid;gap:2px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--panel-ink) 7%,transparent);font-size:16px;line-height:1.4}
+.r-row b{font:500 16px/1.3 var(--text)}
+.r-diff{gap:8px}
+.now{display:flex;align-items:center;gap:10px}
+.was{color:color-mix(in srgb,var(--panel-ink) 62%,var(--panel));position:relative;width:fit-content}
+.was::after{content:"";position:absolute;left:0;right:0;top:52%;height:2px;background:var(--pa);transform-origin:left;transform:scaleX(var(--s,1))}
+.arrow{display:block;flex:none;width:22px;height:2px;background:var(--pa);position:relative;transform-origin:left}
+.arrow::after{content:"";position:absolute;right:-1px;top:-4px;border-left:8px solid var(--pa);border-top:5px solid transparent;border-bottom:5px solid transparent}
+.r-pr{font-size:14px;color:color-mix(in srgb,var(--panel-ink) 72%,var(--panel))}
 .after-steps{margin-top:24px;color:var(--muted);font-size:17px}
 .fixes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(28px,5vw,80px);list-style:none;margin:0;padding:0}
 .fixes li{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px 20px;padding:18px 0;border-top:1px solid var(--line);align-items:baseline;font-size:18px}
@@ -611,7 +663,11 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
   .cmd pre{overflow-wrap:anywhere}
   .cmd .copy{position:static;justify-self:start}
   .palettes{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .steps,.lang,.use,.fixes,.ask,.feel,.assets-note,.modes-more{grid-template-columns:minmax(0,1fr)}
+  .lang,.use,.fixes,.feel,.assets-note,.modes-more{grid-template-columns:minmax(0,1fr)}
+  .ask{grid-template-columns:minmax(0,1fr);gap:0}
+  .steps>li{min-height:0}
+  .stage{position:static;min-height:0;margin:0 0 18px}
+  .link{display:none}
   .deeper{grid-template-columns:repeat(2,minmax(0,1fr))}
   .fixes li{grid-template-columns:1fr}
   .credits{grid-template-columns:1fr}
@@ -674,23 +730,48 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
     <h2>How it works.</h2>
     <p class="lead">For new work, slopless asks before it builds. For existing work, it starts from what you have.</p>
   </div>
-  <div class="ask">
+  <div class="ask" id="how-flow">
+    <svg class="link" aria-hidden="true" hidden><path class="link-line" d="M0 0"/><path class="link-head" d="M0 0"/></svg>
     <ol class="steps">
-      <li><span class="n">1</span><b>You ask</b><p>Name the job: improve a screen, or build a page, deck or app. Add a link, file or brand colours if you have them.</p></li>
-      <li class="on"><span class="n">2</span><b>It interviews you</b><p>A few questions with options A to D and one recommended pick, like the one here. Reply with letters, your own words, or “you pick”. “slopless quick” skips this step.</p></li>
-      <li><span class="n">3</span><b>It builds and checks</b><p>It builds in your stack, looks at the rendered result, and fixes problems such as overflow, low contrast and broken controls before showing you.</p></li>
-      <li><span class="n">4</span><b>It reports back</b><p>Your choices, what changed, and each wording change as before and after. It doubles as the PR description.</p></li>
+      <li class="on"><button class="step" type="button" aria-controls="how-stage" aria-current="step"><span class="n">1</span><b>You ask</b><span class="d">Name the job: improve a screen, or build a page, deck or app. Add a link, file or brand colours if you have them.</span></button></li>
+      <li><button class="step" type="button" aria-controls="how-stage" aria-current="false"><span class="n">2</span><b>It interviews you</b><span class="d">A few questions with options A to D and one recommended pick, like the one here. Reply with letters, your own words, or “you pick”. “slopless quick” skips this step.</span></button></li>
+      <li><button class="step" type="button" aria-controls="how-stage" aria-current="false"><span class="n">3</span><b>It builds and checks</b><span class="d">It builds in your stack, looks at the rendered result, and fixes problems such as overflow, low contrast and broken controls before showing you.</span></button></li>
+      <li><button class="step" type="button" aria-controls="how-stage" aria-current="false"><span class="n">4</span><b>It reports back</b><span class="d">Your choices, what changed, and each wording change as before and after. It doubles as the PR description.</span></button></li>
     </ol>
-    <figure class="ask-card">
-      <figcaption class="ask-tag">Step 2 in your chat</figcaption>
-      <p class="ask-q" id="ask-q">How should the page move?</p>
-      <ol class="ask-opts" aria-labelledby="ask-q">
-        <li class="rec"><span class="ask-k">A</span><div><b>Clean micro-interactions</b><span>Fast and calm. Suits a product page people revisit.</span></div><em>Recommended</em></li>
-        <li><span class="ask-k">B</span><div><b>Cinematic scroll story</b><span>The page pins while the product moves through it.</span></div></li>
-        <li><span class="ask-k">C</span><div><b>Spatial 3D</b><span>A real 3D scene. Heaviest, most memorable.</span></div></li>
-        <li><span class="ask-k">D</span><div><b>Still</b><span>No motion beyond focus and hover.</span></div></li>
-      </ol>
-      <p class="ask-more">Next it asks about story, reference sites, brand colours, wording and stack.</p>
+    <figure class="stage" id="how-stage" aria-live="polite">
+      <div class="scene" data-scene="0">
+        <p class="sr">Step 1, you ask.</p>
+        <div class="chat"><p class="bubble me">Use slopless. Build a site for Nightrail.</p><p class="bubble bot">Before I build, a few quick questions.</p></div>
+      </div>
+      <div class="scene" data-scene="1" hidden>
+        <p class="sr">Step 2, it interviews you.</p>
+        <p class="ask-q" id="ask-q">How should the page move?</p>
+        <ol class="ask-opts picked" aria-labelledby="ask-q">
+          <li class="rec"><span class="ask-k">A</span><div><b>Clean micro-interactions</b><span>Fast and calm. Suits a product page people revisit.</span></div><em>Recommended</em></li>
+          <li><span class="ask-k">B</span><div><b>Cinematic scroll story</b><span>The page pins while the product moves through it.</span></div></li>
+          <li><span class="ask-k">C</span><div><b>Spatial 3D</b><span>A real 3D scene. Heaviest, most memorable.</span></div></li>
+          <li><span class="ask-k">D</span><div><b>Still</b><span>No motion beyond focus and hover.</span></div></li>
+        </ol>
+        <p class="ask-more">Next it asks about story, reference sites, brand colours, wording and stack.</p>
+      </div>
+      <div class="scene" data-scene="2" hidden>
+        <p class="sr">Step 3, it builds and checks.</p>
+        <div class="mini" aria-hidden="true"><i class="m-nav"></i><i class="m-h"></i><i class="m-h s"></i><i class="m-board"></i><i class="m-btn"></i></div>
+        <ul class="checks">
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Layout at phone and desktop width</li>
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Contrast</li>
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Keyboard focus</li>
+        </ul>
+      </div>
+      <div class="scene" data-scene="3" hidden>
+        <p class="sr">Step 4, it reports back.</p>
+        <div class="report">
+          <p class="r-row"><b>Your choices</b><span>Motion A, reference Linear, your brand colours</span></p>
+          <p class="r-row"><b>2 wording changes</b></p>
+          <p class="r-row r-diff"><span class="was">Travel smarter with Nightrail</span><span class="now"><i class="arrow" aria-hidden="true"></i>Sleep in Berlin. Wake in Vienna.</span></p>
+          <p class="r-row r-pr">Ready to paste into the pull request.</p>
+        </div>
+      </div>
     </figure>
   </div>
 </section>
@@ -706,7 +787,11 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
         <!-- slopless-ignore-start: generated look -->
         <div class="layer before"><div class="g g-land"><div class="g-nav"><b>Nightrail</b><span>Home&emsp;Routes&emsp;Pricing&emsp;Help</span><i class="g-btn sm">Sign in</i></div><span class="g-pill">New: Spring timetable is live</span><h4>Travel smarter with Nightrail</h4><p>The all-in-one platform for night trains across Europe. Simple, fast and secure.</p><div class="g-row"><span class="g-btn">Book now</span><span class="g-btn out">Learn more</span></div><div class="g-find"><span>From<b>Berlin</b></span><span>To<b>Vienna</b></span><span>Date<b>Tonight</b></span><i class="g-btn sm">Search</i></div><div class="g-cards"><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></g></svg><b>Berlin to Vienna</b><small>21:34 to 08:12, from €79</small></div><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12l2 2l4-4"/></g></svg><b>Paris to Milan</b><small>19:12 to 07:05, from €64</small></div><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.914 4a1.5 1.5 0 0 0-2.474-1.561l-9 9A1.5 1.5 0 0 0 5.5 14h4.002a.5.5 0 0 1 .471.666L8.086 20a1.5 1.5 0 0 0 2.475 1.56l9-9A1.5 1.5 0 0 0 18.5 10h-3.997a.5.5 0 0 1-.472-.667z"/></svg><b>Zurich to Prague</b><small>22:05 to 07:48, from €58</small></div></div></div></div>
         <!-- slopless-ignore-end -->
-        
+        <span class="tag l" aria-hidden="true">Before</span><span class="tag r" aria-hidden="true">After</span>
+        <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare before and after for the landing hero">
+      </div>
+      <figcaption><b>Landing hero</b><span>Before: a centred vague headline and badge, a purple button and three identical cards. After: tonight's departures board is the hero, with one action, “Book a berth”.</span></figcaption>
+    </figure
     <span class="lens-pane" aria-hidden="true"></span>
   </div>
 </section>
@@ -722,19 +807,24 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
         <!-- slopless-ignore-start: generated look -->
         <div class="layer before"><div class="g g-land"><div class="g-nav"><b>Nightrail</b><span>Home&emsp;Routes&emsp;Pricing&emsp;Help</span><i class="g-btn sm">Sign in</i></div><span class="g-pill">New: Spring timetable is live</span><h4>Travel smarter with Nightrail</h4><p>The all-in-one platform for night trains across Europe. Simple, fast and secure.</p><div class="g-row"><span class="g-btn">Book now</span><span class="g-btn out">Learn more</span></div><div class="g-find"><span>From<b>Berlin</b></span><span>To<b>Vienna</b></span><span>Date<b>Tonight</b></span><i class="g-btn sm">Search</i></div><div class="g-cards"><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></g></svg><b>Berlin to Vienna</b><small>21:34 to 08:12, from €79</small></div><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12l2 2l4-4"/></g></svg><b>Paris to Milan</b><small>19:12 to 07:05, from €64</small></div><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.914 4a1.5 1.5 0 0 0-2.474-1.561l-9 9A1.5 1.5 0 0 0 5.5 14h4.002a.5.5 0 0 1 .471.666L8.086 20a1.5 1.5 0 0 0 2.475 1.56l9-9A1.5 1.5 0 0 0 18.5 10h-3.997a.5.5 0 0 1-.472-.667z"/></svg><b>Zurich to Prague</b><small>22:05 to 07:48, from €58</small></div></div></div></div>
         <!-- slopless-ignore-end -->
-        <span class="tag l">Before</span><span class="tag r">After</span>
+        <span class="tag l" aria-hidden="true">Before</span><span class="tag r" aria-hidden="true">After</span>
         <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare before and after for the landing hero">
       </div>
       <figcaption><b>Landing hero</b><span>Before: a centred vague headline and badge, a purple button and three identical cards. After: tonight's departures board is the hero, with one action, “Book a berth”.</span></figcaption>
     </figure>
     <figure class="pair w4" data-pair="app">
       <div class="cmp tall phone-stage" role="group" aria-label="App screen, before versus after">
-        <div class="layer phone-stage"><div class="phone"><div class="scr a-app"><span class="sb">9:41</span><h5>Tonight</h5><div class="tkt"><div class="tkt-t"><b>21:34</b><span>Platform 7</span></div><p>Berlin to Vienna<small>Sleeper, berth 4. Arrives 08:12.</small></p><span class="cta">Show ticket</span></div><h6>Later this week</h6><div><div class="row"><span>Paris to Milan<small>Fri 19:12, couchette</small></span><em>€64</em></div><div class="row"><span>Zurich to Prague<small>Sun 22:05, seat 41</small></span><em>€58</em></div></div><div class="tab"><span class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Trips</span><span><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Search</span><span><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Planner</span><span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>You</span></div></div></div></div>
-        <!-- slopless-ignore-start: generated look -->
-        <div class="layer before phone-stage g-stage"><div class="phone"><div class="scr g g-app"><span class="sb">9:41</span><b class="t">My Trips</b><span class="g-search"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="m21 21l-4.34-4.34"/><circle cx="11" cy="11" r="8"/></g></svg>Search trips</span><div class="g-list"><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></g></svg><span><b>Berlin to Vienna</b><small>Tonight 21:34, sleeper, berth 4</small></span></div><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></g></svg><span><b>Paris to Milan</b><small>Fri 19:12, couchette, €64</small></span></div><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></g></svg><span><b>Zurich to Prague</b><small>Sun 22:05, seat 41, €58</small></span></div></div><div class="g-tabs"><span class="on"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g></svg>Home</span><span><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="m21 21l-4.34-4.34"/><circle cx="11" cy="11" r="8"/></g></svg>Search</span><span><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676a.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg>Saved</span><span><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></g></svg>Profile</span></div></div></div></div>
-        <!-- slopless-ignore-end -->
-        <span class="tag l">Before</span><span class="tag r">After</span>
-        <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare before and after for the app screen">
+        <div class="handset"><i class="hw hw-act"></i><i class="hw hw-up"></i><i class="hw hw-dn"></i><i class="hw hw-pw"></i>
+          <div class="hw-body"><div class="hw-bezel"><div class="hw-screen">
+            <div class="layer"><div class="scr a-app"><div class="sbar"><b>9:41</b><span><svg viewBox="0 0 18 12" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg><svg viewBox="0 0 17 12" aria-hidden="true"><path d="M1 4.2a11 11 0 0 1 15 0M3.6 7a7.2 7.2 0 0 1 9.8 0M6.2 9.8a3.4 3.4 0 0 1 4.6 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1.1"/></svg><svg viewBox="0 0 27 12" aria-hidden="true"><rect x=".5" y=".5" width="22" height="11" rx="3.2" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="19" height="8" rx="2"/><path d="M24 4v4c.8-.3 1.5-1.1 1.5-2S24.8 4.3 24 4z" opacity=".5"/></svg></span></div><i class="home-ind"></i><h5>Tonight</h5><div class="tkt"><div class="tkt-t"><b>21:34</b><span>Platform 7</span></div><p>Berlin to Vienna<small>Sleeper, berth 4. Arrives 08:12.</small></p><span class="cta">Show ticket</span></div><h6>Later this week</h6><div><div class="row"><span>Paris to Milan<small>Fri 19:12, couchette</small></span><em>€64</em></div><div class="row"><span>Zurich to Prague<small>Sun 22:05, seat 41</small></span><em>€58</em></div></div><div class="tab"><span class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Trips</span><span><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Search</span><span><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Planner</span><span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>You</span></div></div></div>
+            <!-- slopless-ignore-start: generated look -->
+            <div class="layer before"><div class="scr g g-app"><div class="sbar"><b>9:41</b><span><svg viewBox="0 0 18 12" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg><svg viewBox="0 0 17 12" aria-hidden="true"><path d="M1 4.2a11 11 0 0 1 15 0M3.6 7a7.2 7.2 0 0 1 9.8 0M6.2 9.8a3.4 3.4 0 0 1 4.6 0" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="8.5" cy="11" r="1.1"/></svg><svg viewBox="0 0 27 12" aria-hidden="true"><rect x=".5" y=".5" width="22" height="11" rx="3.2" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="19" height="8" rx="2"/><path d="M24 4v4c.8-.3 1.5-1.1 1.5-2S24.8 4.3 24 4z" opacity=".5"/></svg></span></div><i class="home-ind"></i><b class="t">My Trips</b><span class="g-search"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="m21 21l-4.34-4.34"/><circle cx="11" cy="11" r="8"/></g></svg>Search trips</span><div class="g-list"><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></g></svg><span><b>Berlin to Vienna</b><small>Tonight 21:34, sleeper, berth 4</small></span></div><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></g></svg><span><b>Paris to Milan</b><small>Fri 19:12, couchette, €64</small></span></div><div class="g-card"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></g></svg><span><b>Zurich to Prague</b><small>Sun 22:05, seat 41, €58</small></span></div></div><div class="g-tabs"><span class="on"><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g></svg>Home</span><span><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="m21 21l-4.34-4.34"/><circle cx="11" cy="11" r="8"/></g></svg>Search</span><span><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676a.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/></svg>Saved</span><span><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></g></svg>Profile</span></div></div></div>
+            <!-- slopless-ignore-end -->
+            <span class="hw-island"></span>
+            <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare before and after for the app screen">
+          </div></div></div>
+        </div>
+        <span class="tag l" aria-hidden="true">Before</span><span class="tag r" aria-hidden="true">After</span>
       </div>
       <figcaption><b>App screen</b><span>Before: a search bar and three identical trip cards. After: tonight's ticket first with one action, later trips as quiet rows.</span></figcaption>
     </figure>
@@ -745,7 +835,7 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
         <div class="layer before"><div class="g g-deck"><h4>Streamlining Our Booking Journey</h4><p>Q3 product update</p><ul>
 <li><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.914 4a1.5 1.5 0 0 0-2.474-1.561l-9 9A1.5 1.5 0 0 0 5.5 14h4.002a.5.5 0 0 1 .471.666L8.086 20a1.5 1.5 0 0 0 2.475 1.56l9-9A1.5 1.5 0 0 0 18.5 10h-3.997a.5.5 0 0 1-.472-.667z"/></svg><span>Booking time cut from 6 minutes to 90 seconds</span></li><li><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12l2 2l4-4"/></g></svg><span>Payment failures down 41%</span></li><li><svg aria-hidden="true" focusable="false" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></g></svg><span>Support tickets down 28%</span></li></ul></div></div>
         <!-- slopless-ignore-end -->
-        <span class="tag l">Before</span><span class="tag r">After</span>
+        <span class="tag l" aria-hidden="true">Before</span><span class="tag r" aria-hidden="true">After</span>
         <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare before and after for the deck slide">
       </div>
       <figcaption><b>Deck slide</b><span>Before: a title and three bullets of equal weight. After: the one number that matters, with the other two as supporting figures.</span></figcaption>
@@ -756,7 +846,7 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
         <!-- slopless-ignore-start: generated look -->
         <div class="layer before"><div class="g g-post"><span class="g-pill">Announcement</span><h4>Exciting news! A new route is now available</h4><p>We are thrilled to announce Paris to Milan with Nightrail. Overnight from 19:12, from 14 March, tickets from €64.</p><span class="g-btn">Book now</span><small>@nightrail</small></div></div>
         <!-- slopless-ignore-end -->
-        <span class="tag l">Before</span><span class="tag r">After</span>
+        <span class="tag l" aria-hidden="true">Before</span><span class="tag r" aria-hidden="true">After</span>
         <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare before and after for the social post">
       </div>
       <figcaption><b>Social post</b><span>Before: a pill, a vague headline and a button. After: the route and times are the headline, and it reads as a thumbnail.</span></figcaption>
@@ -5379,6 +5469,75 @@ three/build/three.module.js:
     if (still()) { paint(); say(); } else sync();
   }
 
+  // How it works: the active step drives the stage card, and a line draws from the step to the card.
+  const how = document.getElementById('how-flow');
+  if (how) {
+    const steps = [...how.querySelectorAll('.step')], lis = steps.map((b) => b.closest('li'));
+    const stage = document.getElementById('how-stage'), scenes = [...stage.querySelectorAll('.scene')];
+    const svg = how.querySelector('.link'), line = svg.querySelector('.link-line'), head = svg.querySelector('.link-head');
+    const opts = scenes[1].querySelector('.ask-opts');
+    const desk = matchMedia('(min-width: 901px)'), reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    const instant = () => reduce.matches || root.dataset.motion === 'still' || !window.gsap;
+    let active = 0, tl = null, near = false, raf = 0, lock = 0;
+    const place = () => { const host = desk.matches ? how : lis[active]; if (stage.parentElement !== host) host.append(stage); };
+    const route = () => {
+      svg.toggleAttribute('hidden', !desk.matches); // SVG elements have no .hidden property
+      if (!desk.matches) return;
+      const a = how.getBoundingClientRect(), b = lis[active].getBoundingClientRect(), c = stage.getBoundingClientRect();
+      const x1 = b.right - a.left + 8, y1 = b.top + b.height / 2 - a.top, x2 = c.left - a.left - 12, y2 = c.top + 44 - a.top, dx = Math.max(24, (x2 - x1) * 0.55);
+      line.setAttribute('d', `M${x1} ${y1}C${x1 + dx} ${y1} ${x2 - dx} ${y2} ${x2} ${y2}`);
+      head.setAttribute('d', `M${x2 + 10} ${y2}l-11 -6.5v13z`);
+    };
+    const draw = (animate) => {
+      route();
+      if (!desk.matches) return;
+      line.style.strokeDasharray = 'none'; line.style.strokeDashoffset = 0; head.style.opacity = 1;
+      if (!animate) return;
+      const len = line.getTotalLength();
+      line.style.strokeDasharray = len;
+      gsap.fromTo(line, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.6, ease: 'power2.out', onComplete: () => { line.style.strokeDasharray = 'none'; } });
+      gsap.fromTo(head, { opacity: 0 }, { opacity: 1, duration: 0.2, delay: 0.45 });
+    };
+    // One authored move per step.
+    const q = (i, sel) => scenes[i].querySelectorAll(sel);
+    const scene = [
+      () => gsap.timeline().from(q(0, '.bubble.me'), { y: 16, scale: 0.96, opacity: 0, duration: 0.5, ease: 'power3.out' }).from(q(0, '.bubble.bot'), { y: 12, opacity: 0, duration: 0.45, ease: 'power3.out' }, '+=0.4'),
+      () => { opts.classList.remove('picked'); gsap.set(opts.children, { transition: 'none' }); /* a CSS transition would chase every tween frame */ return gsap.timeline().from(q(1, '.ask-q'), { y: 8, opacity: 0, duration: 0.35 }).from(opts.children, { y: 10, opacity: 0, duration: 0.4, stagger: 0.1, ease: 'power3.out', clearProps: 'opacity,transform,transition' }, '<0.1').call(() => opts.classList.add('picked'), null, '+=0.35'); },
+      () => gsap.timeline().from(q(2, '.mini i'), { scale: 0.6, opacity: 0, transformOrigin: '0 50%', duration: 0.35, stagger: 0.12, ease: 'back.out(1.6)' }).from(q(2, '.checks li'), { x: -12, opacity: 0, duration: 0.3, stagger: 0.35 }, '+=0.1').from(q(2, '.checks svg'), { scale: 0, duration: 0.25, stagger: 0.35, ease: 'back.out(2.4)' }, '<0.15'),
+      () => gsap.timeline().from(q(3, '.r-row'), { y: 12, opacity: 0, duration: 0.4, stagger: 0.18, ease: 'power3.out' }).fromTo(q(3, '.was'), { '--s': 0 }, { '--s': 1, duration: 0.4 }, '-=0.1').from(q(3, '.arrow'), { scaleX: 0, duration: 0.3 }, '<'),
+    ];
+    const set = (i, force) => {
+      if (i === active && !force) return;
+      active = i;
+      steps.forEach((b, k) => { b.setAttribute('aria-current', k === i ? 'step' : 'false'); lis[k].classList.toggle('on', k === i); });
+      place();
+      scenes.forEach((s, k) => { s.hidden = k !== i; });
+      tl?.kill();
+      if (window.gsap) gsap.set(stage.querySelectorAll('.scene *'), { clearProps: 'all' });
+      opts.classList.add('picked');
+      const go = !instant();
+      if (go) tl = scene[i]();
+      draw(go);
+    };
+    // A click or focus wins over scroll for a moment, so focus scrolling cannot flip the step back.
+    const pick = (k) => { lock = performance.now() + 900; set(k); };
+    steps.forEach((b, k) => { b.addEventListener('click', () => pick(k)); b.addEventListener('focus', () => pick(k)); });
+    how.addEventListener('keydown', (e) => {
+      const i = steps.indexOf(document.activeElement), n = { ArrowDown: i + 1, ArrowUp: i - 1 }[e.key];
+      if (i < 0 || !steps[n]) return;
+      e.preventDefault(); steps[n].focus();
+    });
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting && desk.matches && performance.now() > lock) set(lis.indexOf(e.target)); }), { rootMargin: '-42% 0px -42% 0px' });
+    lis.forEach((li) => io.observe(li));
+    new IntersectionObserver(([e]) => { near = e.isIntersecting; if (near) route(); }, { rootMargin: '200px' }).observe(how);
+    addEventListener('scroll', () => { if (near && !raf) raf = requestAnimationFrame(() => { raf = 0; route(); }); }, { passive: true });
+    addEventListener('resize', route);
+    desk.addEventListener('change', () => { place(); draw(false); });
+    place(); document.fonts.ready.then(() => draw(false));
+    // First time the section is on screen, play step 1 once.
+    new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); set(active, true); } }, { threshold: 0.25 }).observe(how);
+  }
+
   if (!window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
   gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
@@ -5395,13 +5554,12 @@ three/build/three.module.js:
       range.addEventListener('pointerdown', () => wipe.kill(), { once: true });
       range.addEventListener('keydown', () => wipe.kill(), { once: true });
     });
-    gsap.from('.steps li', { y: 40, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1, scrollTrigger: { trigger: '.steps', start: 'top 82%', once: true } });
     gsap.from('.poster', { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.05, scrollTrigger: { trigger: '#posters', start: 'top 85%', once: true } });
     gsap.from('.bigname', { yPercent: 40, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: 'footer', start: 'top 70%', once: true } });
   });
 })();
 </script>
-<script>(()=>{var a=(t,e=document)=>e.querySelector(t),c=(t,e=document)=>[...e.querySelectorAll(t)];function r(t,e){let o=()=>{let n=t.dataset.label||t.textContent;t.dataset.label=n,t.textContent="Copied",setTimeout(()=>t.textContent=n,1400)};(navigator.clipboard?.writeText(e)||Promise.reject()).then(o,()=>{let n=document.createElement("textarea");n.value=e,document.body.append(n),n.select();try{document.execCommand("copy"),o()}catch{}n.remove()})}document.addEventListener("click",t=>{let e=t.target.closest(".cp");if(!e)return;let o=e.dataset.target?document.getElementById(e.dataset.target):e.parentElement.querySelector(".cp-src");o&&r(e,o.value??o.textContent)});{let t=a("#menu-btn"),e=a("#menu"),o=n=>{t.setAttribute("aria-expanded",String(n)),e.hidden=!n};t.addEventListener("click",()=>o(e.hidden)),e.addEventListener("click",n=>{n.target.closest("a")&&o(!1)}),addEventListener("keydown",n=>{n.key==="Escape"&&!e.hidden&&(o(!1),t.focus())})}c(".cmp").forEach(t=>{let e=a("input",t),o=()=>{t.style.setProperty("--pos",e.value+"%"),e.setAttribute("aria-valuetext",e.value<15?"Showing the after version":e.value>85?"Showing the before version":`${e.value} percent before`)};e.addEventListener("input",o),o()});})();
+<script>(()=>{var a=(t,e=document)=>e.querySelector(t),c=(t,e=document)=>[...e.querySelectorAll(t)];function r(t,e){let o=()=>{let n=t.dataset.label||t.textContent;t.dataset.label=n,t.textContent="Copied",setTimeout(()=>t.textContent=n,1400)};(navigator.clipboard?.writeText(e)||Promise.reject()).then(o,()=>{let n=document.createElement("textarea");n.value=e,document.body.append(n),n.select();try{document.execCommand("copy"),o()}catch{}n.remove()})}document.addEventListener("click",t=>{let e=t.target.closest(".cp");if(!e)return;let o=e.dataset.target?document.getElementById(e.dataset.target):e.parentElement.querySelector(".cp-src");o&&r(e,o.value??o.textContent)});{let t=a("#menu-btn"),e=a("#menu"),o=n=>{t.setAttribute("aria-expanded",String(n)),e.hidden=!n};t.addEventListener("click",()=>o(e.hidden)),e.addEventListener("click",n=>{n.target.closest("a")&&o(!1)}),addEventListener("keydown",n=>{n.key==="Escape"&&!e.hidden&&(o(!1),t.focus())})}c(".cmp").forEach(t=>{let e=a("input",t),o=()=>{t.style.setProperty("--pos",e.value+"%"),t.style.setProperty("--p",e.value),e.setAttribute("aria-valuetext",e.value<15?"Showing the after version":e.value>85?"Showing the before version":`${e.value} percent before`)};e.addEventListener("input",o),o()});})();
 </script>
 </body>
 </html>

@@ -58,23 +58,48 @@
     <h2>How it works.</h2>
     <p class="lead">For new work, slopless asks before it builds. For existing work, it starts from what you have.</p>
   </div>
-  <div class="ask">
+  <div class="ask" id="how-flow">
+    <svg class="link" aria-hidden="true" hidden><path class="link-line" d="M0 0"/><path class="link-head" d="M0 0"/></svg>
     <ol class="steps">
-      <li><span class="n">1</span><b>You ask</b><p>Name the job: improve a screen, or build a page, deck or app. Add a link, file or brand colours if you have them.</p></li>
-      <li class="on"><span class="n">2</span><b>It interviews you</b><p>A few questions with options A to D and one recommended pick, like the one here. Reply with letters, your own words, or “you pick”. “slopless quick” skips this step.</p></li>
-      <li><span class="n">3</span><b>It builds and checks</b><p>It builds in your stack, looks at the rendered result, and fixes problems such as overflow, low contrast and broken controls before showing you.</p></li>
-      <li><span class="n">4</span><b>It reports back</b><p>Your choices, what changed, and each wording change as before and after. It doubles as the PR description.</p></li>
+      <li class="on"><button class="step" type="button" aria-controls="how-stage" aria-current="step"><span class="n">1</span><b>You ask</b><span class="d">Name the job: improve a screen, or build a page, deck or app. Add a link, file or brand colours if you have them.</span></button></li>
+      <li><button class="step" type="button" aria-controls="how-stage" aria-current="false"><span class="n">2</span><b>It interviews you</b><span class="d">A few questions with options A to D and one recommended pick, like the one here. Reply with letters, your own words, or “you pick”. “slopless quick” skips this step.</span></button></li>
+      <li><button class="step" type="button" aria-controls="how-stage" aria-current="false"><span class="n">3</span><b>It builds and checks</b><span class="d">It builds in your stack, looks at the rendered result, and fixes problems such as overflow, low contrast and broken controls before showing you.</span></button></li>
+      <li><button class="step" type="button" aria-controls="how-stage" aria-current="false"><span class="n">4</span><b>It reports back</b><span class="d">Your choices, what changed, and each wording change as before and after. It doubles as the PR description.</span></button></li>
     </ol>
-    <figure class="ask-card">
-      <figcaption class="ask-tag">Step 2 in your chat</figcaption>
-      <p class="ask-q" id="ask-q">How should the page move?</p>
-      <ol class="ask-opts" aria-labelledby="ask-q">
-        <li class="rec"><span class="ask-k">A</span><div><b>Clean micro-interactions</b><span>Fast and calm. Suits a product page people revisit.</span></div><em>Recommended</em></li>
-        <li><span class="ask-k">B</span><div><b>Cinematic scroll story</b><span>The page pins while the product moves through it.</span></div></li>
-        <li><span class="ask-k">C</span><div><b>Spatial 3D</b><span>A real 3D scene. Heaviest, most memorable.</span></div></li>
-        <li><span class="ask-k">D</span><div><b>Still</b><span>No motion beyond focus and hover.</span></div></li>
-      </ol>
-      <p class="ask-more">Next it asks about story, reference sites, brand colours, wording and stack.</p>
+    <figure class="stage" id="how-stage" aria-live="polite">
+      <div class="scene" data-scene="0">
+        <p class="sr">Step 1, you ask.</p>
+        <div class="chat"><p class="bubble me">Use slopless. Build a site for Nightrail.</p><p class="bubble bot">Before I build, a few quick questions.</p></div>
+      </div>
+      <div class="scene" data-scene="1" hidden>
+        <p class="sr">Step 2, it interviews you.</p>
+        <p class="ask-q" id="ask-q">How should the page move?</p>
+        <ol class="ask-opts picked" aria-labelledby="ask-q">
+          <li class="rec"><span class="ask-k">A</span><div><b>Clean micro-interactions</b><span>Fast and calm. Suits a product page people revisit.</span></div><em>Recommended</em></li>
+          <li><span class="ask-k">B</span><div><b>Cinematic scroll story</b><span>The page pins while the product moves through it.</span></div></li>
+          <li><span class="ask-k">C</span><div><b>Spatial 3D</b><span>A real 3D scene. Heaviest, most memorable.</span></div></li>
+          <li><span class="ask-k">D</span><div><b>Still</b><span>No motion beyond focus and hover.</span></div></li>
+        </ol>
+        <p class="ask-more">Next it asks about story, reference sites, brand colours, wording and stack.</p>
+      </div>
+      <div class="scene" data-scene="2" hidden>
+        <p class="sr">Step 3, it builds and checks.</p>
+        <div class="mini" aria-hidden="true"><i class="m-nav"></i><i class="m-h"></i><i class="m-h s"></i><i class="m-board"></i><i class="m-btn"></i></div>
+        <ul class="checks">
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Layout at phone and desktop width</li>
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Contrast</li>
+          <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Keyboard focus</li>
+        </ul>
+      </div>
+      <div class="scene" data-scene="3" hidden>
+        <p class="sr">Step 4, it reports back.</p>
+        <div class="report">
+          <p class="r-row"><b>Your choices</b><span>Motion A, reference Linear, your brand colours</span></p>
+          <p class="r-row"><b>2 wording changes</b></p>
+          <p class="r-row r-diff"><span class="was">Travel smarter with Nightrail</span><span class="now"><i class="arrow" aria-hidden="true"></i>Sleep in Berlin. Wake in Vienna.</span></p>
+          <p class="r-row r-pr">Ready to paste into the pull request.</p>
+        </div>
+      </div>
     </figure>
   </div>
 </section>

@@ -29,7 +29,7 @@ document.addEventListener('click', (e) => {
 /* ---------- Before / after compare sliders ---------- */
 $$('.cmp').forEach((c) => {
   const r = $('input', c);
-  const set = () => { c.style.setProperty('--pos', r.value + '%'); r.setAttribute('aria-valuetext', r.value < 15 ? 'Showing the after version' : r.value > 85 ? 'Showing the before version' : `${r.value} percent before`); };
+  const set = () => { c.style.setProperty('--pos', r.value + '%'); c.style.setProperty('--p', r.value); r.setAttribute('aria-valuetext', r.value < 15 ? 'Showing the after version' : r.value > 85 ? 'Showing the before version' : `${r.value} percent before`); };
   r.addEventListener('input', set); set();
 });
 
