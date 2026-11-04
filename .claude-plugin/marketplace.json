@@ -1,0 +1,17 @@
+{
+  "name": "slopless",
+  "description": "Design skill for coding agents: interviews you, then builds or improves websites, app screens, decks and graphics.",
+  "owner": { "name": "Kundan", "url": "https://github.com/kundan0907" },
+  "plugins": [
+    {
+      "name": "slopless",
+      "source": "./",
+      "description": "Interview-led UI design and focused V2 improvements without generic AI patterns.",
+      "homepage": "https://kundan0907.github.io/slopless/",
+      "repository": "https://github.com/kundan0907/slopless",
+      "license": "MIT",
+      "keywords": ["design", "ui", "frontend", "landing-page", "deck"],
+      "skills": ["./slopless"]
+    }
+  ]
+}

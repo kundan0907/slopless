@@ -11,7 +11,8 @@ export const KB = [
     ['slopless/references/browser.md', 'Host browser first, cached automatic CLI setup, honest offline limits.', 'Browser checks'],
   ]],
   ['The loop', [
-    ['slopless/references/interview.md', 'Story first, then taste. Four questions a round, options with a recommended default, a playback summary.', 'Step 1'],
+    ['slopless/references/interview.md', 'Tailored A–D choices with a recommended pick: narrative, motion, reference feel, brand and palette, copy authority. Ends in a playback.', 'Step 1'],
+    ['slopless/references/sites.md', 'Curated reference sites by feel (product precision, cinematic 3D, editorial, playful, brand) with what to borrow from each.', 'Step 1'],
     ['slopless/references/direction.md', 'Inventory the subject, write the idea sentence, run the competitor test, pick a colour strategy.', 'Step 2'],
     ['slopless/references/palettes.md', 'Ten palettes with tokens, strategy and best use, plus how to derive a custom brand palette.', 'Step 2'],
     ['slopless/references/type.md', 'Type laws, faces that read as decided, training-data defaults to avoid, loading and slides.', 'Step 2'],
@@ -33,6 +34,7 @@ export const KB = [
     ['slopless/references/tells.md', 'The registry of tells by wave, with banned or warned status and which ones the scanner finds.', 'Step 5, any review'],
     ['slopless/references/memory.md', 'The taste file and the project DESIGN.md: what to write, when, and who wins.', 'Writing memory'],
     ['slopless/references/agents.md', 'Opt-in helpers: roles, model tiers, how many, the flow and the helper brief.', 'You opt in'],
+    ['slopless/references/report.md', 'The closing report and PR body: your choices, what changed, every content change before → after, checks.', 'Every run'],
     ['slopless/references/inspiration.md', 'Galleries, effect libraries and reading, plus how to research a technique.', 'You want references'],
   ]],
   ['Starter', [

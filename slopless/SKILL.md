@@ -30,15 +30,17 @@ Read relevant existing source and any taste memory (`~/.slopless/taste.md`, proj
 | Route | Trigger | Read next |
 | --- | --- | --- |
 | **Quick** | Existing work: improve, polish, restyle, V2, fast; default for refinements | `references/quick.md` |
-| **Standard** | New work or an explicit redesign/rebuild | The surface below; follow the design loop |
+| **Standard** | New work or an explicit redesign/rebuild | `references/interview.md`, then the surface below and the design loop |
 | **Deep** | Explicit exploration, complex story, cinematic/spatial work, or detailed audit | Standard plus only the relevant specialist references |
 | **Review** | Critique/audit without a request to edit | `references/review.md`; report findings, do not change files |
 
-Quick must make a visible, useful difference within the requested scope. Spend less time on setup, alternatives and repetition while retaining deliberate design and visual verification. If a Quick request has no existing artifact, make the smallest new result using Standard. Say the selected route in one short line. Ask only about a consequential missing decision; a complete brief needs no interview.
+Quick must make a visible, useful difference within the requested scope. Spend less time on setup, alternatives and repetition while retaining deliberate design and visual verification. If a Quick request has no existing artifact, make the smallest new result using Standard.
+
+Open with one short line that sets the tone: the route and what happens next ("Standard: a few quick choices first, then I build and show you the result."). Standard and Deep always interview the user with A–D options and a recommended pick before building (`references/interview.md`), unless the user said quick, said "you pick", or the brief already answers every question. Quick and Review never interview; they ask only about a consequential missing decision.
 
 ## Design loop (Standard and Deep)
 
-1. **Understand.** Infer answered requirements from the brief and source. For unknown story/taste decisions, use `references/interview.md`. State assumptions as your choices. An existing design does not need a new questionnaire.
+1. **Interview.** Read the brief and source, then run `references/interview.md`: tailored A–D options with a recommended pick for narrative, motion, reference feel (`references/sites.md`), brand/palette, copy authority and constraints. Skip what is already answered. End with the playback.
 2. **Decide.** Load `references/direction.md` and `references/storytelling.md`. Choose the idea, hierarchy and material before effects. Consult `palettes.md`, `type.md`, `layout.md` or `motion.md` only for decisions still open. A user's exact palette beats a suggested mood. Record project decisions in `.slopless/DESIGN.md` when useful.
 3. **Prove early.** For a new visual direction, render a small real-content study including the opening and the densest view before propagating it. Show two alternatives only when the user wants a choice or the direction is genuinely unresolved. Use existing authorization; do not add a confirmation round to an already specified direction.
 4. **Build.** Read `references/craft-floor.md`. Reuse the existing stack, components, assets and working navigation. Before implementing a missing nontrivial UI component, follow `references/components.md` to find, adapt or learn from a suitable existing implementation. Build a convincing still composition first. Load `copy.md` only for authorized copywriting, `assets.md` only when new assets are needed. Do not reconstruct supplied content through model output.
@@ -66,4 +68,4 @@ Quick must make a visible, useful difference within the requested scope. Spend l
 
 Load only this route's references, not the library. Search then read relevant ranges; never dump embedded fonts, base64 or vendor bundles. Patch shared styles/components; do not rewrite unchanged content. Component sourcing (`references/components.md`) applies in every build mode when local reuse cannot meet the task; skip it for changes existing code already supports. Run scripts rather than read them unless debugging. Reuse browser sessions and cached assets. Quick has no mandatory external research tour, asset fetching, scoring essay or agents. Helpers require user opt-in (`references/agents.md`).
 
-Report the deliverable, the material improvements, checks performed and any unverified limits. Never promise a fixed speed or token saving without a measured run. For unfamiliar techniques or explicit research, use `references/inspiration.md`; do not browse for basic design decisions.
+Finish every route with `references/report.md`: what was built or improved, the user's choices, every content change (before → after), checks and unverified limits. It doubles as the PR description. Never promise a fixed speed or token saving without a measured run. For reference feel use `references/sites.md`; for unfamiliar techniques or explicit research, `references/inspiration.md`. Do not browse for basic design decisions.

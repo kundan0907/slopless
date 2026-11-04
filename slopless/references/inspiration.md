@@ -1,6 +1,6 @@
 # Inspiration and research
 
-Use these to give the user something concrete to react to, and to study how an effect is built before using the idea. Learn the technique; never clone a site.
+Use these to give the user something concrete to react to, and to study how an effect is built before using the idea. Learn the technique; never clone a site. The curated site library with what to borrow from each is `sites.md`.
 
 ## Galleries
 - **Awwwards** — awwwards.com · jury-scored; high-end and experimental motion.

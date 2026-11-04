@@ -37,7 +37,7 @@ That does not prescribe a minimal look. Rich 3D, glass and cinematic motion rema
 Choose a route, or let the request choose it:
 
 - **Quick** is the default for existing work: “Use slopless quick. Make this a better V2.” It inspects the source and rendering, makes a clear visual upgrade through up to three high-impact changes, preserves content and working controls, and verifies one repair batch. No default interview, new engine, asset downloads or scoring essay.
-- **Standard** is for new work or an explicit redesign. It resolves missing decisions, proves the opening and densest view on real content, builds, then checks the result.
+- **Standard** is for new work or an explicit redesign. It first interviews you: a few A–D questions tailored to your brief, each with a recommended pick (narrative, motion, reference feel from [curated sites](slopless/references/sites.md), brand colours and palette, who owns the copy). Then it proves the opening and densest view on real content, builds and checks the result. Say "you pick" to skip ahead.
 - **Deep** is explicit exploration, detailed audit or complex storytelling and motion. It loads the extra guidance needed for that job; helpers remain opt-in.
 - **Review** reports findings without editing.
 
@@ -46,6 +46,8 @@ All routes retain the same craft: clear hierarchy, composition that explains the
 Every task has a design owner: understand the intent, choose the visual intervention, and judge the rendering. One agent handles design and implementation by default; separate helpers remain opt-in. A small request receives the same contextual judgment within its scope. Broad UI improvements must visibly improve hierarchy, composition, readability or interaction; cosmetic substitutions alone do not establish success.
 
 Visual changes use three gates: inspect the current view, inspect a representative early result, then compare the final result at the same viewport and state. The agent captures or views the work automatically. Existing current evidence can be reused; nonvisual changes need no screenshot ritual. See [visual evidence and capture](slopless/references/browser.md#when-to-view-or-capture).
+
+Every run ends with a [report](slopless/references/report.md) that doubles as the PR description: your choices, what changed, every content change shown before → after, and what was and was not verified.
 
 The [router](slopless/SKILL.md) explains the workflow. [Quick](slopless/references/quick.md), [storytelling](slopless/references/storytelling.md), [visual quality](slopless/references/visual-quality.md) and [browser setup](slopless/references/browser.md) provide the relevant details.
 
@@ -115,6 +117,10 @@ Use slopless to review this screen. Why does it look generated?
 ## Install
 
 ```sh
+# Claude Code plugin (recommended for Claude Code: updates through /plugin)
+/plugin marketplace add kundan0907/slopless
+/plugin install slopless@slopless
+
 # any agent that supports skills
 npx skills add kundan0907/slopless
 
@@ -124,6 +130,12 @@ mkdir -p ~/.claude/skills ~/.agents/skills
 cp -r slopless/slopless ~/.claude/skills/     # Claude Code
 cp -r slopless/slopless ~/.agents/skills/     # Codex and others
 ```
+
+### Updating
+
+- Claude Code plugin: run `/plugin`, open **Marketplaces → slopless → Enable auto-update** once; new commits then arrive automatically at session start. Manual: `/plugin marketplace update slopless`.
+- `npx skills` installs: `npx skills update slopless`.
+- Manual copies: `git pull` and copy the folder again.
 
 No manual project setup after installing the skill: the agent uses its available browser tools first. The optional screenshot CLI uses Node 20+ and npm. On first use it provisions pinned Playwright and Chromium into user caches, leaving your project's dependencies unchanged. Downloads need network access and a supported OS; cached capture can work offline. `--no-install` prevents downloads. Without a usable browser, it reports visual verification as unavailable.
 

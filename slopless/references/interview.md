@@ -1,38 +1,63 @@
 # Interview
 
-Use this only for consequential gaps that the brief, source and memory do not answer. Quick refinement normally skips the interview. Ask about exact palette/material when those choices are unresolved, rather than silently translating a mood into unrelated tokens. Ask at most four questions per round, each with 2–4 concrete options and a recommended default (use the structured question tool when the harness has one). Skip anything the brief, the attached material or the taste memory already answers. If the user says "you pick", pick, and say what you picked.
+The interview is how the user steers. It runs at the start of every Standard and Deep job, including new builds and redesigns. Skip it only when the user says **quick**, says "you pick" / "just build it", or the brief already answers every question below. Ask only what is still open; never re-ask what the brief, source, `DESIGN.md` or taste memory answers.
 
-## Round 1 — the story
+## Read first, then ask
 
-1. **What is it?** Talk with a presenter · scrolling page · portfolio · app screen or flow · graphic.
-2. **Who sees it, and what should they do or believe afterwards?**
-3. **The one sentence.** "After this, <audience> believes <claim> because <proof>." Help write it if the user can't; nothing visual starts without it.
-4. **The hero object.** The one thing that travels through the story: a ticket, a message, a device, a person's day, a product, a number.
+Before the first question, read the brief and any supplied source, URL, logo or screenshot. Write the options for *this* project: name its audience, product and content in the choices. Generic menus ("Modern / Minimal / Bold") are not an interview. Every recommendation needs a one-line reason grounded in what the user said.
 
-Follow up only if needed: the before → change → after; the 5–12 beats in order with proof for each; facts that must stay exact and their source; claims that are not proven yet; length and setting.
+## Format
 
-## Round 2 — the taste
+- Up to four questions per round, three rounds at most, usually two.
+- Each question: options **A–D**, exactly one marked **(Recommended)** and listed first, each with a one-line consequence. The user can always answer in their own words.
+- Use the harness's structured question tool when it has one (Claude Code `AskUserQuestion`; put a code/visual sample in the option preview when it helps). Otherwise use this text form and accept replies like `1A 2C 3 "navy + gold"`:
 
-1. **Mood.** Bold and loud · calm and editorial · dark and cinematic · light and airy · technical.
-2. **Motion.** Still · Subtle · Cinematic · Spatial 3D (definitions in `motion.md`).
-3. **Material.** Flat ink · paper / matte · frosted glass · atmosphere (sky, light, fog) · blueprint lines · photography-led.
-4. **Palette.** Show 2–3 from `palettes.md` that fit the mood, or take their brand hex values.
+```
+1. How should the page move?
+   A. Clean micro-interactions (Recommended) — hover, press and reveal feedback; fast and calm, fits a product page people revisit.
+   B. Cinematic scroll story — pinned scenes; the product travels through each section.
+   C. Spatial 3D — a real 3D object or shader stage; heaviest, most memorable.
+   D. Still — no motion beyond focus and hover.
+Reply with letters (e.g. 1A 2C), your own words, or "you pick".
+```
 
-Follow up only if needed: 2–3 things they love and one they hate, and what exactly (type, colour, motion, density); dark, light or both; density; objects that must look exactly right.
+"You pick" ends the interview: choose the recommended options and list them in the playback.
 
-## Round 3 — constraints (only what is still open)
+## Round 1 — the experience
 
-Source of truth and what must not change · where it runs (projector, phone, offline, corporate network) · controls (clicker, scroll, presenter notes) · stack and deliverable (single HTML, Next/Astro repo, React Native, Figma-ready PNGs) · speaker script · deadline.
+Ask about whatever is open:
 
-## Playback
+1. **Goal.** What is it and what should a visitor do or believe afterwards? Offer the 3–4 likeliest readings of the brief.
+2. **Narrative.** A. Story-led: a hero object travels through before → change → after. B. Product-first: show the real product and proof immediately. C. Editorial: type and content lead, calm pacing. D. Playful/interactive: one thing the visitor can touch or play with.
+3. **Motion** (levels in `motion.md`). A. Clean micro-interactions. B. Subtle entrances. C. Cinematic scroll story. D. Spatial 3D. Recommend from the narrative and where it runs.
+4. **Reference feel.** Offer three entries from `sites.md` that fit the brief, each with what exactly to borrow ("Linear: dense dark precision", "Stripe Press: book-like editorial type"), plus D. "Show me a site you like". Learn the technique; never clone.
+
+## Round 2 — the look
+
+1. **Brand.** A. I have brand colours/logo/fonts (paste hex, files or guidelines). B. Derive from my existing site or logo (give the URL/file). C. No brand yet: pick a palette. D. You choose.
+   - With brand hex: keep them exact, derive the remaining roles with `palettes.md` → Custom brand, and run the contrast check.
+2. **Palette.** If not brand-locked, offer three `palettes.md` palettes that fit the mood and surface, by name with a one-line feel, plus D. "Something else" (they describe it).
+3. **Theme and density.** Dark / light / both; airy or dense. Combine into one question with 4 concrete options.
+4. **Type personality.** Only when it is open and matters: e.g. A. precise grotesk, B. editorial serif display, C. characterful display + quiet body, D. match the brand fonts.
+
+## Round 3 — content and constraints (only what is still open)
+
+1. **Copy authority.** A. Keep my words exactly. B. Tighten my copy; show every change. C. Write it for me from my notes (drafts flagged for review). D. Mixed: name the locked parts. Default recommendation: A for existing content, C for a blank page.
+2. **Assets.** Real photos/screenshots/logos supplied, fetch licensed ones (`assets.md`), or use none.
+3. **Stack and deliverable.** Existing repo/stack, single offline HTML, framework, or exported images. Where it runs (phone, projector, offline).
+4. **Scope.** Sections/beats to include and anything that must not change.
+
+## Playback, then build
+
+Show the decisions in one block and offer two choices: **Build it (Recommended)** or **Change something**. A user who answered every question or said "you pick" needs no extra confirmation round.
 
 ```
 Story:     After this, <audience> believes <claim> because <proof>.
-Format:    <surface>, <length/size>, runs on <where>
-Hero:      <object that travels>
-Beats:     1. … 2. … 3. …
-Taste:     <palette>, <material>, <motion level>, <dark/light>
-Authority: <source> — must not change: <list>
+Format:    <surface>, <sections/length>, runs on <where>, <stack>
+Narrative: <A–D choice>   Motion: <level>   Reference feel: <site — what we borrow>
+Look:      <palette or brand hex>, <theme>, <density>, <type>
+Copy:      <keep | tighten (changes listed) | write (drafts flagged)>
+Locked:    <must not change>
 ```
 
-For an unresolved new direction, get agreement before the full build. An already specified direction or instruction to choose and proceed needs no additional approval round. Save explicit user taste answers if they are new (see `memory.md`); never save your assumption as their preference.
+Save explicit taste answers that are new (see `memory.md`) and write the decisions to `.slopless/DESIGN.md` for the project. Never save your recommendation as their preference unless they chose it.
