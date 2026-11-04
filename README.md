@@ -22,7 +22,7 @@ The [installer](https://github.com/vercel-labs/skills#install-a-skill) requires 
 
 [![slopless showcase, Obsidian Brass palette](docs/images/hero-obsidian-brass.jpg)](https://kundan0907.github.io/slopless/)
 
-**[Open the live showcase →](https://kundan0907.github.io/slopless/)** A short page: what slopless does, a before and after you can drag, the palettes, and how to install it.
+**[Open the live showcase →](https://kundan0907.github.io/slopless/)** See how the interview works, drag before-and-after examples across four surfaces, try the palettes, and install the skill. The showcase opens in Klein blue, the first palette in the picker.
 
 **[Open the toolbox →](https://kundan0907.github.io/slopless/explore.html)** The interview simulator, what your agent reads, modes explorer, assets, more examples, the knowledge base and a prompt cookbook, all running in your browser.
 
@@ -83,7 +83,7 @@ The [explore page](https://kundan0907.github.io/slopless/explore.html) is intera
 
 ## Ten palettes
 
-Each palette has a job and passes contrast checks. Pick one, rename it, or bring your own brand colours and slopless derives the rest of the palette.
+The showcase starts with Klein blue, listed first in the palette picker. Pick another palette, rename it, or bring your own brand colours and slopless derives the rest of the palette.
 
 ![Palettes](docs/images/palettes.jpg)
 
