@@ -10,6 +10,7 @@
 <body>
 
 <header class="hero" id="top">
+  <canvas id="glass" aria-hidden="true"></canvas>
   <nav class="nav" aria-label="Main">
     <a class="wordmark" href="#top">slopless</a>
     <div class="nav-right">
@@ -48,13 +49,6 @@
     </div>
     <div class="swatches" role="group" aria-label="Palette"><span>Try a palette</span></div>
   </div>
-  <div class="lens">
-    <div class="lens-stage" id="lens-stage" role="slider" tabindex="0" aria-label="Move the glass to see the same page after slopless" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="Glass in the middle">
-      <!--LENS-->
-      <span class="lens-pane" aria-hidden="true"></span>
-    </div>
-    <p class="lens-cap">Drag the glass. Outside it is a default AI-made page. Through it is the same page after slopless.</p>
-  </div>
 </header>
 
 <main>
@@ -77,9 +71,9 @@
     <figure class="ask-card">
       <p class="ask-q" id="ask-q">How should the page move?</p>
       <ol class="ask-opts" aria-labelledby="ask-q">
-        <li class="rec"><span class="ask-k">A</span><div><b>Clean micro-interactions</b><span>Hover, press and reveal feedback. Fast and calm, and it suits a product page people revisit.</span></div><em>Recommended</em></li>
-        <li><span class="ask-k">B</span><div><b>Cinematic scroll story</b><span>The page pins in place while the product moves through each section.</span></div></li>
-        <li><span class="ask-k">C</span><div><b>Spatial 3D</b><span>A real 3D object or scene. Heaviest to load, most memorable.</span></div></li>
+        <li class="rec"><span class="ask-k">A</span><div><b>Clean micro-interactions</b><span>Fast and calm. Suits a product page people revisit.</span></div><em>Recommended</em></li>
+        <li><span class="ask-k">B</span><div><b>Cinematic scroll story</b><span>The page pins while the product moves through it.</span></div></li>
+        <li><span class="ask-k">C</span><div><b>Spatial 3D</b><span>A real 3D scene. Heaviest, most memorable.</span></div></li>
         <li><span class="ask-k">D</span><div><b>Still</b><span>No motion beyond focus and hover.</span></div></li>
       </ol>
       <figcaption>It asks the same way about story, motion, reference sites, brand colours, wording and stack.</figcaption>
@@ -87,12 +81,23 @@
   </div>
 </section>
 
+<section class="wrap" id="lens">
+  <div class="sect-head">
+    <h2>Drag the glass.</h2>
+    <p class="lead">Outside the glass is a default AI-made page. Through it is the same page after slopless. Move the mouse over it, drag on a touch screen, or focus it and use the arrow keys.</p>
+  </div>
+  <div class="lens-stage" id="lens-stage" role="slider" tabindex="0" aria-label="Move the glass to see the same page after slopless" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="Glass in the middle">
+    <!--LENS-->
+    <span class="lens-pane" aria-hidden="true"></span>
+  </div>
+</section>
+
 <section class="wrap ba" id="before-after">
   <div class="sect-head">
     <h2>Before slopless. After slopless.</h2>
-    <p class="lead">The same job, built twice. Pick an example, then drag the handle or use the arrow keys.</p>
+    <p class="lead">Four jobs for the same product, each built twice with the same words and data. Drag a handle, or focus it and use the arrow keys.</p>
   </div>
-  <!--BA-->
+  <div class="gallery"><!--GALLERY--></div>
 </section>
 
 <section class="wrap" id="references">
@@ -208,6 +213,7 @@ cp -r slopless/slopless ~/.agents/skills/</code></pre><button class="copy" type=
 <!--FOOTER-->
 
 <!--GSAP-->
+<!--SCENE-->
 <!--MOTION-->
 <!--COMMON-->
 <!--HOME-->

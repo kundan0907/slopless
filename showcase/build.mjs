@@ -13,6 +13,7 @@ const fonts = `
 const bundle = async (file, extra = {}) => (await build({ entryPoints: [new URL(file, import.meta.url).pathname], bundle: true, minify: true, format: 'iife', write: false, target: 'es2020', logLevel: 'error', ...extra })).outputFiles[0].text;
 const inline = (js) => `<script>${js.replace(/<\/script/gi, '<\\/script')}</script>`;
 const js = {
+  SCENE: inline(await bundle('./src/scene.js')),
   UI: inline(await bundle('./src/ui.js')),
   TOOLS: inline(text('./src/tools.js')),
   MOTION: inline(text('./src/motion.js')),
@@ -77,14 +78,10 @@ const reads = JOBS.map(([id, n, files]) => `<div class="reads-panel" role="tabpa
 const pair = (id) => gallery.match(new RegExp(`<figure[^>]*data-pair="${id}"[\\s\\S]*?</figure>`))[0];
 // The hero lens reuses the landing pair's two layers (after first, before second) without its handle, tags or input.
 const lensLayers = (() => { const p = pair('land'); return p.slice(p.indexOf('>', p.indexOf('<div class="cmp')) + 1, p.indexOf('<span class="tag l">')); })();
-// Home before/after: one tab per example, each reusing the explore pair markup.
-const BA = [['land', 'Landing page'], ['app', 'App screen'], ['deck', 'Deck slide'], ['post', 'Social post']];
-const beforeAfter = `<div class="tabs" role="tablist" aria-label="Example">${BA.map(([id, n], i) => `<button type="button" role="tab" id="ba-tab-${id}" aria-controls="ba-${id}" aria-selected="${i === 0}" tabindex="${i ? -1 : 0}">${n}</button>`).join('')}</div>` +
-  BA.map(([id], i) => `<div class="ba-panel" role="tabpanel" id="ba-${id}" aria-labelledby="ba-tab-${id}"${i ? ' hidden' : ''}>${pair(id).replace(/class="pair w8"/, 'class="pair wide"').replace(/class="pair w4"/, 'class="pair tall"').replace('value="50"', id === 'land' ? 'value="92"' : 'value="50"')}</div>`).join('');
 const footer = (links) => `<footer>
   <div class="credits">
     <div><b>Standing on</b>Ideas adapted from Impeccable, taste-skill and UI/UX Pro Max, credited in the repository.</div>
-    <div><b>Made with</b>GSAP and ScrollTrigger, Bricolage Grotesque and Hanken Grotesk.</div>
+    <div><b>Made with</b>Three.js, GSAP and ScrollTrigger, Bricolage Grotesque and Hanken Grotesk.</div>
     <div><b>This page</b>Built with slopless and checked by its own scanner. One HTML file, no network requests. ${links}</div>
   </div>
   <p class="bigname" aria-hidden="true">slopless</p>
@@ -101,8 +98,8 @@ ${text('./src/site.css').replace('/*FONTS*/', () => fonts)}
 const fill = (src, map) => Object.entries(map).reduce((h, [k, v]) => h.replace(`<!--${k}-->`, () => v), src);
 const pages = {
   'index.html': fill(text('./src/home.html'), {
-    HEAD: head, GSAP: gsapFull, COMMON: js.COMMON, HOME: js.HOME, UI: js.UI,
-    LENS: lensLayers, BA: beforeAfter,
+    HEAD: head, GSAP: gsapFull, SCENE: js.SCENE, COMMON: js.COMMON, HOME: js.HOME, UI: js.UI,
+    LENS: lensLayers, GALLERY: gallery,
     PROMPTS: homePrompts, MOTION: js.MOTION, ICONSTRIP: iconStrip,
     FOOTER: footer('<a href="explore.html">Open the explore page</a>'),
   }),

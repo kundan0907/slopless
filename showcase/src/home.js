@@ -1,7 +1,15 @@
-// Home page: hero glass lens, example tabs and scroll motion.
+// Home page: 3D hero scene, the glass lens section and scroll motion.
 (() => {
   const root = document.documentElement;
-  // Hero lens: a glass pane that drifts on its own, follows the pointer and answers the arrow keys.
+  let scene = null;
+  window.sloplessOnPalette = (p) => scene?.setPalette(p);
+  const boot = () => {
+    scene = window.sloplessScene?.start(document.getElementById('glass')) || null;
+    if (scene) { scene.start(); window.sloplessApply(root.dataset.palette); }
+  };
+  document.fonts.ready.then(() => ('requestIdleCallback' in window ? requestIdleCallback(boot, { timeout: 600 }) : setTimeout(boot, 200)));
+
+  // Lens section: a glass pane that drifts on its own, follows the pointer and answers the arrow keys.
   const stage = document.getElementById('lens-stage');
   if (stage) {
     const W = 50, H = 84, MX = 100 - W, MY = 100 - H, REST_Y = 8;
@@ -43,37 +51,22 @@
     if (still()) { paint(); say(); } else sync();
   }
 
-  // Example tabs (before and after): arrow keys move between them.
-  document.querySelectorAll('[role="tablist"]').forEach((list) => {
-    const tabs = [...list.querySelectorAll('[role="tab"]')];
-    const pick = (tab, focus) => {
-      tabs.forEach((t) => { const on = t === tab; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; document.getElementById(t.getAttribute('aria-controls')).hidden = !on; });
-      if (focus) tab.focus();
-    };
-    tabs.forEach((t) => t.addEventListener('click', () => pick(t)));
-    list.addEventListener('keydown', (e) => {
-      const i = tabs.indexOf(document.activeElement);
-      if (i < 0) return;
-      const n = { ArrowRight: (i + 1) % tabs.length, ArrowLeft: (i + tabs.length - 1) % tabs.length, Home: 0, End: tabs.length - 1 }[e.key];
-      if (n === undefined) return;
-      e.preventDefault(); pick(tabs[n], true);
-    });
-  });
-
   if (!window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
   gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
     if (root.dataset.motion === 'still') return; // the visitor chose Still: no entrances, no scrubbed hero
     gsap.from('.hero h1 .line > span', { yPercent: 110, duration: 1.1, ease: 'expo.out', stagger: 0.09, delay: 0.15 });
-    gsap.from('.hero .lead, .hero-actions, .swatches, .lens', { y: 24, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.06, delay: 0.3 });
-    // Wipe from the before to the after once, then hand the handle to the visitor.
-    const range = document.querySelector('#before-after .cmp input');
-    if (range) {
-      const v = { x: Number(range.value) };
-      const wipe = gsap.to(v, { x: 8, duration: 1.8, ease: 'power2.inOut', paused: true, onUpdate: () => { range.value = Math.round(v.x); range.dispatchEvent(new Event('input')); } });
-      ScrollTrigger.create({ trigger: '#before-after .cmp', start: 'top 60%', once: true, onEnter: () => wipe.play() });
+    gsap.from('.hero .lead, .hero-actions, .swatches', { y: 24, opacity: 0, duration: 0.7, ease: 'power3.out', stagger: 0.06, delay: 0.3 });
+    ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true, onUpdate: (s) => scene?.setProgress(s.progress) });
+    // Each example wipes from the before to a half-and-half split once as it scrolls in, then the handle is the visitor's.
+    document.querySelectorAll('#before-after .cmp input').forEach((range) => {
+      const v = { x: 92 };
+      range.value = v.x; range.dispatchEvent(new Event('input'));
+      const wipe = gsap.to(v, { x: 50, duration: 1.8, ease: 'power2.inOut', paused: true, onUpdate: () => { range.value = Math.round(v.x); range.dispatchEvent(new Event('input')); } });
+      ScrollTrigger.create({ trigger: range.closest('.cmp'), start: 'top 70%', once: true, onEnter: () => wipe.play() });
       range.addEventListener('pointerdown', () => wipe.kill(), { once: true });
-    }
+      range.addEventListener('keydown', () => wipe.kill(), { once: true });
+    });
     gsap.from('.steps li', { y: 40, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.1, scrollTrigger: { trigger: '.steps', start: 'top 82%', once: true } });
     gsap.from('.poster', { y: 50, opacity: 0, duration: 0.8, ease: 'power3.out', stagger: 0.05, scrollTrigger: { trigger: '#posters', start: 'top 85%', once: true } });
     gsap.from('.bigname', { yPercent: 40, opacity: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: 'footer', start: 'top 70%', once: true } });
