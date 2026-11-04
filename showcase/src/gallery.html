@@ -11,17 +11,20 @@
     </figure>
     <figure class="pair w4" data-pair="app">
       <div class="cmp tall phone-stage" role="group" aria-label="App screen, before versus after">
-        <div class="handset"><i class="hw hw-act"></i><i class="hw hw-up"></i><i class="hw hw-dn"></i><i class="hw hw-pw"></i>
+        <div class="layer phone-stage"><div class="handset"><i class="hw hw-act"></i><i class="hw hw-up"></i><i class="hw hw-dn"></i><i class="hw hw-pw"></i>
           <div class="hw-body"><div class="hw-bezel"><div class="hw-screen">
-            <div class="layer"><div class="scr a-app">{{sbar}}<h5>Tonight</h5><div class="tkt"><div class="tkt-t"><b>21:34</b><span>Platform 7</span></div><p>Berlin to Vienna<small>Sleeper, berth 4. Arrives 08:12.</small></p><span class="cta">Show ticket</span></div><h6>Later this week</h6><div><div class="row"><span>Paris to Milan<small>Fri 19:12, couchette</small></span><em>€64</em></div><div class="row"><span>Zurich to Prague<small>Sun 22:05, seat 41</small></span><em>€58</em></div></div><div class="tab"><span class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Trips</span><span><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Search</span><span><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Planner</span><span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>You</span></div></div></div>
-            <!-- slopless-ignore-start: generated look -->
-            <div class="layer before"><div class="scr g g-app">{{sbar}}<b class="t">My Trips</b><span class="g-search">{{icon:lucide:search}}Search trips</span><div class="g-list"><div class="g-card">{{icon:lucide:map-pin}}<span><b>Berlin to Vienna</b><small>Tonight 21:34, sleeper, berth 4</small></span></div><div class="g-card">{{icon:lucide:map-pin}}<span><b>Paris to Milan</b><small>Fri 19:12, couchette, €64</small></span></div><div class="g-card">{{icon:lucide:map-pin}}<span><b>Zurich to Prague</b><small>Sun 22:05, seat 41, €58</small></span></div></div><div class="g-tabs"><span class="on">{{icon:lucide:house}}Home</span><span>{{icon:lucide:search}}Search</span><span>{{icon:lucide:heart}}Saved</span><span>{{icon:lucide:user}}Profile</span></div></div></div>
-            <!-- slopless-ignore-end -->
+            <div class="scr a-app">{{sbar}}<h5>Tonight</h5><div class="tkt"><div class="tkt-t"><b>21:34</b><span>Platform 7</span></div><p>Berlin to Vienna<small>Sleeper, berth 4. Arrives 08:12.</small></p><span class="cta">Show ticket</span></div><h6>Later this week</h6><div><div class="row"><span>Paris to Milan<small>Fri 19:12, couchette</small></span><em>€64</em></div><div class="row"><span>Zurich to Prague<small>Sun 22:05, seat 41</small></span><em>€58</em></div></div><div class="tab"><span class="on"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Trips</span><span><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>Search</span><span><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>Planner</span><span><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>You</span></div></div>
             <span class="hw-island"></span>
-            <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare before and after for the app screen">
           </div></div></div>
-        </div>
+        </div></div>
+        <!-- slopless-ignore-start: generated look -->
+        <div class="layer before phone-stage"><div class="handset fake"><div class="fk-body"><div class="fk-screen">
+          <div class="scr g g-app"><div class="fk-sb"><b>9:41</b><span><i></i><i></i><i></i></span></div><b class="t">My Trips</b><span class="g-search">{{icon:lucide:search}}Search trips</span><div class="g-list"><div class="g-card">{{icon:lucide:map-pin}}<span><b>Berlin to Vienna</b><small>Tonight 21:34, sleeper, berth 4</small></span></div><div class="g-card">{{icon:lucide:map-pin}}<span><b>Paris to Milan</b><small>Fri 19:12, couchette, €64</small></span></div><div class="g-card">{{icon:lucide:map-pin}}<span><b>Zurich to Prague</b><small>Sun 22:05, seat 41, €58</small></span></div></div><div class="g-tabs"><span class="on">{{icon:lucide:house}}Home</span><span>{{icon:lucide:search}}Search</span><span>{{icon:lucide:heart}}Saved</span><span>{{icon:lucide:user}}Profile</span></div></div>
+          <span class="fk-notch"></span>
+        </div></div></div></div>
+        <!-- slopless-ignore-end -->
         <span class="tag l" aria-hidden="true">Before</span><span class="tag r" aria-hidden="true">After</span>
+        <span class="handle"></span><input type="range" min="0" max="100" value="50" aria-label="Compare before and after for the app screen">
       </div>
       <figcaption><b>App screen</b><span>Before: a search bar and three identical trip cards. After: tonight's ticket first with one action, later trips as quiet rows.</span></figcaption>
     </figure>

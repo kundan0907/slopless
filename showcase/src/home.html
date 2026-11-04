@@ -74,12 +74,12 @@
       <div class="scene" data-scene="1" hidden>
         <p class="sr">Step 2, it interviews you.</p>
         <p class="ask-q" id="ask-q">How should the page move?</p>
-        <ol class="ask-opts picked" aria-labelledby="ask-q">
-          <li class="rec"><span class="ask-k">A</span><div><b>Clean micro-interactions</b><span>Fast and calm. Suits a product page people revisit.</span></div><em>Recommended</em></li>
-          <li><span class="ask-k">B</span><div><b>Cinematic scroll story</b><span>The page pins while the product moves through it.</span></div></li>
-          <li><span class="ask-k">C</span><div><b>Spatial 3D</b><span>A real 3D scene. Heaviest, most memorable.</span></div></li>
-          <li><span class="ask-k">D</span><div><b>Still</b><span>No motion beyond focus and hover.</span></div></li>
-        </ol>
+        <div class="ask-opts settled" role="radiogroup" aria-labelledby="ask-q">
+          <button class="ask-opt rec" type="button" role="radio" aria-checked="true" tabindex="0" data-motion="Clean micro-interactions"><span class="ask-k">A</span><span class="ask-t"><b>Clean micro-interactions</b><span>Fast and calm. Suits a product page people revisit.</span></span><em>Recommended</em></button>
+          <button class="ask-opt" type="button" role="radio" aria-checked="false" tabindex="-1" data-motion="Cinematic scroll story"><span class="ask-k">B</span><span class="ask-t"><b>Cinematic scroll story</b><span>The page pins while the product moves through it.</span></span></button>
+          <button class="ask-opt" type="button" role="radio" aria-checked="false" tabindex="-1" data-motion="Spatial 3D"><span class="ask-k">C</span><span class="ask-t"><b>Spatial 3D</b><span>A real 3D scene. Heaviest, most memorable.</span></span></button>
+          <button class="ask-opt" type="button" role="radio" aria-checked="false" tabindex="-1" data-motion="Still"><span class="ask-k">D</span><span class="ask-t"><b>Still</b><span>No motion beyond focus and hover.</span></span></button>
+        </div>
         <p class="ask-more">Next it asks about story, reference sites, brand colours, wording and stack.</p>
       </div>
       <div class="scene" data-scene="2" hidden>
@@ -94,7 +94,7 @@
       <div class="scene" data-scene="3" hidden>
         <p class="sr">Step 4, it reports back.</p>
         <div class="report">
-          <p class="r-row"><b>Your choices</b><span>Motion A, reference Linear, your brand colours</span></p>
+          <p class="r-row"><b>Your choices</b><span><span id="r-motion">Motion A</span>, reference Linear, your brand colours</span></p>
           <p class="r-row"><b>2 wording changes</b></p>
           <p class="r-row r-diff"><span class="was">Travel smarter with Nightrail</span><span class="now"><i class="arrow" aria-hidden="true"></i>Sleep in Berlin. Wake in Vienna.</span></p>
           <p class="r-row r-pr">Ready to paste into the pull request.</p>
