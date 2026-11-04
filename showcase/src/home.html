@@ -58,18 +58,15 @@
     <h2>How it works.</h2>
     <p class="lead">For new work, slopless asks before it builds. For existing work, it starts from what you have.</p>
   </div>
-  <ol class="steps">
-    <li><span class="n">1</span><b>You ask</b><p>Name the job: improve a screen, or build a page, deck or app. Add a link, file or brand colours if you have them.</p></li>
-    <li><span class="n">2</span><b>It interviews you</b><p>A few questions, each with options A to D and one marked Recommended. “slopless quick” skips them; “you pick” accepts every recommendation.</p></li>
-    <li><span class="n">3</span><b>It builds and checks</b><p>It builds in your stack, looks at the rendered result, and fixes problems such as overflow, low contrast and broken controls before showing you.</p></li>
-    <li><span class="n">4</span><b>It reports back</b><p>A short report: your choices, what changed, and each wording change as before and after. It doubles as the PR description.</p></li>
-  </ol>
   <div class="ask">
-    <div class="ask-intro">
-      <h3>A sample question.</h3>
-      <p>The options are written for your project. Reply with letters like <code>1A 2C</code>, your own words, or “you pick” to accept every recommendation.</p>
-    </div>
+    <ol class="steps">
+      <li><span class="n">1</span><b>You ask</b><p>Name the job: improve a screen, or build a page, deck or app. Add a link, file or brand colours if you have them.</p></li>
+      <li class="on"><span class="n">2</span><b>It interviews you</b><p>A few questions with options A to D and one recommended pick, like the one here. Reply with letters, your own words, or “you pick”. “slopless quick” skips this step.</p></li>
+      <li><span class="n">3</span><b>It builds and checks</b><p>It builds in your stack, looks at the rendered result, and fixes problems such as overflow, low contrast and broken controls before showing you.</p></li>
+      <li><span class="n">4</span><b>It reports back</b><p>Your choices, what changed, and each wording change as before and after. It doubles as the PR description.</p></li>
+    </ol>
     <figure class="ask-card">
+      <figcaption class="ask-tag">Step 2 in your chat</figcaption>
       <p class="ask-q" id="ask-q">How should the page move?</p>
       <ol class="ask-opts" aria-labelledby="ask-q">
         <li class="rec"><span class="ask-k">A</span><div><b>Clean micro-interactions</b><span>Fast and calm. Suits a product page people revisit.</span></div><em>Recommended</em></li>
@@ -77,7 +74,7 @@
         <li><span class="ask-k">C</span><div><b>Spatial 3D</b><span>A real 3D scene. Heaviest, most memorable.</span></div></li>
         <li><span class="ask-k">D</span><div><b>Still</b><span>No motion beyond focus and hover.</span></div></li>
       </ol>
-      <figcaption>It asks the same way about story, motion, reference sites, brand colours, wording and stack.</figcaption>
+      <p class="ask-more">Next it asks about story, reference sites, brand colours, wording and stack.</p>
     </figure>
   </div>
 </section>
