@@ -24,6 +24,14 @@ These are starting points, not a ranking or a promise that every item is free, a
 | [Motion Primitives](https://github.com/ibelick/motion-primitives) | Composable animated interface patterns | Component dependencies, interruption and reduced-motion behavior |
 | [Magic UI](https://magicui.design/docs) | Marketing components, product framing and intentional visual emphasis | React-oriented integration; decorative effects must serve the brief; Pro items have separate access |
 | [React Bits](https://reactbits.dev/get-started/introduction) | Expressive animated components, backgrounds and microinteractions | Select the JS/TS and CSS/Tailwind variant; inspect animation dependencies and rendering cost |
+| [Cult UI](https://www.cult-ui.com) | Tactile shadcn-style cards, docks, toolbars and product details (MIT) | shadcn registry; Motion dependency on animated items |
+| [Animata](https://animata.design) | Small animated text, cards, backgrounds and widgets to copy (MIT) | Tailwind + Motion; copy only the item needed |
+| [Kibo UI](https://www.kibo-ui.com) | Advanced composable blocks: kanban, gantt, editor, code block (MIT) | shadcn registry; heavier dependencies per block |
+| [Origin UI](https://coss.com/origin) | Large set of plain, well-built inputs, selects, tables and navigation | shadcn/Tailwind; check the current licence and package path |
+| [UI Layouts](https://www.ui-layouts.com) | Motion-rich galleries, carousels, drawers and layout effects (MIT) | Motion dependency; reduced-motion behaviour |
+| [SmoothUI](https://smoothui.dev) | Spring-animated buttons, cards and reveals (MIT) | Motion dependency |
+| [Uiverse](https://uiverse.io) / [HyperUI](https://www.hyperui.dev) | Framework-free HTML/CSS (Uiverse) and Tailwind (HyperUI) snippets (MIT) | Fits plain HTML; rewrite to the project's tokens |
+| [21st.dev](https://21st.dev) | Community registry of shadcn-compatible components; search by pattern | Quality and licence vary per author; check each item |
 
 ## When learning is cheaper than importing
 
