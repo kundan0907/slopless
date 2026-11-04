@@ -21,7 +21,7 @@ export const KB = [
     ['slopless/references/brief.md', 'The one-screen brief template that doubles as a handoff.', 'Writing the brief'],
     ['slopless/references/craft-floor.md', 'Contrast, states, browser surfaces, icons, depth, semantics: the checks before editing UI.', 'Step 4'],
     ['slopless/references/copy.md', 'Write the argument first, plain voice, banned patterns and words.', 'Step 4'],
-    ['slopless/references/assets.md', 'Licence-checked icon sets, fonts, photos, device dimensions, 3D and animation sources, and the rules for using them.', 'Step 4'],
+    ['slopless/references/assets.md', 'Licence-checked icon sets, fonts, photos, phone and laptop frames, 3D and animation sources, and the rules for using them.', 'Step 4'],
   ]],
   ['Surfaces', [
     ['slopless/references/surfaces/deck.md', 'Preserve existing decks; optional dependency-free controller for new builds, cinematic timelines when needed.', 'Deck jobs'],
@@ -94,14 +94,12 @@ export const PROMPTS = [
   ['Web', [
     ['Use slopless to redesign this landing page. Keep every word. It looks like every other AI site.', 'Scan and screenshots first, then a scored critique and one batch of fixes.'],
     ['slopless, portfolio for a motion designer. Moss Paper, subtle motion. One signature interaction that is about her craft.', 'Palette and motion level given up front, so the interview skips them.'],
-    ['Use slopless to build a landing page for our invoicing app. Interview me first.', 'Standard route: tailored A to D questions, then the build and a report.'],
-    ['Use slopless to build a landing page for Fieldnote. Brand colours are #1B3A2F and #E8B04A, logo attached. Keep my copy.', 'Brand colours stay exact; the interview skips what you already answered.'],
   ]],
   ['App', [
-    ['Use slopless on this onboarding screen for iOS. 390 by 844, dark and light, add empty and error states.', 'Loads the app surface file: platform fit, states, both themes.'],
+    ['Use slopless on this onboarding screen for iOS. Dark and light, with empty and error states.', 'Loads the app surface file: platform fit, states, both themes.'],
   ]],
   ['Graphic', [
-    ['slopless, three Instagram posts announcing our beta, Porcelain Cobalt, 1080 by 1350.', 'Built in HTML, exported at exact size, one template for the set.'],
+    ['slopless, three Instagram posts announcing our beta, Porcelain Cobalt.', 'Built in HTML and exported as images, with one template for the set.'],
   ]],
   ['Review and modes', [
     ['Use slopless to review this screen. Why does it look generated?', 'Review mode: inspect the rendering, report three concrete problems and verification limits.'],
@@ -111,6 +109,16 @@ export const PROMPTS = [
     ['Use slopless in agents mode with three helpers. Rebuild the deck in the Sapphire Glass direction.', 'Builder, motion and reviewer run in parallel on a shared core.'],
     ['Remember for slopless: I reject decorative colour bars and I want two live studies before a full build.', 'Becomes dated lines in your taste file.'],
   ]],
+];
+
+// The home page's "Start building" list: [prompt, what happens]
+export const START = [
+  ['Use slopless quick. Improve my existing landing page. Keep my content and links.', 'Fixes the three biggest problems and shows before and after.'],
+  ['Use slopless to build a website for my invoicing app. Interview me first.', 'Asks about story, motion, reference sites, colours and wording, then builds.'],
+  ['Use slopless to build a landing page for Fieldnote. Brand colours are #1B3A2F and #E8B04A, logo attached. Keep my copy.', 'Keeps your colours exact, works out the rest, and skips questions you already answered.'],
+  ['Use slopless quick. This dashboard feels cluttered. Make the main task obvious.', 'Regroups the screen around the main task and keeps your data and controls.'],
+  ['Use slopless to turn these notes into a 10-minute talk deck.', 'Interviews you about the story and look, then builds a deck with presenter controls.'],
+  ['Use slopless to review this screen. Why does it look AI-made?', 'Lists the concrete problems and changes no files.'],
 ];
 
 // [category, name, url, licence, note]
@@ -136,7 +144,7 @@ export const SOURCES = [
   ]],
   ['Devices', [
     ['Apple Design Resources', 'https://developer.apple.com/design/resources/', 'Apple terms', 'Official iPhone, iPad and Mac artwork for marketing Apple-platform apps.'],
-    ['Real dimensions in CSS', 'https://github.com/kundan0907/slopless/blob/main/slopless/references/assets.md', 'n/a', 'iPhone, Pixel and MacBook sizes, drawn in CSS.'],
+    ['Phone and laptop frames', 'https://github.com/kundan0907/slopless/blob/main/slopless/references/assets.md', 'n/a', 'Phone and laptop frames drawn in CSS, so your screens sit in them.'],
   ]],
   ['3D and motion', [
     ['Poly Haven', 'https://polyhaven.com', 'CC0', 'HDRIs, textures and models, no credit needed.'],

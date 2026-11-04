@@ -1,4 +1,4 @@
-// Palette picker shared by both pages. Persists the choice and tells the hero scene (home only) to redraw.
+// Palette picker shared by both pages. Persists the choice; every colour on the page follows the palette tokens.
 (() => {
   const PALETTES = [
     ['obsidian', 'Obsidian Brass', 'Restrained dark', '#0B0C0F', '#ECE8E1', '#D6AE6B', '#15171B', '#9C978E'],

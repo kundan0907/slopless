@@ -3,32 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>slopless: make AI-built interfaces look designed</title>
-<meta name="description" content="Build new websites, apps and decks, or improve an existing UI. Install slopless for your coding agent, then ask it to design and build.">
+<title>slopless: design taste for your coding agent</title>
+<meta name="description" content="A design skill for Claude Code, Codex and other coding agents. It interviews you, builds a clear UI, checks it in a browser and reports every change.">
 <!--HEAD-->
 </head>
 <body>
 
 <header class="hero" id="top">
-  <canvas id="glass" aria-hidden="true"></canvas>
   <nav class="nav" aria-label="Main">
     <a class="wordmark" href="#top">slopless</a>
     <div class="nav-right">
       <ul>
         <li><a href="#how">How it works</a></li>
-        <li><a href="#language">Design language</a></li>
+        <li><a href="#before-after">Before and after</a></li>
+        <li><a href="#language">Palettes</a></li>
         <li><a href="#start">Install</a></li>
         <li><a href="explore.html">Explore</a></li>
       </ul>
       <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
     </div>
     <div class="menu" id="menu" hidden>
-      <a href="#how">How it works</a><a href="#before-after">Before and after</a><a href="#language">Design language</a><a href="#start">Install</a><a href="explore.html">Explore</a>
+      <a href="#how">How it works</a><a href="#before-after">Before and after</a><a href="#language">Palettes</a><a href="#start">Install</a><a href="explore.html">Explore</a>
     </div>
   </nav>
   <div class="hero-copy">
-    <h1><span class="line"><span>Make AI-built UI</span></span><span class="line"><span>look designed.</span></span></h1>
-    <p class="lead">Build websites, apps, decks and graphics from scratch, or improve what you have. A design skill for Claude Code, Codex and other coding agents.</p>
+    <h1><span class="line"><span>Design taste for</span></span><span class="line"><span>your coding agent.</span></span></h1>
+    <p class="lead">A skill for Claude Code, Codex and other coding agents. Build websites, apps and decks from scratch, or improve the UI you have.</p>
     <div class="hero-actions hero-start" id="start">
       <div class="start-step">
         <span>1. Install in your project</span>
@@ -44,9 +44,16 @@
           <button class="cp" type="button" data-target="start-prompt" aria-label="Copy starter prompt">Copy</button>
         </div>
       </div>
-      <div class="start-links"><a href="#before-after">See before and after</a><a href="#install">Install options</a></div>
+      <div class="start-links"><a href="#before-after">See before and after</a><a href="#install">All install options</a></div>
     </div>
     <div class="swatches" role="group" aria-label="Palette"><span>Try a palette</span></div>
+  </div>
+  <div class="lens">
+    <div class="lens-stage" id="lens-stage" role="slider" tabindex="0" aria-label="Move the glass to see the same page after slopless" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="Glass in the middle">
+      <!--LENS-->
+      <span class="lens-pane" aria-hidden="true"></span>
+    </div>
+    <p class="lens-cap">Drag the glass. Outside it is a default AI-made page. Through it is the same page after slopless.</p>
   </div>
 </header>
 
@@ -59,40 +66,49 @@
   <ol class="steps">
     <li><span class="n">1</span><b>You ask</b><p>Name the job: improve a screen, or build a page, deck or app. Add a link, file or brand colours if you have them.</p></li>
     <li><span class="n">2</span><b>It interviews you</b><p>A few questions, each with options A to D and one marked Recommended. “slopless quick” skips them; “you pick” accepts every recommendation.</p></li>
-    <li><span class="n">3</span><b>It builds and checks</b><p>It builds on your stack, renders the result, and repairs concrete problems before you see it.</p></li>
-    <li><span class="n">4</span><b>It reports</b><p>Your choices, what changed, and every content change as before and after. Paste it into the PR.</p></li>
+    <li><span class="n">3</span><b>It builds and checks</b><p>It builds in your stack, looks at the rendered result, and fixes problems such as overflow, low contrast and broken controls before showing you.</p></li>
+    <li><span class="n">4</span><b>It reports back</b><p>A short report: your choices, what changed, and each wording change as before and after. It doubles as the PR description.</p></li>
   </ol>
   <div class="ask">
     <div class="ask-intro">
-      <h3>A question, as you would see it.</h3>
-      <p>Options are written for your project, not picked from a generic menu. Reply with letters like <code>1A 2C</code>, your own words, or “you pick”.</p>
+      <h3>A sample question.</h3>
+      <p>The options are written for your project. Reply with letters like <code>1A 2C</code>, your own words, or “you pick” to accept every recommendation.</p>
     </div>
     <figure class="ask-card">
       <p class="ask-q" id="ask-q">How should the page move?</p>
       <ol class="ask-opts" aria-labelledby="ask-q">
         <li class="rec"><span class="ask-k">A</span><div><b>Clean micro-interactions</b><span>Hover, press and reveal feedback. Fast and calm, and it suits a product page people revisit.</span></div><em>Recommended</em></li>
-        <li><span class="ask-k">B</span><div><b>Cinematic scroll story</b><span>Pinned scenes; the product travels through each section.</span></div></li>
-        <li><span class="ask-k">C</span><div><b>Spatial 3D</b><span>A real 3D object or shader stage. Heaviest, most memorable.</span></div></li>
+        <li><span class="ask-k">B</span><div><b>Cinematic scroll story</b><span>The page pins in place while the product moves through each section.</span></div></li>
+        <li><span class="ask-k">C</span><div><b>Spatial 3D</b><span>A real 3D object or scene. Heaviest to load, most memorable.</span></div></li>
         <li><span class="ask-k">D</span><div><b>Still</b><span>No motion beyond focus and hover.</span></div></li>
       </ol>
-      <figcaption>Sample question. Narrative, motion, reference sites, brand colours, copy and stack get the same treatment.</figcaption>
+      <figcaption>It asks the same way about story, motion, reference sites, brand colours, wording and stack.</figcaption>
     </figure>
   </div>
 </section>
 
+<section class="wrap ba" id="before-after">
+  <div class="sect-head">
+    <h2>Before slopless. After slopless.</h2>
+    <p class="lead">The same job, built twice. Pick an example, then drag the handle or use the arrow keys.</p>
+  </div>
+  <!--BA-->
+</section>
+
 <section class="wrap" id="references">
   <div class="sect-head">
-    <h2>Learns from the best.</h2>
-    <p class="lead">Before it builds, slopless offers three sites that fit your brief and says what to borrow: pacing, type scale, one interaction. It never clones a layout, copy or brand.</p>
+    <h2>Reference sites.</h2>
+    <p class="lead">Before it builds, slopless suggests three sites that fit your brief and names what to take from each: pacing, type scale or one interaction. It never copies a layout, wording or brand.</p>
   </div>
   <div class="feel">
     <div><b>Product precision</b><span>Dense, exact, the product as the hero.</span><p>Linear, Stripe, Vercel</p></div>
-    <div><b>Cinematic and 3D</b><span>Scroll-driven scenes and tactile physics.</span><p>Lusion, Igloo, Apple</p></div>
+    <div><b>Cinematic and 3D</b><span>Scroll-driven scenes and tactile 3D.</span><p>Lusion, Igloo, Apple</p></div>
     <div><b>Editorial</b><span>Type and content lead, calm pacing.</span><p>Stripe Press, Pentagram, Collins</p></div>
     <div><b>Playful craft</b><span>Interaction detail and springy motion.</span><p>Rauno, Family, Teenage Engineering</p></div>
-    <div><b>Brand and commerce</b><span>Warm, photographic, product as object.</span><p>Nothing, Aesop, Rivian</p></div>
-    <a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/sites.md" target="_blank" rel="noopener"><b>See all reference sites →</b><span>About 40 sites by feel, plus galleries and component libraries.</span></a>
+    <div><b>Brand and commerce</b><span>Warm photography and products shown as objects.</span><p>Nothing, Aesop, Rivian</p></div>
+    <div><b>Free components</b><span>Libraries to adapt into your project's own styles.</span><p>Kokonut UI, Magic UI, Cult UI, Motion Primitives, shadcn/ui</p></div>
   </div>
+  <p class="feel-link"><a class="btn btn-primary" href="https://github.com/kundan0907/slopless/blob/main/slopless/references/sites.md" target="_blank" rel="noopener">See all reference sites →</a><span>About 40 sites by feel, plus galleries and component libraries.</span></p>
 </section>
 
 <section class="wrap" id="fixes">
@@ -103,11 +119,11 @@
   <!-- slopless-ignore-start: the tells being named -->
   <ul class="fixes">
     <li><s>Violet gradient wallpaper</s><span>One palette chosen for your subject</span></li>
-    <li><s>Emoji standing in for icons</s><span>Drawn icons from one set</span></li>
+    <li><s>Emoji standing in for icons</s><span>Real icons from one set</span></li>
     <li><s>Tiny uppercase label above the headline</s><span>A headline that says it</span></li>
     <li><s>Stock words like unlock and seamless</s><span>Plain, specific copy</span></li>
     <li><s>A glow on everything</s><span>Depth only where it helps</span></li>
-    <li><s>The same default font everywhere</s><span>Type picked on purpose</span></li>
+    <li><s>The same default font everywhere</s><span>A typeface chosen for the project</span></li>
   </ul>
   <!-- slopless-ignore-end -->
   <div class="assets-note">
@@ -123,37 +139,37 @@
 
 <section class="wrap" id="language">
   <div class="sect-head">
-    <h2>A design language, per project.</h2>
-    <p class="lead">Pick a palette and this page changes to match, including the glass at the top. Bring your own brand colours and slopless derives the rest.</p>
+    <h2>A look chosen for your project.</h2>
+    <p class="lead">Pick a palette and this whole page switches to it, including the example at the top. If you have brand colours, slopless keeps them exact and works out the rest.</p>
   </div>
   <div class="palettes" id="posters"></div>
   <div class="lang">
     <div>
       <h3>Type</h3>
       <p class="aa">Aa<small>Aa</small></p>
-      <p>Here: Bricolage Grotesque for headlines, Hanken Grotesk for text. Every project gets its own pairing, never the default.</p>
+      <p>This page uses Bricolage Grotesque for headlines and Hanken Grotesk for text. Each project gets its own pairing.</p>
     </div>
     <div>
       <h3>Motion</h3>
       <div class="levels" role="group" aria-label="Motion level" data-levels></div>
       <div data-mpv></div>
-      <p class="cap">Pick a level and the scene replays in it. Your pick is saved and sets how this page enters next time.</p>
+      <p class="cap">Pick a level to replay the demo at that intensity. Your choice is saved and sets how this page animates next time.</p>
     </div>
   </div>
 </section>
 
 <section class="wrap" id="install">
   <div class="sect-head">
-    <h2>Install options.</h2>
+    <h2>Install slopless.</h2>
   </div>
   <div class="use">
     <div>
-      <h3>Choose your agent</h3>
+      <h3>Add the skill</h3>
       <div class="cmd"><small>Claude Code plugin: add the marketplace</small><pre><code>/plugin marketplace add kundan0907/slopless</code></pre><button class="copy" type="button">Copy</button></div>
       <div class="cmd"><small>Then install</small><pre><code>/plugin install slopless@slopless</code></pre><button class="copy" type="button">Copy</button></div>
-      <p class="install-note">Turn on auto-update once under /plugin, Marketplaces, slopless, and new versions arrive at the start of each session.</p>
-      <div class="cmd"><small>Any agent that reads skills</small><pre><code>npx skills add kundan0907/slopless</code></pre><button class="copy" type="button">Copy</button></div>
-      <p class="install-note">The installer asks which coding agent to use and requires Node.js 22.20+.</p>
+      <p class="install-note">Optional: open /plugin, then Marketplaces, then slopless, and turn on auto-update. New versions then arrive when a session starts.</p>
+      <div class="cmd"><small>Any agent that supports skills</small><pre><code>npx skills add kundan0907/slopless</code></pre><button class="copy" type="button">Copy</button></div>
+      <p class="install-note">It asks which agent to install for. Needs Node.js 22.20 or newer.</p>
       <div class="cmd"><small>Claude Code, by hand</small><pre><code>git clone https://github.com/kundan0907/slopless
 mkdir -p ~/.claude/skills
 cp -r slopless/slopless ~/.claude/skills/</code></pre><button class="copy" type="button">Copy</button></div>
@@ -161,7 +177,7 @@ cp -r slopless/slopless ~/.claude/skills/</code></pre><button class="copy" type=
 mkdir -p ~/.agents/skills
 cp -r slopless/slopless ~/.agents/skills/</code></pre><button class="copy" type="button">Copy</button></div>
       <h3 class="sub">Updating</h3>
-      <div class="cmd"><small>Installed with npx skills</small><pre><code>npx skills update slopless</code></pre><button class="copy" type="button">Copy</button></div>
+      <div class="cmd"><small>If you installed with npx skills</small><pre><code>npx skills update slopless</code></pre><button class="copy" type="button">Copy</button></div>
     </div>
     <div>
       <h3>Start building, or improve what you have</h3>
@@ -172,35 +188,26 @@ cp -r slopless/slopless ~/.agents/skills/</code></pre><button class="copy" type=
 
 <section class="wrap" id="deeper">
   <div class="sect-head">
-    <h2>Go deeper.</h2>
-    <p class="lead">Everything else lives on the explore page, and it all runs in your browser.</p>
+    <h2>More on the explore page.</h2>
+    <p class="lead">Try the interview, see which files your agent reads, and browse every file in the skill. It all runs in your browser.</p>
   </div>
   <div class="deeper">
-    <a href="explore.html#reads"><b>What your agent reads</b><span>Pick a route, see the relevant source files.</span></a>
+    <a href="explore.html#reads"><b>What your agent reads</b><span>See which files it loads for each kind of job.</span></a>
     <a href="explore.html#interview"><b>Try the interview</b><span>Answer a few questions, get a prompt for your agent.</span></a>
     <a href="explore.html#modes"><b>All the modes</b><span>Decks, sites, apps, reviews, motion levels and agents.</span></a>
-    <a href="explore.html#examples"><b>More examples</b><span>Four before and after pairs to drag.</span></a>
-    <a href="explore.html#assets"><b>Assets it uses</b><span>Real icons, fonts, photos and device frames, with licences.</span></a>
+    <a href="explore.html#examples"><b>Examples page</b><span>The four before and after pairs, one after another.</span></a>
+    <a href="explore.html#assets"><b>Assets it uses</b><span>Real icons, fonts, photos and phone frames, with licences.</span></a>
     <a href="explore.html#different"><b>How it compares</b><span>What slopless borrowed, and what it adds.</span></a>
     <a href="explore.html#library"><b>Knowledge base</b><span>Every file in the skill, in one line each.</span></a>
     <a href="explore.html#inspiration"><b>Inspirations</b><span>Galleries and effect libraries it points to.</span></a>
-    <a class="go-all" href="explore.html"><b>Open the toolbox</b><span>All of it, on one page.</span></a>
+    <a class="go-all" href="explore.html"><b>Open the explore page</b><span>Everything above, in one place.</span></a>
   </div>
-</section>
-<section class="wrap" id="before-after">
-  <div class="sect-head">
-    <h2>Same page. Decided.</h2>
-    <p class="lead">What an agent makes by default, then the same job after slopless. Drag the handle to compare.</p>
-  </div>
-  <!--PAIR:land-->
-  <p class="hint">Left: a centred hero, a pill badge, three identical cards and a soft indigo button. Right: the product's own timetable and one clear action.</p>
 </section>
 </main>
 
 <!--FOOTER-->
 
 <!--GSAP-->
-<!--SCENE-->
 <!--MOTION-->
 <!--COMMON-->
 <!--HOME-->

@@ -1,7 +1,7 @@
 // Builds ../docs/index.html (story) and ../docs/explore.html (toolbox): each one self-contained (fonts, GSAP, scripts inlined).
 import { readFileSync, writeFileSync } from 'node:fs';
 import { build } from 'esbuild';
-import { KB, GALLERIES, EFFECTS, READING, PROMPTS, REPO, SOURCES, JOBS } from './src/data.mjs';
+import { KB, GALLERIES, EFFECTS, READING, PROMPTS, START, REPO, SOURCES, JOBS } from './src/data.mjs';
 import { getIcon, styleSvg } from '../slopless/scripts/assets.mjs';
 
 const read = (p) => readFileSync(new URL(p, import.meta.url));
@@ -13,7 +13,6 @@ const fonts = `
 const bundle = async (file, extra = {}) => (await build({ entryPoints: [new URL(file, import.meta.url).pathname], bundle: true, minify: true, format: 'iife', write: false, target: 'es2020', logLevel: 'error', ...extra })).outputFiles[0].text;
 const inline = (js) => `<script>${js.replace(/<\/script/gi, '<\\/script')}</script>`;
 const js = {
-  SCENE: inline(await bundle('./src/scene.js')),
   UI: inline(await bundle('./src/ui.js')),
   TOOLS: inline(text('./src/tools.js')),
   MOTION: inline(text('./src/motion.js')),
@@ -29,8 +28,7 @@ const ext = (n, u, d) => `<li><a href="${e(u)}" target="_blank" rel="noopener">$
 const kb = KB.map(([g, rows]) => `<div class="kb-group"><h3>${e(g)}</h3>${rows.map(([p, d, w]) => `<div class="kb-row" data-kb><a href="${REPO + p}" target="_blank" rel="noopener">${e(p.replace(/^slopless\//, '').replace(/^references\//, ''))}</a><p>${e(d)}</p><span>${e(w)}</span></div>`).join('')}</div>`).join('');
 const row = ([p, n]) => `<div class="pg-row"><div><p class="cp-src">${e(p)}</p><span>${e(n)}</span></div><button class="cp" type="button" aria-label="Copy prompt: ${e(p.slice(0, 40))}">Copy</button></div>`;
 const prompts = PROMPTS.map(([g, ps]) => `<div class="pg-group"><h3>${e(g)}</h3><div>${ps.map(row).join('')}</div></div>`).join('');
-// Home shows four: a Quick V2, a new page with the interview, brand colours given, and a review.
-const homePrompts = [['Quick V2', 0], ['Web', 2], ['Web', 3], ['Review and modes', 0]].map(([g, i]) => row(PROMPTS.find(([n]) => n === g)[1][i])).join('');
+const homePrompts = START.map(row).join('');
 
 // Icons are fetched once with the skill's own assets.mjs and inlined, so the pages work offline.
 const SETS = [
@@ -52,7 +50,7 @@ try {
 }
 const gallery = rawGallery.replace(/\{\{icon:([\w-]+:[\w-]+)\}\}/g, (_, id) => svgs[id]);
 const iconGrid = SETS.map(([n, p, lic, names]) => `<div class="asset-card"><header><b>${n}</b><span>${lic}</span></header><div class="icons">${names.map((x) => svgs[`${p}:${x}`]).join('')}</div><p class="cap">Prefix <code>${p}:</code> via assets.mjs</p></div>`).join('');
-const devices = `<div class="dev-card"><div class="dev-row"><div class="dev-in"><div class="d-phone"><div>${svgs['lucide:ticket']}</div></div><div class="d-lap"><div>${svgs['lucide:train-front']}</div></div></div></div><div><b>Device frames from real sizes</b><p>iPhone 16 Pro (149.6 by 71.5 mm) and MacBook Air 13 in (304.1 by 215 mm), drawn in CSS at the same scale from the manufacturer dimensions. The screens are the project's own UI, never a flattened mockup image. The size table lives in assets.md.</p></div></div>`;
+const devices = `<div class="dev-card"><div class="dev-row"><div class="dev-in"><div class="d-phone"><div>${svgs['lucide:ticket']}</div></div><div class="d-lap"><div>${svgs['lucide:train-front']}</div></div></div></div><div><b>Phone and laptop frames</b><p>A phone and a laptop, drawn in CSS at true relative size. The screens inside are the project's own UI, never a flattened mockup image. assets.md has the frame details.</p></div></div>`;
 const sources = SOURCES.map(([g, rows]) => `<div class="src-group"><h3>${e(g)}</h3><div>${rows.map(([n, u, l, d]) => `<div class="src-row"><a href="${e(u)}" target="_blank" rel="noopener">${e(n)}</a><span>${e(l)}</span><span>${e(d)}</span></div>`).join('')}</div></div>`).join('');
 const iconStrip = `<div class="icon-strip" aria-hidden="true">${stripIcons.map((id) => svgs[id]).join('')}</div><p class="cap icon-cap">One family (Lucide, ISC licence), one stroke weight, fetched with assets.mjs and inlined.</p>`;
 
@@ -77,10 +75,16 @@ const readsTabs = JOBS.map(([id, n], i) => `<button role="tab" type="button" dat
 const reads = JOBS.map(([id, n, files]) => `<div class="reads-panel" role="tabpanel" id="reads-${id}" aria-labelledby="job-${id}" data-job="${id}" hidden>${STEPS.map(([h, roles, d], k) => `<div class="reads-step"><div><span class="n">Step ${k + 1}</span><h3>${h}</h3><p class="cap">${d}</p></div><div class="reads-grid">${files.filter((f) => roles.split('|').includes(f[1])).map(card).join('')}</div></div>`).join('')}</div>`).join('');
 
 const pair = (id) => gallery.match(new RegExp(`<figure[^>]*data-pair="${id}"[\\s\\S]*?</figure>`))[0];
+// The hero lens reuses the landing pair's two layers (after first, before second) without its handle, tags or input.
+const lensLayers = (() => { const p = pair('land'); return p.slice(p.indexOf('>', p.indexOf('<div class="cmp')) + 1, p.indexOf('<span class="tag l">')); })();
+// Home before/after: one tab per example, each reusing the explore pair markup.
+const BA = [['land', 'Landing page'], ['app', 'App screen'], ['deck', 'Deck slide'], ['post', 'Social post']];
+const beforeAfter = `<div class="tabs" role="tablist" aria-label="Example">${BA.map(([id, n], i) => `<button type="button" role="tab" id="ba-tab-${id}" aria-controls="ba-${id}" aria-selected="${i === 0}" tabindex="${i ? -1 : 0}">${n}</button>`).join('')}</div>` +
+  BA.map(([id], i) => `<div class="ba-panel" role="tabpanel" id="ba-${id}" aria-labelledby="ba-tab-${id}"${i ? ' hidden' : ''}>${pair(id).replace(/class="pair w8"/, 'class="pair wide"').replace(/class="pair w4"/, 'class="pair tall"').replace('value="50"', id === 'land' ? 'value="92"' : 'value="50"')}</div>`).join('');
 const footer = (links) => `<footer>
   <div class="credits">
     <div><b>Standing on</b>Ideas adapted from Impeccable, taste-skill and UI/UX Pro Max, credited in the repository.</div>
-    <div><b>Made with</b>Three.js, GSAP and ScrollTrigger, Bricolage Grotesque and Hanken Grotesk.</div>
+    <div><b>Made with</b>GSAP and ScrollTrigger, Bricolage Grotesque and Hanken Grotesk.</div>
     <div><b>This page</b>Built with slopless and checked by its own scanner. One HTML file, no network requests. ${links}</div>
   </div>
   <p class="bigname" aria-hidden="true">slopless</p>
@@ -97,10 +101,10 @@ ${text('./src/site.css').replace('/*FONTS*/', () => fonts)}
 const fill = (src, map) => Object.entries(map).reduce((h, [k, v]) => h.replace(`<!--${k}-->`, () => v), src);
 const pages = {
   'index.html': fill(text('./src/home.html'), {
-    HEAD: head, GSAP: gsapFull, SCENE: js.SCENE, COMMON: js.COMMON, HOME: js.HOME, UI: js.UI,
-    'PAIR:land': pair('land').replace('class="pair w8"', 'class="pair full"').replace(/\s*<figcaption>[\s\S]*?<\/figcaption>/, '').replace('value="50"', 'value="92"'),
+    HEAD: head, GSAP: gsapFull, COMMON: js.COMMON, HOME: js.HOME, UI: js.UI,
+    LENS: lensLayers, BA: beforeAfter,
     PROMPTS: homePrompts, MOTION: js.MOTION, ICONSTRIP: iconStrip,
-    FOOTER: footer('<a href="explore.html">Explore the toolbox</a>'),
+    FOOTER: footer('<a href="explore.html">Open the explore page</a>'),
   }),
   'explore.html': fill(text('./src/explore.html'), {
     HEAD: head, GSAP: js.GSAP, MOTION: js.MOTION, COMMON: js.COMMON, AGENTS: js.AGENTS, UI: js.UI, TOOLS: js.TOOLS,
