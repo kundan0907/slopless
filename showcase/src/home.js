@@ -51,36 +51,25 @@
     if (still()) { paint(); say(); } else sync();
   }
 
-  // How it works: the active step drives the stage card, and a line draws from the step to the card.
-  // On desktop the section is pinned and scroll progress picks the step; on mobile it is tap to step.
+  // How it works: the card loops through four scenes on a timer, independent of scroll. The line is drawn once when the section enters view.
   const how = document.getElementById('how-flow');
   if (how) {
-    const steps = [...how.querySelectorAll('.step')], lis = steps.map((b) => b.closest('li'));
-    const stage = document.getElementById('how-stage'), scenes = [...stage.querySelectorAll('.scene')];
+    const stage = document.getElementById('how-stage'), card = how.querySelector('.ask-card'), scenes = [...stage.querySelectorAll('.scene')];
+    const dots = [...how.querySelectorAll('.dots button')], text = how.querySelector('.ask-text');
     const svg = how.querySelector('.link'), line = svg.querySelector('.link-line'), head = svg.querySelector('.link-head');
     const opts = scenes[1].querySelector('.ask-opts'), radios = [...opts.querySelectorAll('[role="radio"]')], motionOut = document.getElementById('r-motion');
     const desk = matchMedia('(min-width: 901px)'), reduce = matchMedia('(prefers-reduced-motion: reduce)');
-    const instant = () => reduce.matches || root.dataset.motion === 'still' || !window.gsap;
-    let active = 0, tl = null, near = false, raf = 0, chosen = 0, pin = null, pinned = false, settle = 0;
-    const place = () => { const host = desk.matches ? how : lis[active]; if (stage.parentElement !== host) host.append(stage); };
+    const still = () => reduce.matches || root.dataset.motion === 'still';
+    const instant = () => still() || !window.gsap;
+    const DWELL = [3000, 4000, 3500, 3500], HOLD = 6000;
+    let active = still() ? 1 : 0, hold = 0, tl = null, chosen = 0, timer = 0, hover = false, onScreen = false;
     const route = () => {
       svg.toggleAttribute('hidden', !desk.matches); // SVG elements have no .hidden property
       if (!desk.matches) return;
-      const a = how.getBoundingClientRect(), b = lis[active].getBoundingClientRect(), c = stage.getBoundingClientRect();
+      const a = how.getBoundingClientRect(), b = text.getBoundingClientRect(), c = stage.getBoundingClientRect();
       const x1 = b.right - a.left + 8, y1 = b.top + b.height / 2 - a.top, x2 = c.left - a.left - 12, y2 = c.top + 44 - a.top, dx = Math.max(24, (x2 - x1) * 0.55);
       line.setAttribute('d', `M${x1} ${y1}C${x1 + dx} ${y1} ${x2 - dx} ${y2} ${x2} ${y2}`);
       head.setAttribute('d', `M${x2 + 10} ${y2}l-11 -6.5v13z`);
-    };
-    const draw = (animate) => {
-      route();
-      if (!desk.matches) return;
-      if (window.gsap) gsap.killTweensOf([line, head]);
-      line.style.strokeDasharray = 'none'; line.style.strokeDashoffset = 0; head.style.opacity = 1;
-      if (!animate) return;
-      const len = line.getTotalLength();
-      line.style.strokeDasharray = len;
-      gsap.fromTo(line, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.6, ease: 'power2.out', onComplete: () => { line.style.strokeDasharray = 'none'; } });
-      gsap.fromTo(head, { opacity: 0 }, { opacity: 1, duration: 0.2, delay: 0.45 });
     };
     // Step 2 is a radio group. The report mirrors the pick; the auto-pick of A only applies until the user chooses.
     const select = (k, byUser) => {
@@ -89,6 +78,7 @@
       motionOut.textContent = `Motion ${'ABCD'[k]}`;
       opts.classList.add('settled');
       if (byUser && !instant()) gsap.fromTo(radios[k], { scale: 0.985 }, { scale: 1, duration: 0.4, ease: 'back.out(3)', clearProps: 'transform' });
+      if (byUser) { hold = Date.now() + HOLD; schedule(); }
     };
     radios.forEach((r, k) => r.addEventListener('click', () => select(k, true)));
     opts.addEventListener('keydown', (e) => {
@@ -96,70 +86,74 @@
       if (k < 0 || n === undefined) return;
       e.preventDefault(); const t = (n + 4) % 4; select(t, true); radios[t].focus();
     });
-    // One authored move per step.
+    // One authored move per scene.
     const q = (i, sel) => scenes[i].querySelectorAll(sel);
-    const scene = [
+    const TWEENED = '.bubble,.ask-q,.ask-opt,.mini i,.checks li,.checks svg,.r-row,.was,.arrow';
+    const play = [
       () => gsap.timeline().from(q(0, '.bubble.me'), { y: 16, scale: 0.96, opacity: 0, duration: 0.5, ease: 'power3.out' }).from(q(0, '.bubble.bot'), { y: 12, opacity: 0, duration: 0.45, ease: 'power3.out' }, '+=0.4'),
       () => { opts.classList.remove('settled'); gsap.set(radios, { transition: 'none' }); /* a CSS transition would chase every tween frame */ return gsap.timeline().from(q(1, '.ask-q'), { y: 8, opacity: 0, duration: 0.35 }).from(radios, { y: 10, opacity: 0, duration: 0.4, stagger: 0.1, ease: 'power3.out', clearProps: 'opacity,transform,transition' }, '<0.1').call(() => select(chosen), null, '+=0.35'); },
       () => gsap.timeline().from(q(2, '.mini i'), { scale: 0.6, opacity: 0, transformOrigin: '0 50%', duration: 0.35, stagger: 0.12, ease: 'back.out(1.6)' }).from(q(2, '.checks li'), { x: -12, opacity: 0, duration: 0.3, stagger: 0.35 }, '+=0.1').from(q(2, '.checks svg'), { scale: 0, duration: 0.25, stagger: 0.35, ease: 'back.out(2.4)' }, '<0.15'),
       () => gsap.timeline().from(q(3, '.r-row'), { y: 12, opacity: 0, duration: 0.4, stagger: 0.18, ease: 'power3.out' }).fromTo(q(3, '.was'), { '--s': 0 }, { '--s': 1, duration: 0.4 }, '-=0.1').from(q(3, '.arrow'), { scaleX: 0, duration: 0.3 }, '<'),
     ];
-    // Interruptible: a new step kills whatever is running and goes straight to its own scene. Nothing is queued.
-    const set = (i, force) => {
-      if (i === active && !force) return;
+    const reset = (s) => { s.hidden = true; if (window.gsap) gsap.set([s, ...s.querySelectorAll(TWEENED)], { clearProps: 'all' }); };
+    const mark = () => dots.forEach((d, k) => d.setAttribute('aria-current', k === active));
+    // Interruptible: a new scene kills whatever is running and crossfades from the one on screen. Nothing is queued.
+    const set = (i) => {
+      const prev = active;
+      if (window.gsap) { tl?.kill(); gsap.killTweensOf(scenes); }
       active = i;
-      steps.forEach((b, k) => { b.setAttribute('aria-current', k === i ? 'step' : 'false'); lis[k].classList.toggle('on', k === i); });
-      place();
-      scenes.forEach((s, k) => { s.hidden = k !== i; });
-      tl?.kill();
+      mark();
       // Only the tweened elements: clearProps on inline spans makes GSAP re-insert them in the DOM.
-      if (window.gsap) gsap.set(stage.querySelectorAll('.bubble,.ask-q,.ask-opt,.mini i,.checks li,.checks svg,.r-row,.was,.arrow'), { clearProps: 'all' });
+      scenes.forEach((s, k) => { if (k !== i && (k !== prev || instant())) reset(s); });
+      if (window.gsap) gsap.set([scenes[i], ...scenes[i].querySelectorAll(TWEENED)], { clearProps: 'all' });
+      scenes[i].hidden = false;
       select(chosen);
-      const go = !instant();
-      if (go) tl = scene[i]();
-      draw(go);
+      if (instant()) return;
+      if (prev !== i) {
+        gsap.from(scenes[i], { opacity: 0, duration: 0.45, ease: 'power1.inOut' });
+        gsap.to(scenes[prev], { opacity: 0, duration: 0.45, ease: 'power1.inOut', onComplete: () => reset(scenes[prev]) });
+      }
+      tl = play[i]();
     };
-    // Desktop pin: four equal scroll segments, the step comes from progress, and a flick snaps to a step.
-    const STOPS = [0, 0.25, 0.5, 0.75];
-    const segmentY = (k) => pin.start + (k * 0.25 + 0.002) * (pin.end - pin.start);
-    // A click or focus jumps to that step's segment (no smooth scroll, so no scene flashes past on the way).
-    const pick = (k) => {
-      if (pin && pinned) window.scrollTo({ top: segmentY(k), behavior: 'instant' });
-      set(k);
-    };
-    steps.forEach((b, k) => { b.addEventListener('click', () => pick(k)); b.addEventListener('focus', () => pick(k)); });
-    how.addEventListener('keydown', (e) => {
-      const i = steps.indexOf(document.activeElement), n = { ArrowDown: i + 1, ArrowUp: i - 1 }[e.key];
-      if (i < 0 || !steps[n]) return;
-      e.preventDefault(); steps[n].focus();
-    });
-    if (window.gsap && window.ScrollTrigger) {
-      gsap.registerPlugin(ScrollTrigger);
-      gsap.matchMedia().add('(min-width: 901px) and (min-height: 680px)', () => {
-        pinned = true; how.classList.add('pinned');
-        pin = ScrollTrigger.create({
-          trigger: how, start: 'center center', end: () => '+=' + Math.round(innerHeight * 3), pin: true, anticipatePin: 1, invalidateOnRefresh: true,
-          snap: { snapTo: (v) => (instant() ? v : STOPS.reduce((a, b) => (Math.abs(b - v) < Math.abs(a - v) ? b : a))), duration: { min: 0.2, max: 0.5 }, delay: 0.1, ease: 'power1.inOut' },
-          onUpdate: (self) => {
-            // A fast flick settles before it commits, so scenes do not flash past; slow scrolling commits at once.
-            const i = Math.min(3, Math.floor(self.progress * 4 + 1e-6));
-            clearTimeout(settle);
-            if (i === active || Math.abs(self.getVelocity()) < 700) set(i); else settle = setTimeout(() => set(i), 90);
-            route();
-          },
-        });
-        return () => { pinned = false; pin = null; how.classList.remove('pinned'); };
-      });
-      document.fonts.ready.then(() => ScrollTrigger.refresh());
-      addEventListener('load', () => ScrollTrigger.refresh());
+    // Autoplay: one timer, restarted on every scene change and on every resume. Held while hovered, focused, off screen or hidden.
+    const held = () => hover || !!card.querySelector(':focus-visible') || !onScreen || document.hidden || still();
+    function schedule() {
+      clearTimeout(timer);
+      if (held()) return;
+      timer = setTimeout(() => { set((active + 1) % 4); schedule(); }, Math.max(DWELL[active], hold - Date.now())); // a pick holds the scene for HOLD even across a pause
     }
-    new IntersectionObserver(([e]) => { near = e.isIntersecting; if (near) route(); }, { rootMargin: '200px' }).observe(how);
-    addEventListener('scroll', () => { if (near && !raf) raf = requestAnimationFrame(() => { raf = 0; route(); }); }, { passive: true });
+    const resume = () => schedule();
+    card.addEventListener('pointerenter', () => { hover = true; clearTimeout(timer); });
+    card.addEventListener('pointerleave', () => { hover = false; resume(); });
+    card.addEventListener('focusin', () => { if (card.querySelector(':focus-visible')) clearTimeout(timer); });
+    card.addEventListener('focusout', () => setTimeout(resume));
+    document.addEventListener('visibilitychange', resume);
+    const retune = () => { set(still() ? 1 : active); resume(); }; // Still shows the question scene
+    document.addEventListener('sloplessmotion', retune);
+    reduce.addEventListener('change', retune);
+    dots.forEach((d, k) => d.addEventListener('click', () => { hold = 0; set(k); schedule(); }));
     addEventListener('resize', route);
-    desk.addEventListener('change', () => { place(); draw(false); });
-    place(); document.fonts.ready.then(() => draw(false));
-    // First time the section is on screen, play the active scene once.
-    new IntersectionObserver(([e], o) => { if (e.isIntersecting) { o.disconnect(); set(active, true); } }, { threshold: 0.25 }).observe(how);
+    desk.addEventListener('change', route);
+    let drawn = false;
+    new IntersectionObserver(([e]) => {
+      onScreen = e.isIntersecting;
+      if (onScreen && !drawn) {
+        drawn = true; route();
+        if (desk.matches && !instant()) {
+          const len = line.getTotalLength();
+          line.style.strokeDasharray = len;
+          gsap.fromTo(line, { strokeDashoffset: len }, { strokeDashoffset: 0, duration: 0.7, ease: 'power2.out', onComplete: () => { line.style.strokeDasharray = 'none'; } });
+          gsap.fromTo(head, { opacity: 0 }, { opacity: 1, duration: 0.2, delay: 0.55 });
+        }
+        set(active);
+      }
+      resume();
+    }, { threshold: 0.25 }).observe(card);
+    scenes.forEach((s, k) => { s.hidden = k !== active; });
+    mark();
+    document.fonts.ready.then(route);
+    route();
+    if (window.gsap && window.ScrollTrigger) { document.fonts.ready.then(() => ScrollTrigger.refresh()); addEventListener('load', () => ScrollTrigger.refresh()); }
   }
 
   if (!window.gsap) return;

@@ -54,25 +54,21 @@
 
 <main>
 <section class="wrap" id="how">
-  <div class="sect-head">
-    <h2>How it works.</h2>
-    <p class="lead">For new work, slopless asks before it builds. For existing work, it starts from what you have.</p>
-  </div>
   <div class="ask" id="how-flow">
     <svg class="link" aria-hidden="true" hidden><path class="link-line" d="M0 0"/><path class="link-head" d="M0 0"/></svg>
-    <ol class="steps">
-      <li class="on"><button class="step" type="button" aria-controls="how-stage" aria-current="step"><span class="n">1</span><b>You ask</b><span class="d">Name the job: improve a screen, or build a page, deck or app. Add a link, file or brand colours if you have them.</span></button></li>
-      <li><button class="step" type="button" aria-controls="how-stage" aria-current="false"><span class="n">2</span><b>It interviews you</b><span class="d">A few questions with options A to D and one recommended pick, like the one here. Reply with letters, your own words, or “you pick”. “slopless quick” skips this step.</span></button></li>
-      <li><button class="step" type="button" aria-controls="how-stage" aria-current="false"><span class="n">3</span><b>It builds and checks</b><span class="d">It builds in your stack, looks at the rendered result, and fixes problems such as overflow, low contrast and broken controls before showing you.</span></button></li>
-      <li><button class="step" type="button" aria-controls="how-stage" aria-current="false"><span class="n">4</span><b>It reports back</b><span class="d">Your choices, what changed, and each wording change as before and after. It doubles as the PR description.</span></button></li>
-    </ol>
-    <figure class="stage" id="how-stage" aria-live="polite">
+    <div class="ask-text">
+      <h2>How it works.</h2>
+      <p class="lead">You say what to build or fix. Before it builds, slopless asks a few questions, each with options A to D and a recommended pick.</p>
+      <p>Reply with letters, your own words, or “you pick”. “slopless quick” skips the questions. Then it builds, checks the result and reports every change.</p>
+    </div>
+    <div class="ask-card" id="how-card">
+    <figure class="stage" id="how-stage">
       <div class="scene" data-scene="0">
-        <p class="sr">Step 1, you ask.</p>
+        <p class="sr">You ask.</p>
         <div class="chat"><p class="bubble me">Use slopless. Build a site for Nightrail.</p><p class="bubble bot">Before I build, a few quick questions.</p></div>
       </div>
       <div class="scene" data-scene="1" hidden>
-        <p class="sr">Step 2, it interviews you.</p>
+        <p class="sr">It interviews you.</p>
         <p class="ask-q" id="ask-q">How should the page move?</p>
         <div class="ask-opts settled" role="radiogroup" aria-labelledby="ask-q">
           <button class="ask-opt rec" type="button" role="radio" aria-checked="true" tabindex="0" data-motion="Clean micro-interactions"><span class="ask-k">A</span><span class="ask-t"><b>Clean micro-interactions</b><span>Fast and calm. Suits a product page people revisit.</span></span><em>Recommended</em></button>
@@ -83,7 +79,7 @@
         <p class="ask-more">Next it asks about story, reference sites, brand colours, wording and stack.</p>
       </div>
       <div class="scene" data-scene="2" hidden>
-        <p class="sr">Step 3, it builds and checks.</p>
+        <p class="sr">It builds and checks.</p>
         <div class="mini" aria-hidden="true"><i class="m-nav"></i><i class="m-h"></i><i class="m-h s"></i><i class="m-board"></i><i class="m-btn"></i></div>
         <ul class="checks">
           <li><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Layout at phone and desktop width</li>
@@ -92,7 +88,7 @@
         </ul>
       </div>
       <div class="scene" data-scene="3" hidden>
-        <p class="sr">Step 4, it reports back.</p>
+        <p class="sr">It reports back.</p>
         <div class="report">
           <p class="r-row"><b>Your choices</b><span><span id="r-motion">Motion A</span>, reference Linear, your brand colours</span></p>
           <p class="r-row"><b>2 wording changes</b></p>
@@ -101,6 +97,13 @@
         </div>
       </div>
     </figure>
+    <div class="dots" role="group" aria-label="Walkthrough scenes">
+      <button type="button" aria-controls="how-stage" aria-label="You ask" aria-current="true"></button>
+      <button type="button" aria-controls="how-stage" aria-label="It interviews you" aria-current="false"></button>
+      <button type="button" aria-controls="how-stage" aria-label="It builds and checks" aria-current="false"></button>
+      <button type="button" aria-controls="how-stage" aria-label="It reports back" aria-current="false"></button>
+    </div>
+    </div>
   </div>
 </section>
 

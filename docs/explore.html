@@ -549,28 +549,24 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 .modes-more .cmdbox{margin-top:14px;max-width:560px}
 .modes-link{margin-top:14px}
 .ask{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,500px);gap:clamp(48px,7vw,112px);align-items:start}
-.steps{list-style:none;margin:0;padding:0;display:grid}
-.steps>li{border-top:1px solid color-mix(in srgb,var(--ink) 14%,transparent);min-height:clamp(150px,26vh,260px);display:grid}
-.steps>li:last-child{border-bottom:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
-.step{display:grid;grid-template-columns:44px minmax(0,1fr);gap:6px 16px;align-content:center;align-items:start;width:100%;padding:22px 0;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
-.step .n{grid-row:span 2;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;font:500 15px/1 var(--text);border:1px solid color-mix(in srgb,var(--ink) 30%,transparent);color:color-mix(in srgb,var(--ink) 75%,var(--ground));transition:background-color .35s,color .35s,border-color .35s}
-.step b{font:340 clamp(24px,2vw,30px)/1.1 var(--display);letter-spacing:-0.02em;color:color-mix(in srgb,var(--ink) 62%,var(--ground));transition:color .35s}
-.step .d{font-size:17px;color:var(--muted);max-width:56ch}
-.step:hover b{color:var(--ink)}
-.steps>li.on .step .n{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.steps>li.on .step b{color:var(--ink)}
-.steps>li.on .step .d{color:color-mix(in srgb,var(--ink) 86%,var(--ground))}
-.step:focus-visible{outline-offset:-2px;border-radius:12px}
-.ask.pinned{align-items:center}
-.ask.pinned .steps>li{min-height:0}
-.ask.pinned .stage{position:static}
+.ask-text{display:grid;gap:20px;align-content:start;max-width:46ch;padding-top:8px}
+.ask-text p{font-size:18px;color:var(--muted)}
+.ask-text p.lead{color:var(--ink)}
+.ask-card{display:grid;gap:16px;justify-items:center;min-width:0}
+.dots{display:flex;gap:4px}
+.dots button{position:relative;width:28px;height:28px;border:0;background:none;padding:0;cursor:pointer}
+.dots button::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:99px;background:color-mix(in srgb,var(--ink) 28%,transparent);transition:width .35s,margin .35s,background-color .35s}
+.dots button[aria-current="true"]::after{width:24px;margin-left:-12px;background:var(--accent)}
+.dots button:hover::after{background:color-mix(in srgb,var(--ink) 55%,transparent)}
+.dots button[aria-current="true"]:hover::after{background:var(--accent)}
+.dots button:focus-visible{outline-offset:0;border-radius:8px}
 .link{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:2}
 .link[hidden]{display:none}
 .link-line{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round}
 .link-head{fill:var(--accent)}
-.stage{position:sticky;top:max(24px,calc(50vh - 220px));margin:0;min-height:420px;background:var(--panel);color:var(--panel-ink);border-radius:18px;padding:20px 22px;display:grid;align-content:center;box-shadow:0 24px 60px -30px rgb(0 0 0 / .45);--accent:var(--pa);--accent-ink:var(--pa-ink)}
-.scene{display:grid;gap:12px}
-.scene[hidden]{display:none}
+.stage{width:100%;margin:0;min-height:420px;background:var(--panel);color:var(--panel-ink);border-radius:18px;padding:20px 22px;display:grid;align-content:center;box-shadow:0 24px 60px -30px rgb(0 0 0 / .45);--accent:var(--pa);--accent-ink:var(--pa-ink)}
+.scene{grid-area:1/1;min-width:0;display:grid;gap:12px;align-content:center}
+.scene[hidden]{display:grid;visibility:hidden}
 .sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .chat{display:grid;gap:12px}
 .bubble{max-width:88%;padding:12px 16px;border-radius:18px;font-size:18px;line-height:1.4}
@@ -671,8 +667,8 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
   .palettes{grid-template-columns:repeat(2,minmax(0,1fr))}
   .lang,.use,.fixes,.feel,.assets-note,.modes-more{grid-template-columns:minmax(0,1fr)}
   .ask{grid-template-columns:minmax(0,1fr);gap:0}
-  .steps>li{min-height:0}
-  .stage{position:static;min-height:0;margin:0 0 18px}
+  .ask-text{margin-bottom:28px}
+  .stage{min-height:0}
   .link{display:none}
   .deeper{grid-template-columns:repeat(2,minmax(0,1fr))}
   .fixes li{grid-template-columns:1fr}
