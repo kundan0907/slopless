@@ -54,13 +54,45 @@
 <section class="wrap" id="how">
   <div class="sect-head">
     <h2>How it works.</h2>
+    <p class="lead">For new work, slopless asks before it builds. For existing work, it starts from what you have.</p>
   </div>
   <ol class="steps">
-    <li><span class="n">1</span><b>Inspect</b><p>For existing work, Quick starts from your content and the real screen. New work resolves missing story and taste decisions.</p></li>
-    <li><span class="n">2</span><b>Improve</b><p>Quick makes a clear visual upgrade and checks it before and after. Standard and Deep explore a new direction when the job needs one.</p></li>
-    <li><span class="n">3</span><b>Check</b><p>It checks the rendering, content and controls, repairs concrete problems, and remembers your explicit preferences.</p></li>
+    <li><span class="n">1</span><b>You ask</b><p>Name the job: improve a screen, or build a page, deck or app. Add a link, file or brand colours if you have them.</p></li>
+    <li><span class="n">2</span><b>It interviews you</b><p>A few questions, each with options A to D and one marked Recommended. “slopless quick” skips them; “you pick” accepts every recommendation.</p></li>
+    <li><span class="n">3</span><b>It builds and checks</b><p>It builds on your stack, renders the result, and repairs concrete problems before you see it.</p></li>
+    <li><span class="n">4</span><b>It reports</b><p>Your choices, what changed, and every content change as before and after. Paste it into the PR.</p></li>
   </ol>
-  <p class="after-steps">Say “slopless quick” for a focused V2. No manual project setup; browser downloads, when needed, are cached automatically. Helpers stay opt-in.</p>
+  <div class="ask">
+    <div class="ask-intro">
+      <h3>A question, as you would see it.</h3>
+      <p>Options are written for your project, not picked from a generic menu. Reply with letters like <code>1A 2C</code>, your own words, or “you pick”.</p>
+    </div>
+    <figure class="ask-card">
+      <p class="ask-q" id="ask-q">How should the page move?</p>
+      <ol class="ask-opts" aria-labelledby="ask-q">
+        <li class="rec"><span class="ask-k">A</span><div><b>Clean micro-interactions</b><span>Hover, press and reveal feedback. Fast and calm, and it suits a product page people revisit.</span></div><em>Recommended</em></li>
+        <li><span class="ask-k">B</span><div><b>Cinematic scroll story</b><span>Pinned scenes; the product travels through each section.</span></div></li>
+        <li><span class="ask-k">C</span><div><b>Spatial 3D</b><span>A real 3D object or shader stage. Heaviest, most memorable.</span></div></li>
+        <li><span class="ask-k">D</span><div><b>Still</b><span>No motion beyond focus and hover.</span></div></li>
+      </ol>
+      <figcaption>Sample question. Narrative, motion, reference sites, brand colours, copy and stack get the same treatment.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="wrap" id="references">
+  <div class="sect-head">
+    <h2>Learns from the best.</h2>
+    <p class="lead">Before it builds, slopless offers three sites that fit your brief and says what to borrow: pacing, type scale, one interaction. It never clones a layout, copy or brand.</p>
+  </div>
+  <div class="feel">
+    <div><b>Product precision</b><span>Dense, exact, the product as the hero.</span><p>Linear, Stripe, Vercel</p></div>
+    <div><b>Cinematic and 3D</b><span>Scroll-driven scenes and tactile physics.</span><p>Lusion, Igloo, Apple</p></div>
+    <div><b>Editorial</b><span>Type and content lead, calm pacing.</span><p>Stripe Press, Pentagram, Collins</p></div>
+    <div><b>Playful craft</b><span>Interaction detail and springy motion.</span><p>Rauno, Family, Teenage Engineering</p></div>
+    <div><b>Brand and commerce</b><span>Warm, photographic, product as object.</span><p>Nothing, Aesop, Rivian</p></div>
+    <a href="https://github.com/kundan0907/slopless/blob/main/slopless/references/sites.md" target="_blank" rel="noopener"><b>See all reference sites →</b><span>About 40 sites by feel, plus galleries and component libraries.</span></a>
+  </div>
 </section>
 
 <section class="wrap" id="fixes">
@@ -78,7 +110,15 @@
     <li><s>The same default font everywhere</s><span>Type picked on purpose</span></li>
   </ul>
   <!-- slopless-ignore-end -->
-  <!--ICONSTRIP-->
+  <div class="assets-note">
+    <div>
+      <h3>Real icons, fonts and assets.</h3>
+      <p>Icons are real SVGs from five packs: Lucide, Phosphor, Tabler, Heroicons and Remix, fetched through Iconify and kept to one style. Fonts and photos come the same way, with their licences.</p>
+      <div class="cmd"><small>Fetch an icon</small><pre><code>node slopless/scripts/assets.mjs icon lucide:ticket</code></pre><button class="copy" type="button">Copy</button></div>
+      <a class="more" href="explore.html#assets">See the packs, fonts and licences →</a>
+    </div>
+    <div><!--ICONSTRIP--></div>
+  </div>
 </section>
 
 <section class="wrap" id="language">
@@ -109,17 +149,22 @@
   <div class="use">
     <div>
       <h3>Choose your agent</h3>
-      <p class="install-note">Run the installer in your project and choose your coding agent when prompted. The installer requires Node.js 22.20+; you can also copy the skill folder by hand.</p>
+      <div class="cmd"><small>Claude Code plugin: add the marketplace</small><pre><code>/plugin marketplace add kundan0907/slopless</code></pre><button class="copy" type="button">Copy</button></div>
+      <div class="cmd"><small>Then install</small><pre><code>/plugin install slopless@slopless</code></pre><button class="copy" type="button">Copy</button></div>
+      <p class="install-note">Turn on auto-update once under /plugin, Marketplaces, slopless, and new versions arrive at the start of each session.</p>
       <div class="cmd"><small>Any agent that reads skills</small><pre><code>npx skills add kundan0907/slopless</code></pre><button class="copy" type="button">Copy</button></div>
+      <p class="install-note">The installer asks which coding agent to use and requires Node.js 22.20+.</p>
       <div class="cmd"><small>Claude Code, by hand</small><pre><code>git clone https://github.com/kundan0907/slopless
 mkdir -p ~/.claude/skills
 cp -r slopless/slopless ~/.claude/skills/</code></pre><button class="copy" type="button">Copy</button></div>
-      <div class="cmd"><small>Codex and others</small><pre><code>git clone https://github.com/kundan0907/slopless
+      <div class="cmd"><small>Codex and others, by hand</small><pre><code>git clone https://github.com/kundan0907/slopless
 mkdir -p ~/.agents/skills
 cp -r slopless/slopless ~/.agents/skills/</code></pre><button class="copy" type="button">Copy</button></div>
+      <h3 class="sub">Updating</h3>
+      <div class="cmd"><small>Installed with npx skills</small><pre><code>npx skills update slopless</code></pre><button class="copy" type="button">Copy</button></div>
     </div>
     <div>
-      <h3>Then ask</h3>
+      <h3>Start building, or improve what you have</h3>
       <!--PROMPTS-->
     </div>
   </div>

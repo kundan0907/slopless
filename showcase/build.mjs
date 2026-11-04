@@ -29,8 +29,8 @@ const ext = (n, u, d) => `<li><a href="${e(u)}" target="_blank" rel="noopener">$
 const kb = KB.map(([g, rows]) => `<div class="kb-group"><h3>${e(g)}</h3>${rows.map(([p, d, w]) => `<div class="kb-row" data-kb><a href="${REPO + p}" target="_blank" rel="noopener">${e(p.replace(/^slopless\//, '').replace(/^references\//, ''))}</a><p>${e(d)}</p><span>${e(w)}</span></div>`).join('')}</div>`).join('');
 const row = ([p, n]) => `<div class="pg-row"><div><p class="cp-src">${e(p)}</p><span>${e(n)}</span></div><button class="cp" type="button" aria-label="Copy prompt: ${e(p.slice(0, 40))}">Copy</button></div>`;
 const prompts = PROMPTS.map(([g, ps]) => `<div class="pg-group"><h3>${e(g)}</h3><div>${ps.map(row).join('')}</div></div>`).join('');
-// Home shows one prompt each for deck, web, app and graphic.
-const homePrompts = ['Deck', 'Web', 'App', 'Graphic'].map((g) => row(PROMPTS.find(([n]) => n === g)[1][0])).join('');
+// Home shows four: a Quick V2, a new page with the interview, brand colours given, and a review.
+const homePrompts = [['Quick V2', 0], ['Web', 2], ['Web', 3], ['Review and modes', 0]].map(([g, i]) => row(PROMPTS.find(([n]) => n === g)[1][i])).join('');
 
 // Icons are fetched once with the skill's own assets.mjs and inlined, so the pages work offline.
 const SETS = [

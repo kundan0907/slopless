@@ -94,6 +94,8 @@ export const PROMPTS = [
   ['Web', [
     ['Use slopless to redesign this landing page. Keep every word. It looks like every other AI site.', 'Scan and screenshots first, then a scored critique and one batch of fixes.'],
     ['slopless, portfolio for a motion designer. Moss Paper, subtle motion. One signature interaction that is about her craft.', 'Palette and motion level given up front, so the interview skips them.'],
+    ['Use slopless to build a landing page for our invoicing app. Interview me first.', 'Standard route: tailored A to D questions, then the build and a report.'],
+    ['Use slopless to build a landing page for Fieldnote. Brand colours are #1B3A2F and #E8B04A, logo attached. Keep my copy.', 'Brand colours stay exact; the interview skips what you already answered.'],
   ]],
   ['App', [
     ['Use slopless on this onboarding screen for iOS. 390 by 844, dark and light, add empty and error states.', 'Loads the app surface file: platform fit, states, both themes.'],
