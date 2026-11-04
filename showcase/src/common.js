@@ -1,6 +1,7 @@
 // Palette picker shared by both pages. Persists the choice and tells the hero scene (home only) to redraw.
 (() => {
   const PALETTES = [
+    ['klein', 'Klein', 'Drenched', '#1D2BD6', '#F5F4EE', '#F5F4EE', '#121A8C', '#C9CCF2'],
     ['obsidian', 'Obsidian Brass', 'Restrained dark', '#0B0C0F', '#ECE8E1', '#D6AE6B', '#15171B', '#9C978E'],
     ['vermilion', 'Vermilion', 'Drenched', '#E4401E', '#140B08', '#140B08', '#16100D', '#1F0A05'],
     ['glacier', 'Glacier', 'Restrained light', '#EDF1F4', '#16202A', '#2C5A88', '#FFFFFF', '#55626F'],
@@ -10,7 +11,6 @@
     ['cobalt', 'Porcelain Cobalt', 'Committed light', '#F6F6F3', '#0D1430', '#2340D6', '#FFFFFF', '#4A5170'],
     ['oxblood', 'Oxblood', 'Drenched dark', '#2B0E13', '#F4E7E0', '#F0B79F', '#3A151B', '#C9A79F'],
     ['blueprint', 'Blueprint Slate', 'Full palette', '#0B1220', '#E6EDF7', '#3DDC97', '#121B2D', '#8C9AB0'],
-    ['klein', 'Klein', 'Drenched', '#1D2BD6', '#F5F4EE', '#F5F4EE', '#121A8C', '#C9CCF2'],
   ].map(([id, name, strategy, ground, ink, accent, panel, muted]) => ({ id, name, strategy, ground, ink, accent, panel, muted }));
 
 

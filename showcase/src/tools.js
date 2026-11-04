@@ -20,7 +20,7 @@ const PAL = () => window.sloplessPalettes || [];
     { id: 'mat', part: 2, q: 'What should it feel like?', opts: [['Flat ink', 'flat ink'], ['Paper and matte', 'paper and matte'], ['Frosted glass', 'frosted glass'], ['Atmospheric', 'atmospheric'], ['Blueprint lines', 'blueprint lines'], ['Photography-led', 'photography-led']], rec: 1 },
     { id: 'pal', part: 2, q: 'Pick a palette', palette: true },
   ];
-  const A = { what: 1, aud: 1, line: '', hero: 0, mood: 2, mat: 1, pal: document.documentElement.dataset.palette || 'obsidian' };
+  const A = { what: 1, aud: 1, line: '', hero: 0, mood: 2, mat: 1, pal: document.documentElement.dataset.palette || 'klein' };
   let i = 0;
   const box = $('#iv'), prog = $('#iv-prog');
   const back = () => (i ? '<button class="btn btn-ghost" type="button" data-back>Back</button>' : '');
