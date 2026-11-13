@@ -38,3 +38,7 @@ Calibration: generated work clusters around a few looks: cream ground + serif + 
 ## 5. Record it
 
 Write the direction into the brief (`brief.md`) and the durable parts (palette, type, material, motion level, signature move, what was rejected and why) into `.slopless/DESIGN.md`. Never ship this text inside the artifact.
+
+## Taste calibration and approval
+
+Before recording the direction, apply `run-contract.md#direction-approved`. When World is thin, inspect an accessible real reference from `reel-learnings.md#reel-3-taste`, name the observed difference and record the product-specific adaptation. A supplied brief or delegated choice can authorize direction without another question; an inferred preference cannot.

@@ -7,6 +7,10 @@ description: Improve an existing UI or HTML deck, or design a new website, app s
 
 Make the subject clear, distinctive and useful. Preserve the user's facts, intent and chosen identity. More effects and more process do not mean better design.
 
+**Every route follows the same execution contract:** Audit → Direction (approved) → Spacing → Color → Icons → Copy → Type → Layout → Details → Visuals → Motion → Checklist → Report. Read `references/run-contract.md` before acting; it defines evidence, preservation, approval and completion. `references/reel-learnings.md` holds the source map and the launch, motion and taste learnings; load its relevant section at the linked pass. These additions govern ordering, timing and release gates where older route/reference guidance is broader. Existing routes still set scope and effort.
+
+unslop was created by Damir Sokolovsky (@heydamir), CC BY 4.0. The nine-pass and preservation additions adapt that work; source revisions and notices are in `references/reel-learnings.md`.
+
 ## Understand first; put function and UI/UX first
 
 Before building, understand the supplied content, audience, task, existing design language and intended viewing conditions. Use Linear and Apple Notes as references for clear hierarchy and purposeful interaction, not as a compulsory minimal aesthetic. The main task should be evident from layout and real content.
@@ -36,9 +40,13 @@ Read relevant existing source and any taste memory (`~/.slopless/taste.md`, proj
 
 Quick must make a visible, useful difference within the requested scope. Spend less time on setup, alternatives and repetition while retaining deliberate design and visual verification. If a Quick request has no existing artifact, make the smallest new result using Standard.
 
+First apply the Audit preservation gate in `references/run-contract.md`: no confirmed defect means preserve, not manufacture a different V2. Quick compresses the evidence record; Review applies the ordered passes read-only. Neither route skips the contract.
+
 Open with one short line that sets the tone: the route and what happens next ("Standard: a few quick choices first, then I build and show you the result."). Standard and Deep always interview the user with A–D options and a recommended pick before building (`references/interview.md`), unless the user said quick, said "you pick", or the brief already answers every question. Quick and Review never interview; they ask only about a consequential missing decision.
 
 ## Design loop (Standard and Deep)
+
+Direction uses the taste-calibration and approval record in `references/run-contract.md#direction-approved`. The Build step executes its nine passes in order. Pass 8 reads `references/reel-learnings.md#reel-1-stageshow` for faux product UI or launch visuals; pass 9 checks all 20 principles through `references/motion.md#motion-contract`. Verification ends with the contract checklist and scored gate; missing rendering means `recapture`, never visually done.
 
 1. **Interview.** Read the brief and source, then run `references/interview.md`: tailored A–D options with a recommended pick for narrative, motion, reference feel (`references/sites.md`), brand/palette, copy authority and constraints. Skip what is already answered. End with the playback.
 2. **Decide.** Load `references/direction.md` and `references/storytelling.md`. Choose the idea, hierarchy and material before effects. Consult `palettes.md`, `type.md`, `layout.md` or `motion.md` only for decisions still open. A user's exact palette beats a suggested mood. Record project decisions in `.slopless/DESIGN.md` when useful.

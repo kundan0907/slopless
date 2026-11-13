@@ -35,3 +35,31 @@ test('ignore markers exclude deliberate examples', () => {
   const src = `<h1>Ship it</h1><!-- slopless-ignore-start --><p>🚀 Unlock seamless</p><!-- slopless-ignore-end -->`;
   assert.deepEqual(rules(src), []);
 });
+
+
+test('motion cap catches 300ms and seconds, excluding delays and unrelated CSS', () => {
+  for (const value of ['opacity 300ms ease', 'opacity .4s ease', 'enter 700ms ease']) {
+    assert.ok(rules(`<style>.item{transition:${value}}</style>`).includes('FAIL:motion-duration'), value);
+  }
+  assert.ok(rules('<style>.item{animation-duration:0.3s,120ms}</style>').includes('FAIL:motion-duration'));
+  assert.deepEqual(rules('<style>.item{transition:opacity 240ms ease 700ms;animation:enter 200ms ease 500ms;transition-delay:900ms;width:300px}</style>'), []);
+});
+
+test('motion path catches authored straight travel, preserves curved paths and reports unresolved times', () => {
+  assert.ok(rules(`<style>.item{offset-path:path('M0 0 L100 100')}</style>`).includes('FAIL:motion-straight-path'));
+  assert.deepEqual(rules(`<style>.item{offset-path:path('M0 0 Q50 -20 100 100');transition:offset-distance 240ms ease}</style>`), []);
+  assert.ok(rules('<style>.item{transition-duration:var(--motion-base)}</style>').includes('WARN:motion-unresolved'));
+});
+
+test('motion candidates ignore CSS comments and defer variable fallbacks to computed measurement', () => {
+  assert.deepEqual(rules('/* transition: opacity 700ms */ .item{transition:opacity 100ms}', '.css'), []);
+  const r = rules('.item{--duration:120ms;transition:opacity var(--duration,500ms)}', '.css');
+  assert.ok(r.includes('WARN:motion-unresolved'));
+  assert.ok(!r.includes('FAIL:motion-duration'));
+});
+
+test('motion declarations exclude quoted CSS examples and JavaScript line comments', () => {
+  assert.deepEqual(rules('.item{--example:"transition: opacity 700ms"}', '.css'), []);
+  assert.deepEqual(rules('// transition: opacity 700ms\nexport const n = 1;', '.js'), []);
+  assert.ok(rules('const Widget = styled.div`transition:opacity 400ms`;', '.tsx').includes('WARN:motion-duration'));
+});

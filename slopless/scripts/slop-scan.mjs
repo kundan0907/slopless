@@ -71,6 +71,22 @@ export function scan(src, ext) {
   if (ctas.length) add('WARN', 'weak-cta', `generic action label: ${ctas.join(', ')}`);
   const dashes = count(/—/g, text);
   if (dashes > 6) add('WARN', 'em-dash', `${dashes} em dashes`);
+  // Motion candidates need rendered confirmation; delays are not animation duration.
+  const motionCss = css.replace(/\/\*[\s\S]*?\*\//g, ' ');
+  const declarations = motionCss.replace(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, '""').replace(/\/\/[^\n]*/g, '');
+  const motionLevel = ['.html', '.htm', '.css', '.scss'].includes(ext) ? 'FAIL' : 'WARN';
+  for (const m of declarations.matchAll(/(?<![\w-])(transition(?:-duration)?|animation(?:-duration)?)\s*:\s*([^;{}]+)/gi)) {
+    const durationOnly = m[1].endsWith('-duration');
+    for (const part of m[2].split(/,(?![^()]*\))/)) {
+      if (/\b(?:var|calc|env)\(/i.test(part)) { add('WARN', 'motion-unresolved', `measure computed duration: ${part.trim()}`); continue; }
+      const times = [...part.matchAll(/(?<![\w.-])((?:\d*\.)?\d+)(ms|s)\b/gi)];
+      const durations = durationOnly ? times : times.slice(0, 1);
+      if (durations.some((t) => Number(t[1]) * (t[2].toLowerCase() === 's' ? 1000 : 1) >= 300)) add(motionLevel, 'motion-duration', `${m[1]} must be under 300ms: ${part.trim()}`);
+    }
+  }
+  for (const m of motionCss.matchAll(/offset-path\s*:\s*path\(\s*["']([^"']*)["']/gi)) {
+    if (/[lhv]/i.test(m[1]) && !/[cqast]/i.test(m[1])) add(motionLevel, 'motion-straight-path', 'authored travel uses only straight path segments; use an arc');
+  }
   return out;
 }
 

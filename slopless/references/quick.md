@@ -33,3 +33,7 @@ For a CSS-only deck restyle, use one presentation size, visually inspect the rep
 No new slide engine, framework, font download, autoplay, WebGL scene or extra presenter features unless requested or necessary to fix the reported problem. No automatic subagents. Do not refetch assets that already work offline. If a wider redesign is needed, ship the bounded improvement and name the remaining limitation; do not silently switch modes.
 
 A quick check without editing is Review, not V2. A visually unverified result must be labelled as such. Never claim all slides or states were inspected when only samples were checked.
+
+## Contract integration
+
+Use `run-contract.md` for Audit → approved Direction → nine ordered passes → Checklist → Report. A good screen stays unchanged. Up to three fixes limits edits, not the lenses checked; preserved passes take one evidence line. Review-only stays read-only. No mandatory external research tour: an inspected existing brand or supplied reference can calibrate a local repair.

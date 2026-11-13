@@ -191,3 +191,11 @@ docs/                the two built pages and README images
 slopless adapts ideas, in its own words, from [Impeccable](https://github.com/pbakaus/impeccable) (Apache-2.0), [taste-skill](https://github.com/leonxlnx/taste-skill) (MIT) and [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) (MIT). See [NOTICE](NOTICE). The showcase uses Three.js (MIT), GSAP (free under its standard licence), and Bricolage Grotesque and Hanken Grotesk (SIL OFL 1.1).
 
 MIT licensed.
+
+## Deterministic run contract
+
+Every route now uses Audit → approved Direction → nine ordered passes (Spacing, Color, Icons, Copy, Type, Layout, Details, Visuals, Motion) → Checklist → Report. Quick compresses the work; Review keeps it read-only. A good screen stays unchanged. The [run contract](slopless/references/run-contract.md) defines measurable checks, direction authority and a rendered five-dimension review gate.
+
+Launch visuals get a plan, settled poster and frame rehearsal. Authored UI animation completes under 300ms, spatial travel follows arcs, and visible acknowledgment starts under 400ms. [Motion decisions](slopless/references/motion.md#motion-contract) cover all twenty principles, shared tokens, reduced motion and frequent actions. Missing rendering or required playback yields `recapture`, with an explicit unverified list.
+
+[Reel learnings and pinned sources](slopless/references/reel-learnings.md) separate supplied observations from independently inspected repositories. unslop was created by Damir Sokolovsky (@heydamir), CC BY 4.0. The nine-pass method is adapted here; original skill lines and frontmatter remain unchanged.

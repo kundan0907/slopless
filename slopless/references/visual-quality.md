@@ -17,3 +17,7 @@ Record up to three concrete defects with view/state and evidence. Fix in one bat
 A scanner detects certain source patterns; it cannot establish visual quality, semantic content preservation or accessibility conformance. Do not treat 0 findings as approval. Scores are optional and require rendered evidence; explain the defect rather than inventing precision.
 
 Sources: [NN/g visual-design principles](https://www.nngroup.com/articles/principles-visual-design/) inform scale, hierarchy and grouping; [progressive disclosure](https://www.nngroup.com/articles/progressive-disclosure/) informs keeping specialist controls secondary without hiding frequent tasks. These are design inputs, not a certification of the result.
+
+## Evidence-linked completion
+
+These five critique lenses feed the scored gate in `run-contract.md#checklist-and-scored-gate`; they do not replace or reorder the nine implementation passes. Use its explicit score anchors after rendered inspection and report missing evidence without an aesthetic verdict.

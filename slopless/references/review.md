@@ -23,3 +23,7 @@ State verdict (ship / fix first / rethink direction), the top findings, checks p
 - **Quieter:** reduce competing effects and noise, preserve informative distinctions.
 - **Distill:** simplify grouping and sequencing; cutting copy or sections still requires authorization.
 - **Harden:** exercise relevant empty/error/loading states, long text, keyboard, themes, slow network and actual device behavior.
+
+## Required evidence gate
+
+Apply `run-contract.md#checklist-and-scored-gate` on every route. Its evidence-linked five-dimension rubric supplies the compact score after rendered inspection; missing rendering or required playback yields `recapture` and an unverified score. The nine passes are read-only lenses during Review. Source scanner candidates require contextual confirmation; skipped checks never count as passed.

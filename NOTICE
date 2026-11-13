@@ -11,3 +11,12 @@ Showcase (docs/index.html) bundles:
 - three.js — MIT License — https://github.com/mrdoob/three.js
 - GSAP and ScrollTrigger — GreenSock standard "no charge" licence — https://gsap.com/standard-license
 - Bricolage Grotesque, Hanken Grotesk — SIL Open Font License 1.1 — via Google Fonts
+
+Deterministic run-contract additions adapt the following sources; the original notice above describes the pre-existing material. New adaptation details and third-party notices are in slopless/references/reel-learnings.md.
+
+- unslop — https://github.com/heydamir/unslop — CC BY 4.0.
+  unslop was created by Damir Sokolovsky (@heydamir), CC BY 4.0. Adapted nine-pass order, preservation gate and direction method; changes add route integration and evidence criteria. License: https://creativecommons.org/licenses/by/4.0/ . No warranties are given.
+- unslop-skills — https://github.com/sinhanaman2701/unslop-skills — MIT (Naman Sinha); its unslop-design material retains CC BY 4.0 provenance.
+  Adapted named motion roles and the separation of deterministic candidate scanning from evidence-based review; the local 20-point rubric is distinct from its 100-point rubric.
+- stageshow — https://github.com/benjitaylor/skills — MIT (Benji Taylor).
+  Adapted launch-visual planning, framing, poster and rehearsal methods; no kit assets or source scripts are bundled.
