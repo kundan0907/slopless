@@ -26,14 +26,20 @@ function hueSat(hex) {
 const isViolet = (hex) => { const { hue, sat } = hueSat(hex); return hue >= 245 && hue <= 300 && sat > 0.35; };
 
 // Separate styling from visible text so copy rules don't fire on CSS and vice versa.
+const blank = (m) => m.replace(/[^\n]+/g, ' '); // drop the text, keep its line breaks so findings can cite a line
 function split(src, ext) {
-  src = src.replace(/slopless-ignore-start[\s\S]*?slopless-ignore-end/g, ' '); // deliberate "before" examples
+  src = src.replace(/slopless-ignore-start[\s\S]*?slopless-ignore-end/g, blank); // deliberate "before" examples
   src = src.replace(/data:[^"')\s]{80,}/g, 'data:…'); // keep authored content even when its HTML is minified
   if (ext === '.css' || ext === '.scss') return { css: src, text: '' };
   if (ext === '.md' || ext === '.mdx') return { css: '', text: src.replace(/```[\s\S]*?```/g, '').replace(/`[^`]*`/g, '') };
   if (ext === '.html' || ext === '.htm') {
-    src = src.replace(/<(script|pre|code)\b[^>]*>[\s\S]*?<\/\1>/gi, ' ');
-    const css = [...src.matchAll(/<style[^>]*>([\s\S]*?)<\/style>|\bstyle=(?:"([^"]*)"|'([^']*)')/gi)].map((m) => m[1] || m[2] || m[3]).join('\n');
+    src = src.replace(/<(script|pre|code)\b[^>]*>[\s\S]*?<\/\1>/gi, blank);
+    let at = 0;
+    const css = [...src.matchAll(/<style[^>]*>([\s\S]*?)<\/style>|\bstyle=(?:"([^"]*)"|'([^']*)')/dgi)].map((m) => {
+      const [from, to] = m.indices[1] || m.indices[2] || m.indices[3];
+      const pad = src.slice(at, from).replace(/[^\n]+/g, ''); at = to;
+      return pad + src.slice(from, to);
+    }).join(';');
     const text = src.replace(/<(script|style|pre|code)[^>]*>[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&[a-z]+;/g, ' ');
     return { css, text };
   }
@@ -46,7 +52,8 @@ export function scan(src, ext) {
   const { css, text } = split(src, ext);
   const lower = text.toLowerCase();
   const out = [];
-  const add = (level, rule, msg) => out.push({ level, rule, msg });
+  const add = (level, rule, msg, line) => out.push(line ? { level, rule, msg, line } : { level, rule, msg });
+  const lineAt = (s, i) => s.slice(0, i).split('\n').length;
 
   const grads = css.match(/(linear|radial|conic)-gradient\([^;{}]*\)/gi) || [];
   const violet = grads.filter((g) => (g.match(/#[0-9a-f]{3,8}\b/gi) || []).some(isViolet)).length + count(/\b(from|via|to)-(purple|violet|indigo|fuchsia)-\d{2,3}\b/g, css);
@@ -72,20 +79,22 @@ export function scan(src, ext) {
   const dashes = count(/—/g, text);
   if (dashes > 6) add('WARN', 'em-dash', `${dashes} em dashes`);
   // Motion candidates need rendered confirmation; delays are not animation duration.
-  const motionCss = css.replace(/\/\*[\s\S]*?\*\//g, ' ');
+  const motionCss = css.replace(/\/\*[\s\S]*?\*\//g, blank);
   const declarations = motionCss.replace(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, '""').replace(/\/\/[^\n]*/g, '');
   const motionLevel = ['.html', '.htm', '.css', '.scss'].includes(ext) ? 'FAIL' : 'WARN';
   for (const m of declarations.matchAll(/(?<![\w-])(transition(?:-duration)?|animation(?:-duration)?)\s*:\s*([^;{}]+)/gi)) {
-    const durationOnly = m[1].endsWith('-duration');
+    const durationOnly = m[1].endsWith('-duration'), line = lineAt(declarations, m.index);
     for (const part of m[2].split(/,(?![^()]*\))/)) {
-      if (/\b(?:var|calc|env)\(/i.test(part)) { add('WARN', 'motion-unresolved', `measure computed duration: ${part.trim()}`); continue; }
       const times = [...part.matchAll(/(?<![\w.-])((?:\d*\.)?\d+)(ms|s)\b/gi)];
+      // A literal time before any var()/calc() is the duration; the function after it is easing or delay.
+      const fn = part.search(/\b(?:var|calc|env)\(/i);
+      if (fn >= 0 && (durationOnly || !times.length || fn < times[0].index)) { add('WARN', 'motion-unresolved', `measure computed duration: ${part.trim()}`, line); continue; }
       const durations = durationOnly ? times : times.slice(0, 1);
-      if (durations.some((t) => Number(t[1]) * (t[2].toLowerCase() === 's' ? 1000 : 1) >= 300)) add(motionLevel, 'motion-duration', `${m[1]} must be under 300ms: ${part.trim()}`);
+      if (durations.some((t) => Number(t[1]) * (t[2].toLowerCase() === 's' ? 1000 : 1) >= 300)) add(motionLevel, 'motion-duration', `${m[1]} must be under 300ms: ${part.trim()}`, line);
     }
   }
   for (const m of motionCss.matchAll(/offset-path\s*:\s*path\(\s*["']([^"']*)["']/gi)) {
-    if (/[lhv]/i.test(m[1]) && !/[cqast]/i.test(m[1])) add(motionLevel, 'motion-straight-path', 'authored travel uses only straight path segments; use an arc');
+    if (/[lhv]/i.test(m[1]) && !/[cqast]/i.test(m[1])) add(motionLevel, 'motion-straight-path', 'authored travel uses only straight path segments; use an arc', lineAt(motionCss, m.index));
   }
   return out;
 }
@@ -112,7 +121,7 @@ if (isMain(import.meta.url)) {
     const fails = results.reduce((n, r) => n + r.findings.filter((x) => x.level === 'FAIL').length, 0);
     if (json) console.log(JSON.stringify(results, null, 2));
     else {
-      for (const r of results) for (const x of r.findings) console.log(`${x.level.padEnd(4)} ${r.file}  [${x.rule}] ${x.msg}`);
+      for (const r of results) for (const x of r.findings) console.log(`${x.level.padEnd(4)} ${r.file}${x.line ? `:${x.line}` : ''}  [${x.rule}] ${x.msg}`);
       const warns = results.reduce((n, r) => n + r.findings.filter((x) => x.level === 'WARN').length, 0);
       console.log(`\n${results.length} file(s): ${fails} FAIL, ${warns} WARN — visual review still required`);
     }

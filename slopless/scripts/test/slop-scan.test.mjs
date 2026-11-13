@@ -63,3 +63,15 @@ test('motion declarations exclude quoted CSS examples and JavaScript line commen
   assert.deepEqual(rules('// transition: opacity 700ms\nexport const n = 1;', '.js'), []);
   assert.ok(rules('const Widget = styled.div`transition:opacity 400ms`;', '.tsx').includes('WARN:motion-duration'));
 });
+
+test('a literal duration beside a variable easing is judged, not deferred', () => {
+  assert.deepEqual(rules('.item{transition:transform .16s var(--out)}', '.css'), []);
+  assert.deepEqual(rules('.item{transition:color .5s var(--out)}', '.css'), ['FAIL:motion-duration']);
+  assert.deepEqual(rules('.item{transition:opacity var(--base) ease 500ms}', '.css'), ['WARN:motion-unresolved']);
+});
+
+test('motion findings carry the source line in CSS and HTML', () => {
+  const lines = (src, ext) => scan(src, ext).map((f) => f.line);
+  assert.deepEqual(lines('.a{color:red}\n/* note\n */\n.item{transition:opacity .4s}\n.b{offset-path:path("M0 0 L9 0")}', '.css'), [4, 5]);
+  assert.deepEqual(lines('<p>a</p>\n<script>\nlet a;\n</script>\n<style>\n.a{color:red}\n.item{transition:opacity .4s}</style>\n<i style="transition:width 1s">b</i>', '.html'), [7, 8]);
+});
