@@ -3,7 +3,7 @@
   const LEVELS = [['still', 'Still', 'Hover and press only'], ['subtle', 'Subtle', 'Entrances: rise and fade'], ['cinematic', 'Cinematic', 'The ticket travels between scenes'], ['spatial', 'Spatial', '3D tilt and depth']];
   const HINT = { still: 'Hover and press the ticket. Nothing else moves.', subtle: 'Each part rises and fades in once.', cinematic: 'One ticket travels from the queue to the build to the phone.', spatial: 'Move over the scene: layers sit at different depths.' };
   const root = document.documentElement;
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rm = matchMedia('(prefers-reduced-motion: reduce)');
   const ok = (l) => LEVELS.some((x) => x[0] === l);
   let level = 'cinematic';
   try { const s = localStorage.getItem('slopless:motion'); if (ok(s)) level = s; } catch {}
@@ -17,9 +17,11 @@
     if (!ok(l) || l === level) return;
     level = l; root.dataset.motion = l;
     try { localStorage.setItem('slopless:motion', l); } catch {}
-    sync(); previews.forEach(run);
+    sync(); rerun();
     document.dispatchEvent(new CustomEvent('sloplessmotion', { detail: l }));
   }
+  // The toolbox re-renders its panel on every level change; drop previews that left the page.
+  function rerun() { previews.forEach((p) => (p.isConnected ? run(p) : previews.delete(p))); }
   function fill(box) {
     box.innerHTML = LEVELS.map(([id, n, d]) => `<button type="button" class="opt" data-level-btn="${id}" aria-pressed="false"><span>${n}</span><small>${d}</small></button>`).join('');
     sync();
@@ -29,7 +31,7 @@
   function html() {
     return `<div class="mpv-stage"><div class="mpv-world">
       <span class="mpv-zone" style="left:16.67%">Queue</span><span class="mpv-zone" style="left:50%">Build</span><span class="mpv-zone" style="left:83.33%">Phone</span>
-      <div class="mpv-slot" style="left:50%"><div class="mpv-card"><b>Build 214</b><small>Checks running</small><div class="bar"><i></i></div></div></div>
+      <div class="mpv-slot" style="left:50%;z-index:3"><div class="mpv-card"><b>Build 214</b><small>Checks running</small><div class="bar"><i></i></div></div></div>
       <div class="mpv-slot" style="left:83.33%"><div class="mpv-phone"><div class="mpv-scr"><b class="done">Released</b><small>Phone</small></div></div></div>
       <div class="mpv-slot" style="left:16.67%;z-index:2"><div class="mpv-ticket" tabindex="0"><b>Checkout bug</b><small>Ticket 4821</small></div></div>
     </div></div>
@@ -37,13 +39,12 @@
   }
 
   function run(p) {
-    const q = (s) => p.querySelector(s), g = window.gsap, stage = q('.mpv-stage'), world = q('.mpv-world');
-    const [card, phone, ticket] = ['.mpv-card', '.mpv-phone', '.mpv-ticket'].map(q), bar = q('.bar i');
-    p.tl?.kill(); p.dataset.level = level; delete p.dataset.done;
+    const q = (s) => p.querySelector(s), g = window.gsap, world = q('.mpv-world');
+    const [card, phone, ticket] = ['.mpv-card', '.mpv-phone', '.mpv-ticket'].map(q), bar = q('.bar i'), status = q('.mpv-card small'), reduced = rm.matches;
+    p.tl?.kill(); p.tl = null; p.dataset.level = level; delete p.dataset.done; status.textContent = 'Checks running';
     q('.mpv-hint').textContent = HINT[level] + (reduced ? ' (Reduced motion is on, so it stays still.)' : '');
     q('.mpv-bar .btn').hidden = level === 'still' || level === 'spatial';
     if (g) { g.killTweensOf([card, phone, ticket, bar, world]); g.set([card, phone, ticket, world], { clearProps: 'all' }); g.set(bar, { clearProps: 'all' }); }
-    const dx = (f) => stage.clientWidth * f;
     if (level === 'spatial') {
       if (g) {
         g.set(world, { rotationY: -10, rotationX: 5 });
@@ -51,15 +52,26 @@
       }
       return;
     }
-    if (reduced || !g) { if (level === 'cinematic') { g?.set(ticket, { x: dx(0.6667) }); p.dataset.done = ''; } return; }
-    if (level === 'subtle') p.tl = g.from([card, phone, ticket], { y: 24, opacity: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1 });
+    // Poses first: the ticket docks behind the build card with its title showing, then lands on the phone screen at full size.
+    const box = (el) => el.getBoundingClientRect(), t = box(ticket), c = box(card), scr = box(q('.mpv-scr')), result = box(q('.mpv-scr .done'));
+    const build = { x: c.left + c.width / 2 - t.left - t.width / 2, y: c.top - 30 - t.top };
+    const land = { x: scr.left + scr.width / 2 - t.left - t.width / 2, y: Math.min(scr.top + 6, result.top - 6 - t.height) - t.top }; // never covers the phone's result line
+    if (reduced || !g) { if (level === 'cinematic') { g?.set(ticket, land); g?.set(bar, { scaleX: 1 }); status.textContent = 'Checks passed'; p.dataset.done = ''; } return; }
+    // Every tween stays under 300ms; the story takes longer through the holds between beats.
+    if (level === 'subtle') { const parts = [card, phone, ticket]; p.tl = g.timeline().from(parts, { y: 20, opacity: 0, duration: 0.2, ease: 'power3.out', stagger: 0.03 }).from(parts, { x: -10, duration: 0.2, ease: 'sine.inOut', stagger: 0.03 }, 0); }
     if (level === 'cinematic') {
+      // A quadratic curve through a lifted control point: easing a straight tween changes its speed, not its path.
+      const arc = (from, to) => {
+        const o = { k: 0 }, cx = (from.x + to.x) / 2, cy = Math.min(from.y, to.y) - Math.abs(to.x - from.x) * 0.3;
+        return g.to(o, { k: 1, duration: 0.28, ease: 'power2.inOut', onUpdate: () => { const u = 1 - o.k; g.set(ticket, { x: u * u * from.x + 2 * u * o.k * cx + o.k * o.k * to.x, y: u * u * from.y + 2 * u * o.k * cy + o.k * o.k * to.y }); } });
+      };
       g.set(bar, { scaleX: 0.15 });
       p.tl = g.timeline()
-        .to(ticket, { x: dx(0.3333), duration: 1.1, ease: 'power3.inOut' }, 0.4)
-        .to(bar, { scaleX: 1, duration: 0.9, ease: 'power2.inOut' }, 1.0)
-        .to(ticket, { x: dx(0.6667), scale: 0.6, duration: 1.1, ease: 'power3.inOut' }, 2.2)
-        .add(() => (p.dataset.done = ''), 3.2);
+        .add(arc({ x: 0, y: 0 }, build), 0.5)
+        .to(bar, { scaleX: 1, duration: 0.28, ease: 'power2.out' }, '>0.12')
+        .add(() => (status.textContent = 'Checks passed'))
+        .add(arc(build, land), '>0.4')
+        .add(() => (p.dataset.done = ''));
     }
   }
 
@@ -68,11 +80,13 @@
     p.dataset.ready = '1'; p.classList.add('mpv'); p.innerHTML = html(); previews.add(p);
     p.querySelector('.btn').addEventListener('click', () => run(p));
     p.addEventListener('pointermove', (e) => {
-      if (level !== 'spatial' || reduced || !window.gsap) return;
+      if (level !== 'spatial' || rm.matches || !window.gsap) return;
       const r = p.querySelector('.mpv-stage').getBoundingClientRect();
-      gsap.to(p.querySelector('.mpv-world'), { rotationY: ((e.clientX - r.left) / r.width - 0.5) * 30, rotationX: -((e.clientY - r.top) / r.height - 0.5) * 22, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+      gsap.to(p.querySelector('.mpv-world'), { rotationY: ((e.clientX - r.left) / r.width - 0.5) * 30, rotationX: -((e.clientY - r.top) / r.height - 0.5) * 22, duration: 0.2, ease: 'power2.out', overwrite: 'auto' });
     });
     // Play when first seen, so a scene that mounts offscreen is not wasted.
+    // Poses are measured in pixels, so a resized stage replays from fresh measurements.
+    let w = 0; new ResizeObserver(([e]) => { const n = e.contentRect.width; if (w && n !== w) run(p); w = n; }).observe(p.querySelector('.mpv-stage'));
     const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { io.disconnect(); run(p); } });
     io.observe(p);
     run(p);
@@ -80,5 +94,6 @@
   document.querySelectorAll('[data-levels]').forEach(fill);
   document.querySelectorAll('[data-mpv]').forEach(mount);
   sync();
+  rm.addEventListener('change', rerun);
   window.sloplessMotion = { LEVELS, mount, set, sync, fill, get level() { return level; } };
 })();

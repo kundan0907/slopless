@@ -37,7 +37,7 @@
 :root[data-palette="klein"]{--ground:#1D2BD6;--ink:#F5F4EE;--muted:#C9CCF2;--accent:#F5F4EE;--accent-ink:#1D2BD6;--panel:#121A8C;--panel-ink:#F5F4EE;--line:rgb(245 244 238/.24)}
 
 *,*::before,*::after{box-sizing:border-box}
-html{background:var(--ground);color:var(--ink);font:400 18px/1.55 var(--text);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;transition:background-color .5s var(--out),color .5s var(--out)}
+html{background:var(--ground);color:var(--ink);font:400 18px/1.55 var(--text);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;transition:background-color .28s var(--out),color .28s var(--out)}
 body{margin:0}
 ::selection{background:var(--accent);color:var(--accent-ink)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:6px}
@@ -54,7 +54,7 @@ section{padding:clamp(72px,9vw,140px) 0 0}
 code,pre{font-family:var(--mono);font-size:15px}
 pre{margin:0;white-space:pre-wrap;line-height:1.6}
 
-.btn{display:inline-flex;align-items:center;gap:.6em;height:52px;padding:0 26px;border-radius:999px;font:500 17px/1 var(--text);text-decoration:none;border:0;cursor:pointer;transition:transform .16s var(--out),background-color .3s var(--out),color .3s}
+.btn{display:inline-flex;align-items:center;gap:.6em;height:52px;padding:0 26px;border-radius:999px;font:500 17px/1 var(--text);text-decoration:none;border:0;cursor:pointer;transition:transform .16s var(--out),background-color .28s var(--out),color .28s}
 .btn:active{transform:scale(.97)}
 .btn-primary{background:var(--accent);color:var(--accent-ink)}
 .btn-primary:hover{filter:brightness(1.08)}
@@ -122,13 +122,13 @@ figure{margin:0}
 .roster li span{color:var(--muted)}
 .graph{background:var(--panel);border-radius:24px;aspect-ratio:1/0.82;position:relative}
 .graph svg{width:100%;height:100%;display:block}
-.graph .node rect{fill:color-mix(in srgb,var(--panel-ink) 7%,var(--panel));transition:fill .4s,opacity .4s}
+.graph .node rect{fill:color-mix(in srgb,var(--panel-ink) 7%,var(--panel));transition:fill .28s,opacity .28s}
 .graph .node text{fill:var(--panel-ink);font:500 17px var(--text)}
 .graph .node .tier{fill:color-mix(in srgb,var(--panel-ink) 55%,var(--panel));font:400 14px var(--text)}
 .graph .node.lead rect{fill:var(--accent)}
 .graph .node.lead text{fill:var(--accent-ink)}
 .graph .node.off{opacity:.18}
-.graph path{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;transition:opacity .4s}
+.graph path{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;transition:opacity .28s}
 .graph path.off{opacity:0}
 
 /* Prompts + install */
@@ -367,7 +367,7 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 .mpv{display:grid;gap:12px;min-width:0}
 .mpv-stage{position:relative;aspect-ratio:3/2;border-radius:18px;background:var(--ground);color:var(--ink);overflow:clip;perspective:900px;container-type:inline-size}
 .mpv-world{position:absolute;inset:0;transform-style:preserve-3d}
-.mpv-zone{position:absolute;bottom:10px;font-size:13px;color:var(--ink);translate:-50% 0;opacity:0;transition:opacity .3s}
+.mpv-zone{position:absolute;bottom:10px;font-size:13px;color:var(--ink);translate:-50% 0;opacity:0;transition:opacity .2s}
 .mpv[data-level="cinematic"] .mpv-zone{opacity:1}
 .mpv-slot{position:absolute;top:50%;width:0;height:0;display:flex;justify-content:center;align-items:center;transform-style:preserve-3d}
 .mpv-card,.mpv-ticket,.mpv-phone{flex:none;transition:background-color .2s,box-shadow .2s}
@@ -555,7 +555,7 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 .ask-card{display:grid;gap:16px;justify-items:center;min-width:0}
 .dots{display:flex;gap:4px}
 .dots button{position:relative;width:28px;height:28px;border:0;background:none;padding:0;cursor:pointer}
-.dots button::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:99px;background:color-mix(in srgb,var(--ink) 28%,transparent);transition:width .35s,margin .35s,background-color .35s}
+.dots button::after{content:"";position:absolute;left:50%;top:50%;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:99px;background:color-mix(in srgb,var(--ink) 28%,transparent);transition:width .28s,margin .28s,background-color .28s}
 .dots button[aria-current="true"]::after{width:24px;margin-left:-12px;background:var(--accent)}
 .dots button:hover::after{background:color-mix(in srgb,var(--ink) 55%,transparent)}
 .dots button[aria-current="true"]:hover::after{background:var(--accent)}
@@ -576,11 +576,11 @@ footer{padding:clamp(80px,10vw,150px) var(--margin) 28px;display:grid;gap:40px}
 .ask-q{font:340 24px/1.1 var(--display);letter-spacing:-0.02em}
 .ask-opts.picked li:not(.rec){opacity:.55}
 .ask-opts{display:grid;gap:6px}
-.ask-opt{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 10px;align-items:start;width:100%;padding:8px 10px;border-radius:10px;border:1px solid color-mix(in srgb,var(--panel-ink) 18%,transparent);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:opacity .4s,background-color .4s,border-color .4s}
+.ask-opt{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 10px;align-items:start;width:100%;padding:8px 10px;border-radius:10px;border:1px solid color-mix(in srgb,var(--panel-ink) 18%,transparent);background:none;color:inherit;font:inherit;text-align:left;cursor:pointer;transition:opacity .28s,background-color .28s,border-color .28s}
 .ask-t b{display:block;font:500 16px/1.3 var(--text)}
 .ask-t span{display:block;font-size:14px;line-height:1.4;color:color-mix(in srgb,var(--panel-ink) 76%,var(--panel))}
-.ask-k{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;font:500 13px/1 var(--text);background:color-mix(in srgb,var(--panel-ink) 12%,transparent);transition:background-color .4s,color .4s}
-.ask-opt em{font:500 13px/1.2 var(--text);font-style:normal;padding:4px 9px;border-radius:999px;background:var(--pa);color:var(--pa-ink);white-space:nowrap;transition:opacity .3s,transform .3s}
+.ask-k{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;font:500 13px/1 var(--text);background:color-mix(in srgb,var(--panel-ink) 12%,transparent);transition:background-color .28s,color .28s}
+.ask-opt em{font:500 13px/1.2 var(--text);font-style:normal;padding:4px 9px;border-radius:999px;background:var(--pa);color:var(--pa-ink);white-space:nowrap;transition:opacity .2s,transform .2s}
 .ask-opts:not(.settled) em{opacity:0;transform:scale(.8)}
 .ask-opts.settled .ask-opt[aria-checked="true"]{border-color:var(--pa);background:color-mix(in srgb,var(--pa) 14%,transparent)}
 .ask-opts.settled .ask-opt[aria-checked="true"] .ask-k{background:var(--pa);color:var(--pa-ink)}
@@ -5305,7 +5305,7 @@ three/build/three.module.js:
   const LEVELS = [['still', 'Still', 'Hover and press only'], ['subtle', 'Subtle', 'Entrances: rise and fade'], ['cinematic', 'Cinematic', 'The ticket travels between scenes'], ['spatial', 'Spatial', '3D tilt and depth']];
   const HINT = { still: 'Hover and press the ticket. Nothing else moves.', subtle: 'Each part rises and fades in once.', cinematic: 'One ticket travels from the queue to the build to the phone.', spatial: 'Move over the scene: layers sit at different depths.' };
   const root = document.documentElement;
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const rm = matchMedia('(prefers-reduced-motion: reduce)');
   const ok = (l) => LEVELS.some((x) => x[0] === l);
   let level = 'cinematic';
   try { const s = localStorage.getItem('slopless:motion'); if (ok(s)) level = s; } catch {}
@@ -5319,9 +5319,11 @@ three/build/three.module.js:
     if (!ok(l) || l === level) return;
     level = l; root.dataset.motion = l;
     try { localStorage.setItem('slopless:motion', l); } catch {}
-    sync(); previews.forEach(run);
+    sync(); rerun();
     document.dispatchEvent(new CustomEvent('sloplessmotion', { detail: l }));
   }
+  // The toolbox re-renders its panel on every level change; drop previews that left the page.
+  function rerun() { previews.forEach((p) => (p.isConnected ? run(p) : previews.delete(p))); }
   function fill(box) {
     box.innerHTML = LEVELS.map(([id, n, d]) => `<button type="button" class="opt" data-level-btn="${id}" aria-pressed="false"><span>${n}</span><small>${d}</small></button>`).join('');
     sync();
@@ -5331,7 +5333,7 @@ three/build/three.module.js:
   function html() {
     return `<div class="mpv-stage"><div class="mpv-world">
       <span class="mpv-zone" style="left:16.67%">Queue</span><span class="mpv-zone" style="left:50%">Build</span><span class="mpv-zone" style="left:83.33%">Phone</span>
-      <div class="mpv-slot" style="left:50%"><div class="mpv-card"><b>Build 214</b><small>Checks running</small><div class="bar"><i></i></div></div></div>
+      <div class="mpv-slot" style="left:50%;z-index:3"><div class="mpv-card"><b>Build 214</b><small>Checks running</small><div class="bar"><i></i></div></div></div>
       <div class="mpv-slot" style="left:83.33%"><div class="mpv-phone"><div class="mpv-scr"><b class="done">Released</b><small>Phone</small></div></div></div>
       <div class="mpv-slot" style="left:16.67%;z-index:2"><div class="mpv-ticket" tabindex="0"><b>Checkout bug</b><small>Ticket 4821</small></div></div>
     </div></div>
@@ -5339,13 +5341,12 @@ three/build/three.module.js:
   }
 
   function run(p) {
-    const q = (s) => p.querySelector(s), g = window.gsap, stage = q('.mpv-stage'), world = q('.mpv-world');
-    const [card, phone, ticket] = ['.mpv-card', '.mpv-phone', '.mpv-ticket'].map(q), bar = q('.bar i');
-    p.tl?.kill(); p.dataset.level = level; delete p.dataset.done;
+    const q = (s) => p.querySelector(s), g = window.gsap, world = q('.mpv-world');
+    const [card, phone, ticket] = ['.mpv-card', '.mpv-phone', '.mpv-ticket'].map(q), bar = q('.bar i'), status = q('.mpv-card small'), reduced = rm.matches;
+    p.tl?.kill(); p.tl = null; p.dataset.level = level; delete p.dataset.done; status.textContent = 'Checks running';
     q('.mpv-hint').textContent = HINT[level] + (reduced ? ' (Reduced motion is on, so it stays still.)' : '');
     q('.mpv-bar .btn').hidden = level === 'still' || level === 'spatial';
     if (g) { g.killTweensOf([card, phone, ticket, bar, world]); g.set([card, phone, ticket, world], { clearProps: 'all' }); g.set(bar, { clearProps: 'all' }); }
-    const dx = (f) => stage.clientWidth * f;
     if (level === 'spatial') {
       if (g) {
         g.set(world, { rotationY: -10, rotationX: 5 });
@@ -5353,15 +5354,26 @@ three/build/three.module.js:
       }
       return;
     }
-    if (reduced || !g) { if (level === 'cinematic') { g?.set(ticket, { x: dx(0.6667) }); p.dataset.done = ''; } return; }
-    if (level === 'subtle') p.tl = g.from([card, phone, ticket], { y: 24, opacity: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1 });
+    // Poses first: the ticket docks behind the build card with its title showing, then lands on the phone screen at full size.
+    const box = (el) => el.getBoundingClientRect(), t = box(ticket), c = box(card), scr = box(q('.mpv-scr')), result = box(q('.mpv-scr .done'));
+    const build = { x: c.left + c.width / 2 - t.left - t.width / 2, y: c.top - 30 - t.top };
+    const land = { x: scr.left + scr.width / 2 - t.left - t.width / 2, y: Math.min(scr.top + 6, result.top - 6 - t.height) - t.top }; // never covers the phone's result line
+    if (reduced || !g) { if (level === 'cinematic') { g?.set(ticket, land); g?.set(bar, { scaleX: 1 }); status.textContent = 'Checks passed'; p.dataset.done = ''; } return; }
+    // Every tween stays under 300ms; the story takes longer through the holds between beats.
+    if (level === 'subtle') { const parts = [card, phone, ticket]; p.tl = g.timeline().from(parts, { y: 20, opacity: 0, duration: 0.2, ease: 'power3.out', stagger: 0.03 }).from(parts, { x: -10, duration: 0.2, ease: 'sine.inOut', stagger: 0.03 }, 0); }
     if (level === 'cinematic') {
+      // A quadratic curve through a lifted control point: easing a straight tween changes its speed, not its path.
+      const arc = (from, to) => {
+        const o = { k: 0 }, cx = (from.x + to.x) / 2, cy = Math.min(from.y, to.y) - Math.abs(to.x - from.x) * 0.3;
+        return g.to(o, { k: 1, duration: 0.28, ease: 'power2.inOut', onUpdate: () => { const u = 1 - o.k; g.set(ticket, { x: u * u * from.x + 2 * u * o.k * cx + o.k * o.k * to.x, y: u * u * from.y + 2 * u * o.k * cy + o.k * o.k * to.y }); } });
+      };
       g.set(bar, { scaleX: 0.15 });
       p.tl = g.timeline()
-        .to(ticket, { x: dx(0.3333), duration: 1.1, ease: 'power3.inOut' }, 0.4)
-        .to(bar, { scaleX: 1, duration: 0.9, ease: 'power2.inOut' }, 1.0)
-        .to(ticket, { x: dx(0.6667), scale: 0.6, duration: 1.1, ease: 'power3.inOut' }, 2.2)
-        .add(() => (p.dataset.done = ''), 3.2);
+        .add(arc({ x: 0, y: 0 }, build), 0.5)
+        .to(bar, { scaleX: 1, duration: 0.28, ease: 'power2.out' }, '>0.12')
+        .add(() => (status.textContent = 'Checks passed'))
+        .add(arc(build, land), '>0.4')
+        .add(() => (p.dataset.done = ''));
     }
   }
 
@@ -5370,11 +5382,13 @@ three/build/three.module.js:
     p.dataset.ready = '1'; p.classList.add('mpv'); p.innerHTML = html(); previews.add(p);
     p.querySelector('.btn').addEventListener('click', () => run(p));
     p.addEventListener('pointermove', (e) => {
-      if (level !== 'spatial' || reduced || !window.gsap) return;
+      if (level !== 'spatial' || rm.matches || !window.gsap) return;
       const r = p.querySelector('.mpv-stage').getBoundingClientRect();
-      gsap.to(p.querySelector('.mpv-world'), { rotationY: ((e.clientX - r.left) / r.width - 0.5) * 30, rotationX: -((e.clientY - r.top) / r.height - 0.5) * 22, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+      gsap.to(p.querySelector('.mpv-world'), { rotationY: ((e.clientX - r.left) / r.width - 0.5) * 30, rotationX: -((e.clientY - r.top) / r.height - 0.5) * 22, duration: 0.2, ease: 'power2.out', overwrite: 'auto' });
     });
     // Play when first seen, so a scene that mounts offscreen is not wasted.
+    // Poses are measured in pixels, so a resized stage replays from fresh measurements.
+    let w = 0; new ResizeObserver(([e]) => { const n = e.contentRect.width; if (w && n !== w) run(p); w = n; }).observe(p.querySelector('.mpv-stage'));
     const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { io.disconnect(); run(p); } });
     io.observe(p);
     run(p);
@@ -5382,6 +5396,7 @@ three/build/three.module.js:
   document.querySelectorAll('[data-levels]').forEach(fill);
   document.querySelectorAll('[data-mpv]').forEach(mount);
   sync();
+  rm.addEventListener('change', rerun);
   window.sloplessMotion = { LEVELS, mount, set, sync, fill, get level() { return level; } };
 })();
 </script>
