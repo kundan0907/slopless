@@ -43,7 +43,7 @@
     const [card, phone, ticket] = ['.mpv-card', '.mpv-phone', '.mpv-ticket'].map(q), bar = q('.bar i'), status = q('.mpv-card small'), reduced = rm.matches;
     p.tl?.kill(); p.tl = null; p.dataset.level = level; delete p.dataset.done; status.textContent = 'Checks running';
     q('.mpv-hint').textContent = HINT[level] + (reduced ? ' (Reduced motion is on, so it stays still.)' : '');
-    q('.mpv-bar .btn').hidden = level === 'still' || level === 'spatial';
+    q('.mpv-bar .btn').hidden = level === 'still' || level === 'spatial' || reduced;
     if (g) { g.killTweensOf([card, phone, ticket, bar, world]); g.set([card, phone, ticket, world], { clearProps: 'all' }); g.set(bar, { clearProps: 'all' }); }
     if (level === 'spatial') {
       if (g) {
@@ -52,25 +52,28 @@
       }
       return;
     }
-    // Poses first: the ticket docks behind the build card with its title showing, then lands on the phone screen at full size.
-    const box = (el) => el.getBoundingClientRect(), t = box(ticket), c = box(card), scr = box(q('.mpv-scr')), result = box(q('.mpv-scr .done'));
-    const build = { x: c.left + c.width / 2 - t.left - t.width / 2, y: c.top - 30 - t.top };
-    const land = { x: scr.left + scr.width / 2 - t.left - t.width / 2, y: Math.min(scr.top + 6, result.top - 6 - t.height) - t.top }; // never covers the phone's result line
-    if (reduced || !g) { if (level === 'cinematic') { g?.set(ticket, land); g?.set(bar, { scaleX: 1 }); status.textContent = 'Checks passed'; p.dataset.done = ''; } return; }
+    // Poses first: the ticket docks behind the build card with its whole title showing, then lands on the phone at the phone's width.
+    const box = (el) => el.getBoundingClientRect(), t = box(ticket), c = box(card), ph = box(phone), scr = box(q('.mpv-scr')), result = box(q('.mpv-scr .done')), top = box(q('.mpv-stage')).top + 4 - t.top;
+    const build = { x: c.left + c.width / 2 - t.left - t.width / 2, y: c.top - (box(q('.mpv-ticket b')).bottom - t.top) - 4 - t.top, scale: 1 };
+    const fit = Math.min(1, ph.width / t.width), landTop = Math.min(scr.top + 6, result.top - 6 - t.height * fit); // never covers the phone's result line
+    const land = { x: ph.left + ph.width / 2 - t.left - t.width / 2, y: landTop + (t.height * fit) / 2 - t.top - t.height / 2, scale: fit };
+    // Without GSAP nothing moves, so the opening poster stays as it is.
+    if (reduced || !g) { if (g && level === 'cinematic') { g.set(ticket, land); g.set(bar, { scaleX: 1 }); status.textContent = 'Checks passed'; p.dataset.done = ''; } return; }
     // Every tween stays under 300ms; the story takes longer through the holds between beats.
     if (level === 'subtle') { const parts = [card, phone, ticket]; p.tl = g.timeline().from(parts, { y: 20, opacity: 0, duration: 0.2, ease: 'power3.out', stagger: 0.03 }).from(parts, { x: -10, duration: 0.2, ease: 'sine.inOut', stagger: 0.03 }, 0); }
     if (level === 'cinematic') {
       // A quadratic curve through a lifted control point: easing a straight tween changes its speed, not its path.
       const arc = (from, to) => {
-        const o = { k: 0 }, cx = (from.x + to.x) / 2, cy = Math.min(from.y, to.y) - Math.abs(to.x - from.x) * 0.3;
-        return g.to(o, { k: 1, duration: 0.28, ease: 'power2.inOut', onUpdate: () => { const u = 1 - o.k; g.set(ticket, { x: u * u * from.x + 2 * u * o.k * cx + o.k * o.k * to.x, y: u * u * from.y + 2 * u * o.k * cy + o.k * o.k * to.y }); } });
+        const o = { k: 0 }, cx = (from.x + to.x) / 2, cy = Math.max(top, Math.min(from.y, to.y) - Math.abs(to.x - from.x) * 0.3); // the lift stops at the stage edge
+        return g.to(o, { k: 1, duration: 0.28, ease: 'power2.inOut', onUpdate: () => { const u = 1 - o.k; g.set(ticket, { x: u * u * from.x + 2 * u * o.k * cx + o.k * o.k * to.x, y: u * u * from.y + 2 * u * o.k * cy + o.k * o.k * to.y, scale: from.scale + (to.scale - from.scale) * o.k }); } });
       };
       g.set(bar, { scaleX: 0.15 });
       p.tl = g.timeline()
-        .add(arc({ x: 0, y: 0 }, build), 0.5)
-        .to(bar, { scaleX: 1, duration: 0.28, ease: 'power2.out' }, '>0.12')
+        .add(arc({ x: 0, y: 0, scale: 1 }, build), 0.5)
+        .to(bar, { scaleX: 0.6, duration: 0.28, ease: 'power2.out' }, '>0.35')
+        .to(bar, { scaleX: 1, duration: 0.28, ease: 'power2.out' }, '>0.25')
         .add(() => (status.textContent = 'Checks passed'))
-        .add(arc(build, land), '>0.4')
+        .add(arc(build, land), '>0.6')
         .add(() => (p.dataset.done = ''));
     }
   }
@@ -86,7 +89,7 @@
     });
     // Play when first seen, so a scene that mounts offscreen is not wasted.
     // Poses are measured in pixels, so a resized stage replays from fresh measurements.
-    let w = 0; new ResizeObserver(([e]) => { const n = e.contentRect.width; if (w && n !== w) run(p); w = n; }).observe(p.querySelector('.mpv-stage'));
+    let w = 0; new ResizeObserver(([e]) => { const n = e.contentRect.width; if (!n) return; if (w && n !== w) run(p); w = n; }).observe(p.querySelector('.mpv-stage'));
     const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { io.disconnect(); run(p); } });
     io.observe(p);
     run(p);

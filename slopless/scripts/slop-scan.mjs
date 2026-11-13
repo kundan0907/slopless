@@ -82,9 +82,9 @@ export function scan(src, ext) {
   const motionCss = css.replace(/\/\*[\s\S]*?\*\//g, blank);
   const declarations = motionCss.replace(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, '""').replace(/\/\/[^\n]*/g, '');
   const motionLevel = ['.html', '.htm', '.css', '.scss'].includes(ext) ? 'FAIL' : 'WARN';
-  // A token is judged only when every definition in this source is a literal time; the longest one counts.
+  // A token is judged only in a style source, when every definition there is a literal time; the longest one counts.
   const tokens = {}, ms = (v) => parseFloat(v) * (/ms$/i.test(v) ? 1 : 1000);
-  for (const d of declarations.matchAll(/(--[\w-]+)\s*:\s*([^;{}]+)/g)) (tokens[d[1]] ??= []).push(d[2].trim());
+  if (motionLevel === 'FAIL') for (const d of declarations.matchAll(/(?<![\w-])(--[\w-]+)\s*:\s*([^;{}]+)/g)) (tokens[d[1]] ??= []).push(d[2].trim());
   const literal = (whole, name) => (tokens[name]?.every((v) => /^(?:\d*\.)?\d+m?s$/i.test(v)) ? tokens[name].reduce((a, b) => (ms(b) > ms(a) ? b : a)) : whole);
   for (const m of declarations.matchAll(/(?<![\w-])(transition(?:-duration)?|animation(?:-duration)?)\s*:\s*([^;{}]+)/gi)) {
     const durationOnly = m[1].endsWith('-duration'), line = lineAt(declarations, m.index);
@@ -95,7 +95,7 @@ export function scan(src, ext) {
       const fn = part.search(/\b(?:var|calc|env)\(/i);
       if (fn >= 0 && (durationOnly || !times.length || fn < times[0].index)) { add('WARN', 'motion-unresolved', `measure computed duration: ${part.trim()}`, line); continue; }
       const durations = durationOnly ? times : times.slice(0, 1);
-      if (durations.some((t) => Number(t[1]) * (t[2].toLowerCase() === 's' ? 1000 : 1) >= 300)) add(motionLevel, 'motion-duration', `${m[1]} must be under 300ms: ${part.trim()}`, line);
+      if (durations.some((t) => Number(t[1]) * (t[2].toLowerCase() === 's' ? 1000 : 1) >= 300)) add(motionLevel, 'motion-duration', `${m[1]} must be under 300ms: ${raw.trim()}${part === raw ? '' : ` (resolved: ${part.trim()})`}`, line);
     }
   }
   for (const m of motionCss.matchAll(/offset-path\s*:\s*path\(\s*["']([^"']*)["']/gi)) {

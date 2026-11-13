@@ -81,3 +81,9 @@ test('a duration token defined only as literal times in the same source is judge
   assert.deepEqual(rules(':root{--slow:400ms}.a{transition:color var(--slow)}', '.css'), ['FAIL:motion-duration']);
   assert.deepEqual(rules(':root{--t:calc(1s / 4)}.a{transition:color var(--t)}', '.css'), ['WARN:motion-unresolved']);
 });
+
+test('token resolution ignores selector look-alikes and stays out of script sources', () => {
+  assert.deepEqual(rules(':root{--t:.15s}.card--t:hover{color:red}.a{transition:color var(--t)}', '.css'), []);
+  assert.deepEqual(rules("el.style.setProperty('--t', '1s'); const A = styled.div`--t:.1s;transition:color var(--t)`;", '.tsx'), ['WARN:motion-unresolved']);
+  assert.match(scan(':root{--slow:400ms}.a{transition:color var(--slow)}', '.css')[0].msg, /var\(--slow\).*400ms/);
+});
