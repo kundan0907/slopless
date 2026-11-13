@@ -75,3 +75,9 @@ test('motion findings carry the source line in CSS and HTML', () => {
   assert.deepEqual(lines('.a{color:red}\n/* note\n */\n.item{transition:opacity .4s}\n.b{offset-path:path("M0 0 L9 0")}', '.css'), [4, 5]);
   assert.deepEqual(lines('<p>a</p>\n<script>\nlet a;\n</script>\n<style>\n.a{color:red}\n.item{transition:opacity .4s}</style>\n<i style="transition:width 1s">b</i>', '.html'), [7, 8]);
 });
+
+test('a duration token defined only as literal times in the same source is judged by its longest value', () => {
+  assert.deepEqual(rules(':root{--t:.15s}@media (prefers-reduced-motion:reduce){:root{--t:0s}}.a{transition:color var(--t),opacity var(--t) ease}', '.css'), []);
+  assert.deepEqual(rules(':root{--slow:400ms}.a{transition:color var(--slow)}', '.css'), ['FAIL:motion-duration']);
+  assert.deepEqual(rules(':root{--t:calc(1s / 4)}.a{transition:color var(--t)}', '.css'), ['WARN:motion-unresolved']);
+});

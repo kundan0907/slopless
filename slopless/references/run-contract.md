@@ -43,6 +43,8 @@ Finish each lens across the requested scope before advancing. Record `pass | cha
 | **8. Visuals** | Keep factual charts and supplied media exact. Every visual explains supplied content or an approved product action. Faux product UI, launch shots and announcement visuals follow the plan/poster/rehearsal method below. Otherwise record why that method is inapplicable. |
 | **9. Motion** | Apply `motion.md#motion-contract` and all 20 rows there: cause, focus, poses, arcs, timing, frequency, interruption and reduced motion. Every authored UI tween is under 300ms; visible input acknowledgment is under 400ms. Verify computed values and playback, not source literals alone. |
 
+**Supplied labels travel with their values (passes 4 and 6).** When the source already states a unit, period or status meaning for a value elsewhere on the same view (a legend, footnote or caption), placing that exact wording beside the value, in its column header or as a visible status label is a layout repair, not new copy. Do it when the distance hurts reading, keep the original statement unless removing it is authorized, and list the move under Content changes. Never infer a unit or meaning the source does not state for that exact value.
+
 ### Pass 8: plan the launch visual before code
 
 Read `reel-learnings.md#reel-1-stageshow`. Write `stage/crop | focal object | action | payoff | omitted context | poster | beats`. Use three to five beats (cause → change → result), usually three to seven story-bearing strings. These budgets apply inside a fabricated product shot; never remove real screen, chart or deck evidence to meet them. Placeholder bars may simplify incidental faux UI only, never facts or functional labels.

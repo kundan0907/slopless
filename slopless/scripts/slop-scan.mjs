@@ -82,9 +82,14 @@ export function scan(src, ext) {
   const motionCss = css.replace(/\/\*[\s\S]*?\*\//g, blank);
   const declarations = motionCss.replace(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, '""').replace(/\/\/[^\n]*/g, '');
   const motionLevel = ['.html', '.htm', '.css', '.scss'].includes(ext) ? 'FAIL' : 'WARN';
+  // A token is judged only when every definition in this source is a literal time; the longest one counts.
+  const tokens = {}, ms = (v) => parseFloat(v) * (/ms$/i.test(v) ? 1 : 1000);
+  for (const d of declarations.matchAll(/(--[\w-]+)\s*:\s*([^;{}]+)/g)) (tokens[d[1]] ??= []).push(d[2].trim());
+  const literal = (whole, name) => (tokens[name]?.every((v) => /^(?:\d*\.)?\d+m?s$/i.test(v)) ? tokens[name].reduce((a, b) => (ms(b) > ms(a) ? b : a)) : whole);
   for (const m of declarations.matchAll(/(?<![\w-])(transition(?:-duration)?|animation(?:-duration)?)\s*:\s*([^;{}]+)/gi)) {
     const durationOnly = m[1].endsWith('-duration'), line = lineAt(declarations, m.index);
-    for (const part of m[2].split(/,(?![^()]*\))/)) {
+    for (const raw of m[2].split(/,(?![^()]*\))/)) {
+      const part = raw.replace(/var\(\s*(--[\w-]+)\s*\)/g, literal);
       const times = [...part.matchAll(/(?<![\w.-])((?:\d*\.)?\d+)(ms|s)\b/gi)];
       // A literal time before any var()/calc() is the duration; the function after it is easing or delay.
       const fn = part.search(/\b(?:var|calc|env)\(/i);
