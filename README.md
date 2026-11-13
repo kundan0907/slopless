@@ -2,6 +2,20 @@
 
 Build websites, app screens, decks and graphics from scratch, or improve an existing UI. A design skill for Claude Code, Codex and other coding agents.
 
+## Version and releases
+
+Check the current version in [slopless/VERSION](slopless/VERSION), see what changed in the [changelog](CHANGELOG.md), or browse [GitHub Releases](https://github.com/kundan0907/slopless/releases). Each release has a fixed `vMAJOR.MINOR.PATCH` tag and source archives.
+
+Check this machine’s shared installation:
+
+```sh
+cat ~/.agents/skills/slopless/VERSION
+```
+
+Versioned plugin updates require a version bump; commits without one are not a new release.
+
+For a repository checkout, use `cat slopless/VERSION`. Claude Code plugin installs expose the version through the marketplace metadata. Update instructions are in [Updating](#updating); the release process and version rules are in [Release policy](CHANGELOG.md#release-policy).
+
 ## Get started
 
 Run this in your project and choose your coding agent when prompted:

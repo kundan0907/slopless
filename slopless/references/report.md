@@ -44,3 +44,7 @@ When asked to open a PR, use the same sections with the title `<imperative summa
 ## Contract evidence (every route)
 
 Add the compact record from `run-contract.md#report`: Audit findings and severity; Direction approval source and inspected taste reference; nine ordered pass outcomes; Checklist failures/unverified rows; evidence-linked scores and derived disposition. Report exact capture or playback failures and every unchecked size/state. If rendering or required rehearsal is unavailable, say `recapture — visual verification unavailable`; source changes and a green scanner are not a visually completed screen. Omit the template’s Next options when no follow-up is needed.
+
+## Version traceability
+
+Include `slopless <version>` in the report's Checks line, reading the value from the installed skill folder's `VERSION` file. This identifies which release produced the work without adding tooling metadata to the delivered UI. If the file is unavailable, say `slopless version: unknown`; never infer a version from memory or the target project's package.

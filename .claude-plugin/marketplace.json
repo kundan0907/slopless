@@ -5,6 +5,7 @@
   "plugins": [
     {
       "name": "slopless",
+      "version": "1.0.0",
       "source": "./",
       "description": "Interview-led UI design and focused V2 improvements without generic AI patterns.",
       "homepage": "https://kundan0907.github.io/slopless/",
